@@ -1,6 +1,6 @@
 {
   "name": "zoominfo",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Search companies and contacts, enrich leads, find similar companies and contacts, and get AI-ranked prospect recommendations with ZoomInfo — one-click MCP server integration for Cowork.",
   "author": {
     "name": "ZoomInfo",
