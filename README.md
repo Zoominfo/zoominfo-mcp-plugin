@@ -45,7 +45,7 @@ skills/
   enrich-company/
   enrich-contact/
   find-similar/
-  reccomend-contacts/
+  recommend-contacts/
 ```
 
 ## License
