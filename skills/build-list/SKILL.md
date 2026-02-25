@@ -30,16 +30,7 @@ The user may also specify:
    - Industry, employee count, revenue, geography, tech stack, company type → company filters
    - Growth rate, funding, rankings → company filters
 
-3. **Resolve all filter values** using `lookup` before searching. This is critical — do NOT guess values.
-   - `management-levels` for seniority (e.g., VP, Director, C-Level)
-   - `metro-regions` for locations
-   - `industries` for industry codes
-   - `employee-count` for size ranges
-   - `revenue-ranges` for revenue
-   - `departments` for department filters
-   - `job-functions` for function filters
-   - `tech-vendors` → `tech-products` for tech stack filters
-   - `company-types` for public/private
+3. **Resolve all filter values** using `lookup` before searching. This is critical — do NOT guess values. For every filter you plan to use, call `lookup` with the corresponding field name to get the valid values and use the returned `id` values in your search parameters.
 
 4. **Execute the search**:
    - For **contacts**: Use `search_contacts` with all resolved filters. Sort by `-contactAccuracyScore`. Request up to 100 results.

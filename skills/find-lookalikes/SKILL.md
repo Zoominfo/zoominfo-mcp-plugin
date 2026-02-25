@@ -14,9 +14,11 @@ The user will provide via `$ARGUMENTS`:
 
 ## Workflow
 
-1. **Resolve the company** if needed:
-   - If the user gave a name or domain, use `search_companies` or `enrich_companies` to get the ZoomInfo company ID.
-2. **Find similar companies** using `find_similar_companies` with the `companyId`. This returns up to 100 results ranked by similarity score.
+1. **Lookup metadata first** — before calling any other MCP tool, use `lookup` to load reference data for any fields relevant to the request. Use the returned `id` values (not display names) in all subsequent API calls. This ensures accurate parameter resolution, especially if a search is needed to resolve the company.
+
+2. **Resolve the company** if needed:
+   - If the user gave a name or domain, use `search_companies` or `enrich_companies` to get the ZoomInfo company ID — use lookup `id` values for any filters.
+3. **Find similar companies** using `find_similar_companies` with the `companyId`. This returns up to 100 results ranked by similarity score.
 
 ## Output Format
 
