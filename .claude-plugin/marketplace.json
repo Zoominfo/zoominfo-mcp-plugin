@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "zoominfo",
-      "description": "Search companies and contacts, enrich leads, find lookalikes, and get AI-ranked prospect recommendations — one-click ZoomInfo MCP server integration for Cowork.",
+      "description": "Search companies and contacts, enrich leads, find similar companies and contacts, and get AI-ranked prospect recommendations — one-click ZoomInfo MCP server integration for Cowork.",
       "source": "./",
       "homepage": "https://www.zoominfo.com"
     }

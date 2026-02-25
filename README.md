@@ -1,6 +1,6 @@
 # ZoomInfo Plugin for Claude Cowork
 
-Search companies and contacts, enrich leads, find lookalikes, and get AI-ranked prospect recommendations — all from inside [Claude Cowork](https://claude.ai/cowork).
+Search companies and contacts, enrich leads, find similar companies and contacts, and get AI-ranked prospect recommendations — all from inside [Claude Cowork](https://claude.ai/cowork).
 
 This plugin connects Claude to the [ZoomInfo](https://www.zoominfo.com) MCP server, giving it access to ZoomInfo's B2B intelligence platform through a set of purpose-built skills.
 
@@ -25,7 +25,7 @@ git clone https://github.com/zoominfo/zi-mcp-plugin.git
 | **enrich-contact** | Look up a person's professional profile — title, department, contact details, accuracy score |
 | **reccomend-contacts** | Get AI-powered contact recommendations at a target company based on your ZoomInfo interaction history |
 | **build-list** | Build a targeted contact or company list from natural language criteria |
-| **find-lookalikes** | Find companies similar to a reference company, ranked by similarity score |
+| **find-similar** | Find companies or contacts similar to a reference, ranked by similarity score |
 
 ## How it works
 
@@ -44,7 +44,7 @@ skills/
   build-list/          # Each skill is a directory with a SKILL.md
   enrich-company/
   enrich-contact/
-  find-lookalikes/
+  find-similar/
   reccomend-contacts/
 ```
 

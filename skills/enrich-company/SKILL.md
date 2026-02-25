@@ -65,4 +65,4 @@ The user will provide via `$ARGUMENTS` one of:
 **ZoomInfo Coverage**
 - Contacts in Database: [count]
 
-Include the ZoomInfo Company ID — users will need it for follow-up commands like `/zoominfo:find-buyers` or `/zoominfo:find-lookalikes`.
+Include the ZoomInfo Company ID — users will need it for follow-up commands like `/zoominfo:find-buyers` or `/zoominfo:find-similar`.
