@@ -23,7 +23,7 @@ git clone https://github.com/zoominfo/zi-mcp-plugin.git
 |---|---|
 | **enrich-company** | Look up a company's full profile — firmographics, financials, corporate structure, growth signals |
 | **enrich-contact** | Look up a person's professional profile — title, department, contact details, accuracy score |
-| **reccomend-contacts** | Get AI-powered contact recommendations at a target company based on your ZoomInfo interaction history |
+| **recommend-contacts** | Get AI-powered contact recommendations at a target company based on your ZoomInfo interaction history |
 | **build-list** | Build a targeted contact or company list from natural language criteria |
 | **find-similar** | Find companies or contacts similar to a reference, ranked by similarity score |
 
