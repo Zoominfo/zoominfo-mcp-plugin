@@ -20,6 +20,7 @@ The user may also specify:
 - How many results they want (default: 25)
 - Whether they want contacts, companies, or both
 - Specific fields to include in the output
+- Data quality requirements: "with verified email", "with direct phone", "updated in the last 6 months"
 
 ## Workflow
 
@@ -27,8 +28,14 @@ The user may also specify:
 
 2. **Parse criteria** from natural language into structured filters:
    - Job titles, management levels, departments, job functions → contact filters
-   - Industry, employee count, revenue, geography, tech stack, company type → company filters
-   - Growth rate, funding, rankings → company filters
+   - "With verified email" or "has email" → `hasEmail: true` contact filter
+   - "With direct phone" or "has phone" → `hasPhone: true` contact filter
+   - "Updated in the last X months/days" → `lastUpdatedDateAfter: <ISO date>` contact filter (compute the date from today)
+   - Industry, employee count, revenue, tech stack, company type → company filters
+   - "In the [city] area" or metro region → `metroArea` company filter
+   - "Series B+", "recently funded", "post-Series A" → `fundingStage` company filter
+   - Growth rate, rankings → company filters
+   - Geography: `state` for state-level, `country` for country-level, `metroArea` for metro precision
 
 3. **Resolve all filter values** using `lookup` before searching. This is critical — do NOT guess values. For every filter you plan to use, call `lookup` with the corresponding field name to get the valid values and use the returned `id` values in your search parameters.
 
@@ -72,9 +79,9 @@ Show the user exactly what filters were used so they can verify:
 
 ### List Summary
 - **Total results found**: X (showing top Y)
-- **Filters applied**: [summary]
+- **Filters applied**: [summary — include any `hasEmail`, `hasPhone`, `lastUpdatedDateAfter`, `metroArea`, or `fundingStage` filters so the user can verify]
 - **Average accuracy score**: X (contacts only)
-- **Data quality**: Flag any concerns (low accuracy, stale records)
+- **Data quality**: Flag any concerns (low accuracy scores, records not updated in 12+ months)
 
 ### Refinement Options
 If the list is too broad or too narrow, suggest specific filter adjustments:

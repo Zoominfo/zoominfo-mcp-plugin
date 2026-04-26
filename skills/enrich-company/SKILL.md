@@ -29,6 +29,7 @@ The user will provide via `$ARGUMENTS` one of:
 
 4. **If no match**, try a fallback:
    - Use `search_companies` with `companyName` for fuzzy matching — use lookup `id` values for any filters
+   - If the user provided a city or metro area, add `metroArea` to narrow results to the right region
    - Suggest alternatives from the search results
 
 ## Output Format
@@ -60,7 +61,9 @@ The user will provide via `$ARGUMENTS` one of:
 **Growth Signals**
 - 1-Year Employee Growth: X%
 - 2-Year Employee Growth: X%
-- Recent Funding: [if available]
+- Funding Stage: [if available — e.g., Series B, IPO, Private Equity-backed]
+- Recent Funding: [amount + date if available]
+- Metro Area: [if available — more granular than HQ city]
 
 **ZoomInfo Coverage**
 - Contacts in Database: [count]

@@ -26,6 +26,7 @@ Determine whether the user is looking for similar **companies** or **contacts** 
 2. **Find similar companies** using `find_similar_companies`. This returns up to 100 results ranked by similarity score.
    - If you have a ZoomInfo company ID, pass `companyId`.
    - If you only have a company name, pass `companyName` — the API can resolve it directly.
+   - If the user specified a geography, funding stage, or employee range to narrow results, note that `find_similar_companies` does not accept firmographic filters directly — apply them as post-filters on the returned results, or follow up with `search_companies` using `techAttributeTagList` or firmographic filters to cross-reference.
 
 ### Company Output Format
 

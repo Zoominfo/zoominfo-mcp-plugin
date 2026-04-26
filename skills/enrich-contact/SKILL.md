@@ -32,6 +32,7 @@ The user will provide via `$ARGUMENTS` one of:
 
 4. **If no match**, try a fallback:
    - If name + company failed, try `search_contacts` with `jobTitle` or `companyName` variations — use lookup `id` values for any filters
+   - If searching by name returns too many results, add `hasEmail: true` to narrow to contacts with verified email on file
    - Suggest alternative spellings or company names
 
 ## Output Format
@@ -51,7 +52,8 @@ The user will provide via `$ARGUMENTS` one of:
 | Company Industry | |
 | Company Size | |
 | LinkedIn | |
+| Supplemental Email | (secondary email if available) |
 | Last Updated | |
 | ZoomInfo Person ID | |
 
-If any fields are unavailable, omit them rather than showing blanks. Note the accuracy score prominently — anything below 80 deserves a flag.
+If any fields are unavailable, omit them rather than showing blanks. Note the accuracy score prominently — anything below 80 deserves a flag. If `lastUpdated` is more than 12 months ago, note the record may be stale and recommend re-verifying before outreach.
