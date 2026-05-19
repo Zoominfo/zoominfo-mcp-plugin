@@ -1,51 +1,95 @@
-# ZoomInfo Plugin for Claude Cowork
+# ZoomInfo MCP Plugin
 
-Search companies and contacts, enrich leads, find similar companies and contacts, and get AI-ranked prospect recommendations — all from inside [Claude Cowork](https://claude.ai/cowork).
+Use [ZoomInfo](https://www.zoominfo.com) go-to-market intelligence from LLM clients that support MCP servers, plugin manifests, and/or skills.
 
-This plugin connects Claude to the [ZoomInfo](https://www.zoominfo.com) MCP server, giving it access to ZoomInfo's B2B intelligence platform through a set of purpose-built skills.
+This repo packages ZoomInfo's hosted MCP server with client-specific plugin metadata and task-focused skills for sales, marketing, and revenue workflows. It is intended to work across supported LLM clients rather than being tied to a single provider.
+
+## What It Enables
+
+- Find companies, contacts, and buying committee members
+- Enrich account, lead, and contact records with business information
+- Build targeted account and contact lists
+- Identify similar companies, similar contacts, and recommended contacts
+- Research accounts, competitors, markets, intent signals, and technology stacks
+- Prepare for sales calls, prioritize inbound leads, and personalize outreach
+- Size TAM and refine ICP or territory filters
 
 ## Prerequisites
 
-- [Claude Cowork](https://claude.ai/cowork)
-- A ZoomInfo account with API access
+- An LLM client or agent environment that supports MCP and/or local plugin manifests
+- A ZoomInfo account with the appropriate API access and product entitlements
 
-## Installation
+## MCP Server
 
-Install from the Cowork plugin marketplace, or clone this repo and point Cowork at it:
+The plugin registers ZoomInfo's hosted MCP server:
+
+```json
+{
+  "mcpServers": {
+    "zoominfo": {
+      "type": "http",
+      "url": "https://mcp.zoominfo.com/mcp"
+    }
+  }
+}
+```
+
+Authentication is handled through the connected ZoomInfo account/session. No API keys are stored in this repo.
+
+## Client Support
+
+This repository includes metadata for multiple plugin-capable client environments:
+
+| Path | Purpose |
+|---|---|
+| `.mcp.json` | MCP server registration |
+| `.codex-plugin/plugin.json` | Codex/OpenAI plugin metadata |
+| `.claude-plugin/plugin.json` | Claude plugin metadata |
+| `.claude-plugin/marketplace.json` | Claude marketplace metadata |
+| `skills/` | Task-specific workflows usable by clients that support skills |
+
+Install or register the plugin according to your client's plugin or MCP workflow. For local development, clone this repository and point your client at the repo root or relevant manifest path.
 
 ```bash
-git clone https://github.com/zoominfo/zi-mcp-plugin.git
+git clone https://github.com/Zoominfo/zoominfo-mcp-plugin.git
 ```
 
 ## Skills
 
 | Skill | Description |
 |---|---|
-| **enrich-company** | Look up a company's full profile — firmographics, financials, corporate structure, growth signals |
-| **enrich-contact** | Look up a person's professional profile — title, department, contact details, accuracy score |
-| **recommend-contacts** | Get AI-powered contact recommendations at a target company based on your ZoomInfo interaction history |
-| **build-list** | Build a targeted contact or company list from natural language criteria |
-| **find-similar** | Find companies or contacts similar to a reference, ranked by similarity score |
+| `account-research` | Produce an account intelligence brief with firmographics, relationship context, intent, news, and next actions |
+| `build-list` | Build targeted account or contact lists from natural-language criteria |
+| `buying-committee` | Map decision-makers, influencers, champions, and coverage gaps at a target account |
+| `competitor-analysis` | Create fact-led competitor briefs using ZoomInfo data plus public context |
+| `enrich-company` | Look up company profiles, firmographics, financials, structure, and growth signals |
+| `enrich-contact` | Look up professional contact profiles, title, department, contact data, and accuracy signals |
+| `find-similar` | Find lookalike companies or contacts based on a reference account or person |
+| `meeting-prep` | Prepare for upcoming calls with account, attendee, relationship, and talking-point context |
+| `personalize-email` | Draft outreach grounded in account, contact, intent, and trigger signals |
+| `recommend-contacts` | Get AI-ranked contact recommendations at a target company |
+| `score-accounts` | Prioritize accounts by ICP fit, intent, trigger signals, and explainable scoring |
+| `score-leads` | Rank inbound leads by fit, urgency, verified contact data, and recommended action |
+| `tam-sizer` | Size a market or territory and produce a reusable ICP filter set |
+| `tech-stack-snapshot` | Summarize detected technologies, displacement angles, and integration plays |
 
-## How it works
+## Project Structure
 
-The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp`) and exposes the skills above as natural-language workflows. Each skill orchestrates multiple ZoomInfo API calls — lookups, searches, enrichment, similarity — and formats the results into actionable output.
-
-No API keys are configured in this repo. Authentication is handled through your ZoomInfo session.
-
-## Project structure
-
-```
+```text
+.codex-plugin/
+  plugin.json
 .claude-plugin/
-  plugin.json          # Plugin metadata (name, version, description, keywords)
-  marketplace.json     # Marketplace listing configuration
-.mcp.json              # MCP server registration
+  plugin.json
+  marketplace.json
+.mcp.json
+assets/
+  zoominfo-logo.svg
+  zoominfo-logo-dark.svg
+  zoominfo-logomark-red.svg
 skills/
-  build-list/          # Each skill is a directory with a SKILL.md
-  enrich-company/
-  enrich-contact/
-  find-similar/
-  recommend-contacts/
+  */SKILL.md
+testing/
+  test notes and assessments
 ```
 
 ## License
