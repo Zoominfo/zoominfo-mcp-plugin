@@ -14,6 +14,12 @@ This repo packages ZoomInfo's hosted MCP server with client-specific plugin meta
 - Prepare for sales calls, prioritize inbound leads, and personalize outreach
 - Size TAM and refine ICP or territory filters
 
+## Try Asking
+
+- "Help me prepare for a meeting with Apple's VP of Marketing this afternoon."
+- "Build me a list of SaaS companies in the UK with 200-500 employees using Salesforce."
+- "Find companies showing high buyer intent on data observability in the last 30 days."
+
 ## Prerequisites
 
 - An LLM client or agent environment that supports MCP and/or local plugin manifests
