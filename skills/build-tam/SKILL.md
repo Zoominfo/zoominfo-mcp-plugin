@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use TAM tools by job type:
+
+- `lookup`: mandatory for industries, locations, technologies, job functions, and other controlled filters.
+- `search_companies`: primary TAM counter and sample-account source; use `meta.totalResults` for counts.
+- `find_similar_companies`: expand from seed/won accounts into lookalike ICP hypotheses before sizing.
+- `search_intent`: size in-market subsegments when the TAM is topic-led or demand-led.
+- `search_scoops`: size event-triggered subsegments such as funding, hiring, leadership changes, projects, or pain points.
+- `enrich_companies`: enrich representative samples, not the whole TAM, unless the user explicitly approves credit-consuming enrichment.
+
 ## Workflow
 
 1. **Translate the user request into an explicit ICP**: industries, geography, employee count, revenue, technologies, growth/funding, ownership, and exclusions.

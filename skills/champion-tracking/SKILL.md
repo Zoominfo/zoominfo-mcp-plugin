@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use contact-first tools:
+
+- `enrich_contacts`: verify current employment, title, seniority, contact details, and ZoomInfo contact ID.
+- `contact_research`: use for high-value champions when CRM/conversation history can explain relationship strength.
+- `find_similar_contacts`: find champion lookalikes when the original champion profile is known.
+- `search_contacts`: find replacement champions at the old account or equivalent contacts at the new account.
+- `find_recommended_contacts`: identify who else to engage at the original account after champion movement.
+- `enrich_companies`: qualify the champion's new company for expansion or new-logo opportunity.
+
 ## Workflow
 
 1. **Identify known champions by email, name, company, CRM/contact ID, or supplied list. Preserve original account association.**

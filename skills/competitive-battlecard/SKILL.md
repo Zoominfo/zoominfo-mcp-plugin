@@ -13,6 +13,18 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use direct research plus discovery tools:
+
+- `account_research`: account/deal-specific battlecards when first-party context matters.
+- `search_companies` / `enrich_companies`: resolve and profile competitors and target accounts.
+- `search_intent`: discover accounts researching competitor or category topics.
+- `enrich_intent`: inspect known account or competitor intent topics.
+- `search_scoops` / `enrich_scoops`: event-led competitive triggers.
+- `enrich_news`: public narrative, launches, funding, M&A, and executive moves.
+- `find_similar_companies`: identify adjacent competitors or lookalike displacement targets.
+
 ## Workflow
 
 1. **Clarify whether the battlecard is competitor-led, account-led, or deal-led, and what decision it should support.**

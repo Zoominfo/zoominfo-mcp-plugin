@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Blend direct data with context agents:
+
+- `account_research`: preferred for account briefing when CRM/conversation context may exist.
+- `contact_research`: use for named attendees when relationship history matters.
+- `enrich_companies` / `enrich_contacts`: pull structured account and attendee facts.
+- `enrich_intent`, `enrich_scoops`, `enrich_news`: known-account why-now evidence.
+- `find_recommended_contacts`: if attendee list is incomplete and the seller needs who else to involve.
+- `search_contacts`: fill missing persona gaps after recommendations.
+
 ## Workflow
 
 1. **Identify account, attendee(s), product/motion, meeting objective, and known context. If attendee data is missing, still build an account-first brief.**

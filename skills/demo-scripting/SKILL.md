@@ -13,6 +13,16 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use tools to ground demo narrative in evidence:
+
+- `account_research`: synthesized account context and first-party relationship history when available.
+- `contact_research`: attendee-specific background and prior interaction context.
+- `enrich_companies` / `enrich_contacts`: structured facts about company and attendees.
+- `enrich_intent`, `enrich_scoops`, `enrich_news`: current why-now hooks and proof points.
+- `find_recommended_contacts`: identify missing demo stakeholders or follow-up audience.
+
 ## Workflow
 
 1. **Capture product/demo objective, account, attendees/personas, and desired outcome.**

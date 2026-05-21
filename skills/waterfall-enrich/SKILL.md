@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use the full MCP stack deliberately:
+
+- `lookup`: resolve every taxonomy-backed field before search or enrichment.
+- `search_companies` / `search_contacts`: free pre-resolution before spending bulk credits.
+- `enrich_companies` / `enrich_contacts`: batch up to 25 records per call only after entity match confidence is acceptable.
+- `search_intent` / `search_scoops`: use only when the enrichment run should discover net-new high-signal accounts, not for simple field completion.
+- `enrich_intent`, `enrich_scoops`, `enrich_news`: use for known companies when activation needs why-now evidence.
+- `account_research` / `contact_research`: use for synthesized CRM/conversation context only when the output requires a narrative brief, not raw field fill.
+
 ## Workflow
 
 1. **Identify whether the input rows are companies, contacts, or mixed records; preserve the original row ID for auditability.**

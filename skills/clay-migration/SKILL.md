@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Map Clay steps to current GTM AI MCP tools:
+
+- Discovery rows: `search_companies`, `search_contacts`, `search_intent`, and `search_scoops` depending on whether the table starts from ICP, persona, intent topic, or event trigger.
+- Lookalikes: `find_similar_companies` for account expansion and `find_similar_contacts` for persona replication from a known champion/buyer.
+- Enrichment: `enrich_companies` and `enrich_contacts`, in batches up to 25 after free search resolution.
+- Why-now context: `enrich_intent`, `enrich_scoops`, and `enrich_news` for known companies.
+- Stakeholder selection: `find_recommended_contacts` for account-level who-to-contact decisions.
+- Narrative research: `account_research` and `contact_research` when the Clay workflow previously depended on CRM or conversation history.
+
 ## Workflow
 
 1. **Ask for or infer the current Clay table purpose**: account list, contact list, enrichment, scoring, personalization, or campaign prep.

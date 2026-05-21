@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use tools that expose committee and negotiation context:
+
+- `account_research`: preferred for procurement prep when CRM/conversation history may reveal deal status, objections, and relationship context.
+- `enrich_companies`: structure, size, hierarchy, technologies, and financial context.
+- `find_recommended_contacts`: recommended procurement-adjacent and executive contacts.
+- `search_contacts`: explicit procurement, legal, finance, security, IT, and executive searches.
+- `enrich_scoops` / `enrich_news`: layoffs, funding, M&A, leadership changes, vendor consolidation, or cost pressure.
+- `enrich_intent`: known-account evaluation topics.
+
 ## Workflow
 
 1. **Clarify procurement context**: new purchase, expansion, renewal, security/legal review, pricing negotiation, or vendor consolidation.

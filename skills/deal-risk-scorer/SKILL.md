@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use the account-specific enrichment stack:
+
+- `account_research`: preferred when the user asks for deal/account risk and first-party CRM or conversation context may exist.
+- `enrich_companies`: baseline company, hierarchy, firmographic, and technology context.
+- `enrich_intent`, `enrich_scoops`, `enrich_news`: timing, urgency, and disruption evidence for the known account.
+- `find_recommended_contacts`: stakeholder coverage and deal-acceleration contact recommendations.
+- `search_contacts`: targeted gaps for economic buyer, technical buyer, procurement, finance, legal, or executive sponsor.
+- `contact_research`: named stakeholder relationship/role context.
+
 ## Workflow
 
 1. **Start from named opportunity/account context and clarify deal stage, close date, product, known stakeholders, and primary concern if available.**

@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Start from the trigger type:
+
+- Topic/keyword demand: `search_intent` to discover companies researching a topic.
+- Business event: `search_scoops` to discover companies with recent leadership, funding, hiring, layoffs, project, pain-point, expansion, or launch events.
+- Known account deepening: `enrich_intent`, `enrich_scoops`, and `enrich_news`.
+- Persona activation: `search_contacts` for explicit roles or `find_recommended_contacts` for account-specific who-to-contact decisions.
+- Lookalike trigger expansion: `find_similar_companies` or `find_similar_contacts` from known good accounts/champions.
+- Full details: `enrich_companies` and `enrich_contacts` only for selected records.
+
 ## Workflow
 
 1. **Define the trigger thesis**: what event indicates urgency, which personas matter, and what action the seller or marketer should take.

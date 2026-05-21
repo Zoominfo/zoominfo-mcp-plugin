@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use tools for both capacity balance and actionability:
+
+- `lookup`: normalize regions, industries, technologies, and size bands.
+- `search_companies`: count and sample accounts by proposed territory rules.
+- `search_intent`: compare in-market account density across territories.
+- `search_scoops`: compare event-trigger density across territories.
+- `find_similar_companies`: expand seed customer profiles into territory-specific lookalike pools.
+- `enrich_companies`: enrich representative accounts only, unless deeper credit-consuming analysis is approved.
+
 ## Workflow
 
 1. **Clarify planning objective**: carve new territory, rebalance, quota support, account assignment, industry/geography coverage, or white-space analysis.

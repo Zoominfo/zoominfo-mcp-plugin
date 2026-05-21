@@ -13,6 +13,16 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Keep cleanup deterministic and credit-aware:
+
+- `lookup`: normalize controlled CRM values before comparing or writing.
+- `search_companies` / `search_contacts`: free matching pass before enrichment.
+- `enrich_companies` / `enrich_contacts`: source-of-truth values after a confident match; batch up to 25 records per call.
+- `find_recommended_contacts`: not for field cleanup; use it only if cleanup expands into account coverage recommendations.
+- `account_research` / `contact_research`: avoid for bulk cleanup; use only for high-value ambiguous records requiring relationship context.
+
 ## Workflow
 
 1. **Classify the cleanup request**: stale fields, missing fields, duplicates, bad domains, inactive contacts, title drift, account hierarchy, or territory/segment hygiene.

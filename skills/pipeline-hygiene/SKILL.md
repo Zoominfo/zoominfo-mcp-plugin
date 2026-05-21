@@ -13,11 +13,22 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Prioritize tools that reveal deal risk and bad data:
+
+- `enrich_companies` and `enrich_contacts`: verify account/contact freshness, firmographics, titles, and reachability.
+- `find_recommended_contacts`: identify missing stakeholders and stronger contacts for deal acceleration.
+- `contact_research`: inspect relationship history for named stakeholders when conversation data matters.
+- `account_research`: synthesize CRM, opportunity, and account context when available.
+- `enrich_intent`, `enrich_scoops`, `enrich_news`: add known-account risk and urgency signals.
+- `search_contacts`: fill specific committee gaps when recommended contacts are insufficient.
+
 ## Workflow
 
 1. **Identify the pipeline slice**: stage, owner, close period, segment, product, or named account list.
 2. **For each account, resolve company identity and enrich firmographics, hierarchy, news, scoops, and intent.**
-3. **Map active stakeholders using `search_contacts`, `get_recommended_contacts`, and buying-committee patterns; flag missing economic buyer, technical buyer, procurement, or executive sponsor.**
+3. **Map active stakeholders using `search_contacts`, `find_recommended_contacts`, and buying-committee patterns; flag missing economic buyer, technical buyer, procurement, or executive sponsor.**
 4. **Flag hygiene issues**: stale titles, departed contacts, duplicate accounts, low-confidence contact data, outdated firmographics, and weak next step.
 5. **Score deal risk based on stakeholder coverage, recent signals, data freshness, account fit, and stage/close-date consistency.**
 6. **Separate data fixes from deal-coaching recommendations so ops and sales can act independently.**

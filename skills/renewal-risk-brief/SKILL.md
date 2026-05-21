@@ -13,6 +13,16 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use renewal-specific account and contact context:
+
+- `account_research`: preferred for renewal risk because CRM and conversation history often determine true risk.
+- `contact_research`: inspect named champions, detractors, and executive sponsors.
+- `enrich_contacts`: verify champion movement, title changes, reachability, and employment status.
+- `find_recommended_contacts`: renewal/growth use case for missing stakeholders and expansion paths.
+- `enrich_companies`, `enrich_intent`, `enrich_scoops`, `enrich_news`: company health, signal trend, and disruption evidence.
+
 ## Workflow
 
 1. **Capture customer/account, renewal date if known, product, current champions, sentiment, and open concerns.**

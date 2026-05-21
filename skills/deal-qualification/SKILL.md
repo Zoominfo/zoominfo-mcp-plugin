@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use qualification-specific evidence:
+
+- `account_research`: preferred when the decision depends on CRM, opportunity, or conversation history.
+- `enrich_companies`: firmographic, technographic, hierarchy, and growth fit.
+- `enrich_intent`: known-account buyer-intent topics and trend.
+- `enrich_scoops` / `enrich_news`: event urgency and public narrative.
+- `find_recommended_contacts`: stakeholder/actionability strength.
+- `search_contacts`: explicit persona coverage gaps.
+
 ## Workflow
 
 1. **Clarify qualification framework if supplied; otherwise use fit, pain/trigger, stakeholder access, timing, and data confidence.**

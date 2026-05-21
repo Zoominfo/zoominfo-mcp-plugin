@@ -13,6 +13,17 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Build the ICP from both fit and timing signals:
+
+- `enrich_companies`: profile seed/won accounts.
+- `find_similar_companies`: generate lookalike hypotheses from best-fit customers.
+- `search_companies`: test hard filters and estimate addressability.
+- `search_intent`: identify topic-led in-market traits and demand clusters.
+- `search_scoops`: identify event triggers correlated with urgency.
+- `account_research`: use when first-party CRM/conversation history can explain why accounts won or stalled.
+
 ## Workflow
 
 1. **Capture the ICP purpose**: prospecting, campaign targeting, TAM sizing, scoring, territory planning, or product strategy.

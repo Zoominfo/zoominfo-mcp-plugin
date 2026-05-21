@@ -13,6 +13,18 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use free discovery before credit-consuming depth:
+
+- `search_companies`: normalize or build the account universe.
+- `search_intent`: discover accounts already researching relevant topics.
+- `search_scoops`: discover accounts with recent events that create urgency.
+- `enrich_companies`: deepen only the accounts being scored.
+- `enrich_intent`, `enrich_scoops`, `enrich_news`: add why-now evidence for known accounts.
+- `find_recommended_contacts`: include reachability/stakeholder strength in the score when seller actionability matters.
+- `account_research`: use for synthesized context when CRM/conversation history can change the ranking.
+
 ## Workflow
 
 1. **Capture the prioritization goal**: new logo, expansion, renewal, competitive takeout, territory focus, or campaign audience.

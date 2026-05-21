@@ -13,6 +13,16 @@ The user will describe the job via `$ARGUMENTS`. Capture any supplied accounts, 
 
 If a required entity is missing, ask one concise clarifying question. If the request is broad but actionable, proceed with a stated assumption rather than blocking.
 
+## MCP Tool Selection
+
+Use data tools to size and de-risk assumptions:
+
+- `account_research`: preferred when CRM, opportunity, or conversation context can inform the business case.
+- `enrich_companies`: scale, revenue, employee footprint, technology, funding, and hierarchy assumptions.
+- `enrich_intent`, `enrich_scoops`, `enrich_news`: urgency and executive narrative.
+- `find_recommended_contacts` and `search_contacts`: identify economic, technical, finance, and executive stakeholders.
+- `contact_research`: use for named buyer-specific priorities when relationship history is relevant.
+
 ## Workflow
 
 1. **Clarify buyer persona, product, desired outcome, account, and any known metric assumptions.**
