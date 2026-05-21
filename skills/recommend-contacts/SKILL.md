@@ -1,5 +1,5 @@
 ---
-name: recommended-contacts
+name: recommend-contacts
 description: Get AI-powered contact recommendations at a target company based on your ZoomInfo interaction history. Provide a company name or domain and optionally a use case.
 ---
 
@@ -29,7 +29,7 @@ The user will provide via `$ARGUMENTS`:
    - "deal acceleration" or "new business" → `DEAL_ACCELERATION` (based on contacts in closed-won CRM opportunities for new business)
    - "renewal", "growth", or "expansion" → `RENEWAL_AND_GROWTH` (based on contacts in closed-won CRM opportunities for renewals)
 
-5. **Get recommendations** using `get_recommended_contacts` with:
+5. **Get recommendations** using `find_recommended_contacts` with:
    - `ziCompanyId`: the resolved ZoomInfo company ID
    - `useCaseType`: the mapped enum value
    - `pageSize`: user-specified count or 25
@@ -74,7 +74,7 @@ Rank the top 5 contacts to engage first, with reasoning:
 
 ### Next Steps
 - Use `/zoominfo:enrich-contact` to deep-dive on any specific person
-- Use `/zoominfo:find-buyers` if you need to filter by specific persona criteria beyond what recommendations provide
+- Use `/zoominfo:recommend-contacts` if you need to filter by specific persona criteria beyond what recommendations provide
 - If recommendations are sparse, note that PROSPECTING recommendations improve as you use ZoomInfo more (view, copy, export contacts). DEAL_ACCELERATION and RENEWAL_AND_GROWTH require CRM integration.
 
 ### Important Notes on Scores
