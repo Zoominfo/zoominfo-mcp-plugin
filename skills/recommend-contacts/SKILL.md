@@ -1,5 +1,5 @@
 ---
-name: recommended-contacts
+name: recommend-contacts
 description: Get AI-powered contact recommendations at a target company based on your ZoomInfo interaction history. Provide a company name or domain and optionally a use case.
 ---
 

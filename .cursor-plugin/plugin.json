@@ -1,0 +1,14 @@
+{
+  "name": "zoominfo",
+  "displayName": "ZoomInfo",
+  "version": "0.7.0",
+  "description": "Bring ZoomInfo's B2B intelligence into Cursor — search, enrich, intent, scoops, and AI research as slash commands.",
+  "author": {
+    "name": "ZoomInfo Technologies LLC"
+  },
+  "repository": "https://github.com/parkersequeira-zi/zoominfo-mcp-plugin#",
+  "license": "Apache-2.0",
+  "keywords": ["zoominfo", "mcp", "sales", "enrichment", "crm", "prospecting", "intent", "b2b"],
+  "logo": "assets/zoominfo-logomark-red.svg",
+  "skills": "./skills/"
+}
