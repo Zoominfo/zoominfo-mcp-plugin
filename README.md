@@ -27,7 +27,9 @@ This repo packages ZoomInfo's hosted MCP server with client-specific plugin meta
 
 ## MCP Server
 
-The plugin registers ZoomInfo's hosted MCP server:
+The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp`). Authentication is handled through your ZoomInfo account via OAuth — no API keys are stored in this repo. Two registration styles are used depending on the client's MCP implementation:
+
+**Direct HTTP** — for clients whose MCP runtime completes the OAuth handshake natively (Claude, Codex). Defined in `.mcp.json`:
 
 ```json
 {
@@ -40,7 +42,26 @@ The plugin registers ZoomInfo's hosted MCP server:
 }
 ```
 
-Authentication is handled through the connected ZoomInfo account/session. No API keys are stored in this repo.
+**Local stdio bridge (`mcp-remote`)** — for Cursor, whose native client cannot complete this server's OAuth discovery directly. `mcp-remote` runs the OAuth flow locally (opening a browser on first use, then caching and refreshing tokens) and bridges to the client over stdio. Defined in `mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "zoominfo": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@0.1.16",
+        "https://mcp.zoominfo.com/mcp",
+        "--static-oauth-client-metadata",
+        "{\"scope\":\"openid profile email offline_access zi_api zi_mcp api:data:mcp\"}"
+      ]
+    }
+  }
+}
+```
+
+> The `mcp-remote` bridge requires Node.js (`npx`) on the local machine. On first connection it opens a browser for ZoomInfo sign-in; subsequent launches reuse cached tokens.
 
 ## Client Support
 
@@ -48,10 +69,13 @@ This repository includes metadata for multiple plugin-capable client environment
 
 | Path | Purpose |
 |---|---|
-| `.mcp.json` | MCP server registration |
+| `.mcp.json` | MCP server registration (Claude / Codex) |
+| `mcp.json` | MCP server registration (Cursor) |
 | `.codex-plugin/plugin.json` | Codex/OpenAI plugin metadata |
 | `.claude-plugin/plugin.json` | Claude plugin metadata |
 | `.claude-plugin/marketplace.json` | Claude marketplace metadata |
+| `.cursor-plugin/plugin.json` | Cursor plugin metadata |
+| `.cursor-plugin/marketplace.json` | Cursor marketplace metadata |
 | `skills/` | Task-specific workflows usable by clients that support skills |
 
 Install or register the plugin according to your client's plugin or MCP workflow. For local development, clone this repository and point your client at the repo root or relevant manifest path.
@@ -61,6 +85,8 @@ git clone https://github.com/Zoominfo/zoominfo-mcp-plugin.git
 ```
 
 ## Skills
+
+Skills are task-focused playbooks the agent follows to return structured outputs (briefs, tables, scores, emails) instead of raw tool JSON. Trigger them with `/skill-name` or plain language ("prep me for a meeting with Acme"); the agent can also select the right skill automatically when your request matches.
 
 | Skill | Description |
 |---|---|
@@ -82,20 +108,23 @@ git clone https://github.com/Zoominfo/zoominfo-mcp-plugin.git
 ## Project Structure
 
 ```text
-.codex-plugin/
-  plugin.json
 .claude-plugin/
   plugin.json
   marketplace.json
-.mcp.json
+.codex-plugin/
+  plugin.json
+.cursor-plugin/
+  plugin.json
+  marketplace.json
+.mcp.json            # direct HTTP registration (Claude / Codex)
+mcp.json             # mcp-remote bridge registration (Cursor)
 assets/
   zoominfo-logo.svg
   zoominfo-logo-dark.svg
   zoominfo-logomark-red.svg
 skills/
   */SKILL.md
-testing/
-  test notes and assessments
+LICENSE
 ```
 
 ## License

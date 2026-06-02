@@ -1,0 +1,17 @@
+{
+  "name": "zoominfo-plugin-marketplace",
+  "owner": {
+    "name": "ZoomInfo",
+    "email": "integrationsupport@zoominfo.com"
+  },
+  "metadata": {
+    "description": "Official ZoomInfo plugin marketplace for Cursor"
+  },
+  "plugins": [
+    {
+      "name": "zoominfo",
+      "source": "./",
+      "description": "Search companies and contacts, enrich leads, find similar companies and contacts, and get AI-ranked prospect recommendations — one-click ZoomInfo MCP server integration for Cursor."
+    }
+  ]
+}
