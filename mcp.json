@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "zoominfo": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@0.1.16",
+        "https://mcp.zoominfo.com/mcp",
+        "--static-oauth-client-metadata",
+        "{\"scope\":\"openid profile email offline_access zi_api zi_mcp api:data:mcp\"}"
+      ]
+    }
+  }
+}
