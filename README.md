@@ -27,9 +27,9 @@ This repo packages ZoomInfo's hosted MCP server with client-specific plugin meta
 
 ## MCP Server
 
-The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp`). Authentication is handled through your ZoomInfo account via OAuth — no API keys are stored in this repo. Two registration styles are used depending on the client's MCP implementation:
+The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp`). Authentication is handled through your ZoomInfo account via OAuth — no API keys are stored in this repo. Supported clients complete the OAuth handshake natively over direct HTTP; on first connection the client opens a browser for ZoomInfo sign-in and caches/refreshes tokens automatically.
 
-**Direct HTTP** — for clients whose MCP runtime completes the OAuth handshake natively (Claude, Codex). Defined in `.mcp.json`:
+**Claude / Codex** — defined in `.mcp.json`:
 
 ```json
 {
@@ -42,7 +42,21 @@ The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp
 }
 ```
 
-**Local stdio bridge (`mcp-remote`)** — for Cursor, whose native client cannot complete this server's OAuth discovery directly. `mcp-remote` runs the OAuth flow locally (opening a browser on first use, then caching and refreshing tokens) and bridges to the client over stdio. Defined in `mcp.json`:
+**Cursor** — defined in `mcp.json` (Cursor infers the HTTP transport from `url`):
+
+```json
+{
+  "mcpServers": {
+    "zoominfo": {
+      "url": "https://mcp.zoominfo.com/mcp"
+    }
+  }
+}
+```
+
+### Fallback: local stdio bridge (`mcp-remote`)
+
+For environments where a client cannot complete the server's OAuth handshake natively, the [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) bridge runs the OAuth flow locally (opening a browser on first use, then caching and refreshing tokens) and bridges to the client over stdio. This requires Node.js (`npx`) on the local machine:
 
 ```json
 {
@@ -51,7 +65,7 @@ The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp
       "command": "npx",
       "args": [
         "-y",
-        "mcp-remote@0.1.16",
+        "mcp-remote@0.1.38",
         "https://mcp.zoominfo.com/mcp",
         "--static-oauth-client-metadata",
         "{\"scope\":\"openid profile email offline_access zi_api zi_mcp api:data:mcp\"}"
@@ -60,8 +74,6 @@ The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp
   }
 }
 ```
-
-> The `mcp-remote` bridge requires Node.js (`npx`) on the local machine. On first connection it opens a browser for ZoomInfo sign-in; subsequent launches reuse cached tokens.
 
 ## Client Support
 
@@ -117,7 +129,7 @@ Skills are task-focused playbooks the agent follows to return structured outputs
   plugin.json
   marketplace.json
 .mcp.json            # direct HTTP registration (Claude / Codex)
-mcp.json             # mcp-remote bridge registration (Cursor)
+mcp.json             # native HTTP registration (Cursor)
 assets/
   zoominfo-logo.svg
   zoominfo-logo-dark.svg
