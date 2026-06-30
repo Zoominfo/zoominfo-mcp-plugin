@@ -1,0 +1,264 @@
+{
+  "project": "Conversation Intelligence Skills",
+  "description": "A suite of GTM skills built on Browse Engagements + Conversation Intelligence (with Account/Contact Research as supporting context).",
+  "created": "2026-06-30",
+  "total_features": 17,
+  "completed_features": 0,
+  "features": [
+    {
+      "id": 1,
+      "category": "functional",
+      "description": "ENHANCE meeting-prep: add a browse_engagements upcoming-meeting picker (when no account/attendee is named) and conversation_intelligence prior-conversation synthesis (open threads, unresolved questions, suggested asks) layered onto the existing brief.",
+      "priority": "p0",
+      "tools": ["browse_engagements", "conversation_intelligence", "account_research", "contact_research", "enrich_companies", "enrich_contacts", "get_gtm_context", "search_companies", "search_contacts"],
+      "steps": [
+        "Add a meeting-selection path: when no account/attendee is supplied, call browse_engagements (forward window) and present a numbered shortlist to pick from",
+        "After resolving the account, add a CI synthesis step (company- or engagement-scoped) for prior conversation context: open threads, unresolved questions, suggested asks",
+        "Fold CI output into TL;DR and a new 'Prior conversations' section without bloating the 30-min brief",
+        "Add Prerequisites note (integrations required; AI credits) and graceful no-data fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 2,
+      "category": "functional",
+      "description": "NEW engagement-timeline: pure browse_engagements timeline. Default 90-day look-back, sliding window for further back. List participants with per-participant engagement counts, engagements by type, and pull engagement IDs into context (not shown) so the user can double-click any one via CI.",
+      "priority": "p0",
+      "tools": ["browse_engagements", "conversation_intelligence"],
+      "steps": [
+        "Resolve scope (account/contact/user) and date window (default 90d; sliding window when user asks to look further back)",
+        "Call browse_engagements with the right scope/sort/limit; handle the 90-day max window by paging the window backward when needed",
+        "Render a timeline: engagements by type, participants with counts; keep engagement IDs in context, not in user-facing output",
+        "Offer to double-click any engagement via conversation_intelligence; add Prerequisites note + no-data fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 3,
+      "category": "functional",
+      "description": "NEW call-recap: browse_engagements (recent) proposes a selection, user picks one or more; conversation_intelligence + account_research produce a compact recap (summary, decisions, action items, open questions). Template adjusts to the query.",
+      "priority": "p0",
+      "tools": ["browse_engagements", "conversation_intelligence", "account_research"],
+      "steps": [
+        "If no call named, call browse_engagements (-chronological, MEETINGS) and present a numbered shortlist of recent calls",
+        "On selection, run conversation_intelligence scoped to the engagement ID(s); pull account_research for light context",
+        "Render a compact high-signal recap template (summary, decisions, action items, open questions), adjustable to the user query",
+        "Prerequisites note + graceful fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 4,
+      "category": "functional",
+      "description": "NEW daily-brief: browse_engagements for today's meetings, then parallel account_research, contact_research, and conversation_intelligence per meeting to produce state of play, a suggested focus/objective for each, and follow-ups needed.",
+      "priority": "p0",
+      "tools": ["browse_engagements", "account_research", "contact_research", "conversation_intelligence", "get_gtm_context"],
+      "steps": [
+        "Call browse_engagements for today's (or the named day's) meetings",
+        "Per meeting, fan out account_research / contact_research / CI in parallel (mind AI credits; cap breadth)",
+        "Render one compact card per meeting: state of play, suggested focus/objective, follow-ups needed",
+        "Prerequisites + credit note + fallback when no meetings"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 5,
+      "category": "functional",
+      "description": "NEW account-relationship-recap: account_research + conversation_intelligence (company-scoped) recapping recent engagements with emphasis on how the relationship is evolving.",
+      "priority": "p1",
+      "tools": ["account_research", "conversation_intelligence", "browse_engagements", "search_companies"],
+      "steps": [
+        "Resolve company (ID or search_companies)",
+        "Run account_research + company-scoped CI for recent-conversation themes and trajectory",
+        "Render where-we-stand recap emphasizing relationship evolution (warming/cooling, new stakeholders, shifts)",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 6,
+      "category": "functional",
+      "description": "NEW contact-relationship-recap: contact-scoped conversation_intelligence (+ account_research) for where we stand with a person across recent conversations, emphasis on relationship evolution.",
+      "priority": "p1",
+      "tools": ["conversation_intelligence", "contact_research", "account_research", "search_contacts"],
+      "steps": [
+        "Resolve contact (ID or search_contacts)",
+        "Run contact-scoped CI + contact_research for this person's recent conversation history and posture",
+        "Render where-we-stand-with-this-person recap emphasizing relationship evolution",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 7,
+      "category": "functional",
+      "description": "NEW draft-follow-up: conversation_intelligence extracts commitments and next steps from a call, then drafts a compact, friendly-professional follow-up email.",
+      "priority": "p1",
+      "tools": ["conversation_intelligence", "browse_engagements"],
+      "steps": [
+        "Resolve the engagement (named, or browse_engagements recent picker)",
+        "Run CI to extract commitments, next steps, and key points",
+        "Draft a concise, warm-but-professional follow-up email; pause to confirm tone/recipient if ambiguous",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 8,
+      "category": "functional",
+      "description": "NEW commitment-ledger: conversation_intelligence-primary. What we promised vs what they promised, and what is still outstanding across the last few engagements.",
+      "priority": "p1",
+      "tools": ["conversation_intelligence", "browse_engagements"],
+      "steps": [
+        "Resolve scope (account or contact; or a picked engagement set)",
+        "Run CI to extract commitments by side (us vs them) and status",
+        "Render a two-column ledger with outstanding items flagged; note CI only sees the last few engagements",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 9,
+      "category": "functional",
+      "description": "NEW next-best-action: conversation_intelligence-primary. Given conversation state, recommend the next move, grounded in what was actually said.",
+      "priority": "p1",
+      "tools": ["conversation_intelligence", "account_research", "browse_engagements"],
+      "steps": [
+        "Resolve scope (account/contact/engagement)",
+        "Run CI to read current conversation state (open threads, signals, blockers)",
+        "Recommend 1-3 concrete next actions tied to specific evidence; no generic advice without support",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 10,
+      "category": "functional",
+      "description": "NEW objection-blocker-tracker: conversation_intelligence across recent calls; surface open objections and how they have evolved.",
+      "priority": "p2",
+      "tools": ["conversation_intelligence", "browse_engagements"],
+      "steps": [
+        "Resolve account/contact scope",
+        "Run CI to surface objections and blockers across recent engagements and their trajectory",
+        "Render open objections with status (raised/addressed/recurring); note the last-few-engagements limit",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 11,
+      "category": "functional",
+      "description": "NEW decision-process-mapper: conversation_intelligence; map the prospect's stated buying process, criteria, timeline, and approvers as voiced on recent calls.",
+      "priority": "p2",
+      "tools": ["conversation_intelligence", "account_research"],
+      "steps": [
+        "Resolve account scope",
+        "Run CI to extract stated process, decision criteria, timeline, and named approvers",
+        "Render a decision-process map; mark gaps as 'not stated' rather than inferring",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 12,
+      "category": "functional",
+      "description": "NEW call-coaching: browse_engagements to pick the likely call if unspecified; conversation_intelligence; coach discovery/objection handling (what went well, what to improve, focus for the next call).",
+      "priority": "p2",
+      "tools": ["browse_engagements", "conversation_intelligence"],
+      "steps": [
+        "If no call named, use browse_engagements to identify the most likely recent call and confirm with the user",
+        "Run CI scoped to that engagement; analyze discovery quality and objection handling against best practice",
+        "Render coaching: what went well, what to improve, focus areas for the next call; cite moments",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 13,
+      "category": "functional",
+      "description": "NEW account-health: browse_engagements timeline + conversation_intelligence (sentiment/risk) + account_research snapshot. Evidence-only; ask the user before asserting unsupported claims.",
+      "priority": "p3",
+      "tools": ["browse_engagements", "conversation_intelligence", "account_research"],
+      "steps": [
+        "Build a recent timeline via browse_engagements; run CI for sentiment trajectory and risk signals; pull account_research snapshot",
+        "Synthesize a health read with explicit evidence per claim",
+        "Where evidence is thin, ask the user for input rather than generating generic advice",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 14,
+      "category": "functional",
+      "description": "NEW renewal-prep: conversation_intelligence value moments + risk handles + account_research. Evidence-only; do not assume the renewal date if not provided (ask the user).",
+      "priority": "p3",
+      "tools": ["conversation_intelligence", "account_research", "browse_engagements"],
+      "steps": [
+        "Resolve account; if renewal date/terms not provided, ask the user rather than assuming",
+        "Run CI for value moments and risk handles; pull account_research for deal/relationship context",
+        "Render pre-renewal context: value delivered, risks, handles; flag unverified assumptions",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 15,
+      "category": "functional",
+      "description": "NEW ae-cs-handoff: browse_engagements timeline + parallel conversation_intelligence on key engagements to capture requirements/objectives, relationship, stakeholders, and how they like to work.",
+      "priority": "p3",
+      "tools": ["browse_engagements", "conversation_intelligence", "account_research", "contact_research"],
+      "steps": [
+        "Build the engagement timeline; identify the key engagements",
+        "Run CI in parallel on those engagements to pull requirements, objectives, stakeholders, working style, relationship state",
+        "Render a CSM-ready handoff brief",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 16,
+      "category": "functional",
+      "description": "NEW exec-brief: account_research + conversation_intelligence + contact_research into a succinct one-pager for an exec dropping into a call cold.",
+      "priority": "p3",
+      "tools": ["account_research", "conversation_intelligence", "contact_research", "get_gtm_context"],
+      "steps": [
+        "Resolve account and (if known) the key attendee(s)",
+        "Run account_research + CI + contact_research; keep it tight",
+        "Render a one-page exec brief: who/what/why-now, relationship, the ask, landmines",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    },
+    {
+      "id": 17,
+      "category": "functional",
+      "description": "NEW email-thread-summarizer: browse_engagements (EMAILS) to find threads, then conversation_intelligence with includeContent to fetch bodies. Output summary, current state, open questions.",
+      "priority": "p3",
+      "tools": ["browse_engagements", "conversation_intelligence"],
+      "steps": [
+        "Use browse_engagements (EMAILS) to find the relevant thread(s); present a picker if ambiguous",
+        "Run CI with includeContent on the chosen engagement to fetch the email body/thread",
+        "Render summary, current state, and open questions",
+        "Prerequisites + fallback"
+      ],
+      "passes": false,
+      "completed_at": null
+    }
+  ]
+}
