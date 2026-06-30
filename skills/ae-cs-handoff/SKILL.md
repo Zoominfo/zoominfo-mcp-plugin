@@ -21,7 +21,7 @@ Provided via `$ARGUMENTS`:
 ## Workflow
 
 1. **Resolve the account.** Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies`.
-2. **Build the timeline.** Call `browse_engagements` (account-scoped) for the sales-cycle engagements; identify the few that carry the most signal (discovery, key demos, negotiation, commitments). Keep their engagement IDs.
+2. **Build the timeline.** Call `browse_engagements` (account-scoped) for the sales-cycle engagements; identify the few that carry the most signal (discovery, key demos, negotiation, commitments). Limit to roughly the 2-4 highest-signal engagements — each gets its own `conversation_intelligence` call in step 3, which costs AI credits, so do not fan out across the whole timeline. Keep their engagement IDs.
 3. **Deep-read the key engagements in parallel.** Run `conversation_intelligence` on those engagement IDs (one CI call per engagement) for stated requirements and success criteria, commitments made to the customer, decision-makers and how they like to work, and any sensitivities. Pull `account_research` and `contact_research` for the structural picture. CI sees only the last few engagements, so anchor on the key ones rather than expecting full history.
 4. **Assemble the handoff.** Synthesize a CSM-ready brief. Distinguish what was promised (must be honored) from what was aspirational. Attribute each requirement and commitment to the conversation it came from. Do not invent commitments.
 

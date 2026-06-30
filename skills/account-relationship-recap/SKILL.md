@@ -9,7 +9,7 @@ Where we stand with an account, read from recent conversations: the current stat
 
 ## Prerequisites
 
-Company-scoped `conversation_intelligence` requires at least one connected email or meeting source; `account_research` and `conversation_intelligence` consume AI credits. If no conversation data exists for the account, produce the `account_research`-based read and note that conversation context was unavailable, pointing the user to their ZoomInfo admin.
+Company-scoped `conversation_intelligence` requires at least one connected email or meeting source; `account_research` and `conversation_intelligence` consume AI credits (`browse_engagements`, used for optional cadence, is free). If no conversation data exists for the account, produce the `account_research`-based read and note that conversation context was unavailable, pointing the user to their ZoomInfo admin.
 
 ## Input
 

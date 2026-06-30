@@ -9,7 +9,7 @@ Turn what was said on a call into a tight follow-up email: thank, recap, and con
 
 ## Prerequisites
 
-`browse_engagements` (to find the call) requires an active calendar/email/meeting integration; `conversation_intelligence` (to read it) requires at least one connected meeting or email source and consumes AI credits. If no conversation data exists for the call, say so rather than drafting from assumption.
+`browse_engagements` (to find the call) is free but requires an active calendar/email/meeting integration; `conversation_intelligence` (to read it) requires at least one connected meeting or email source and consumes AI credits. If no conversation data exists for the call, say so rather than drafting from assumption.
 
 ## Input
 
@@ -20,7 +20,7 @@ Provided via `$ARGUMENTS`:
 
 ## Workflow
 
-1. **Identify the call.** If named, find it via `browse_engagements`. If not, present a numbered shortlist of recent calls and let the user pick before spending credits. Keep the engagement ID.
+1. **Identify the call.** `browse_engagements` filters by date and by company/contact ID, not by call name, so resolve any named account/contact first via `search_companies` / `search_contacts`, then call `browse_engagements` scoped to that ID and date window and pick the matching meeting. If nothing was named, present a numbered shortlist of recent calls and let the user pick before spending credits. Keep the engagement ID.
 2. **Extract what was said.** Run `conversation_intelligence` scoped to that engagement ID for the agreed next steps, commitments on each side, decisions, and any open questions to address in the note. Keep the query scoped to this one engagement.
 3. **Confirm direction if ambiguous.** If the recipient or tone is unclear, or the call surfaced sensitive points, pause and confirm with the user before drafting.
 4. **Draft the email.** Write a concise message: a one-line thanks, a 2-3 sentence recap, a clear list of next steps with owners and any dates, and a single call to action. Include only commitments the conversation actually supports; never invent an owner, a date, or a promise. Keep it skimmable.
@@ -41,7 +41,7 @@ Provided via `$ARGUMENTS`:
 >
 > [Sign-off.]
 
-After the draft, list the **commitments extracted** (us vs them) so the user can verify nothing was added or missed. Offer to adjust tone, length, or recipient.
+Present the draft for review; this skill drafts only and does not send. After the draft, list the **commitments extracted** (us vs them) so the user can verify nothing was added or missed. Offer to adjust tone, length, or recipient.
 
 ### When there is no data
 

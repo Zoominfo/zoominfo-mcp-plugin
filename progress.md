@@ -1,10 +1,10 @@
 # Build Progress: Conversation Intelligence Skills
 
-## Status: IN PROGRESS
+## Status: COMPLETE
 
 **Started**: 2026-06-30
 **Last session**: 2026-06-30
-**Features completed**: 4 / 17 (P0 complete)
+**Features completed**: 17 / 17
 
 ## Current State
 
@@ -37,8 +37,18 @@
 
 ### Session 1 — 2026-06-30
 
-- **Action**: Harness setup + P0 batch (features 1-4).
-- **Features completed**: 4 / 17 — meeting-prep (enhanced), engagement-timeline, call-recap, daily-brief.
-- **Verification**: skeptical review-only evaluator on the batch. engagement-timeline + call-recap shipped clean; applied fixes to daily-brief (added the CI-limitation guardrail, tightened the credit-confirm threshold) and meeting-prep (made the zoominfoCompanyId vs companyId param handoff explicit, added userIntent to the picker call).
-- **Next up**: Feature #5 — account-relationship-recap (start of P1).
-- **Notes**: Skills are not registered in any manifest; adding a skill = new `skills/{name}/SKILL.md`. Pattern is established; P1-P3 reuse it.
+- **Action**: Built all 17 skills (P0-P3) on the proven ZoomInfo pattern.
+- **Features completed**: 17 / 17.
+- **Verification**: three skeptical review-only evaluators (P0; P1; P2-P3). Findings applied:
+  - meeting-prep: explicit zoominfoCompanyId/companyId handoff + userIntent on the picker.
+  - daily-brief: CI-limitation guardrail + tighter credit-confirm threshold.
+  - call-coaching, draft-follow-up, call-recap: corrected call resolution — browse_engagements
+    filters by company/contact ID + date, NOT by call name; resolve the account first, then pick.
+  - next-best-action: confirm ambiguous match before spending credits.
+  - objection-blocker-tracker: ask for scope if none supplied.
+  - exec-brief: only run contact_research on named/surfaced attendees (avoid blind credit spend).
+  - ae-cs-handoff: cap to 2-4 highest-signal engagements (per-engagement CI cost).
+  - account-relationship-recap / draft-follow-up / call-coaching: label browse_engagements as free.
+- **Next up**: PR the branch. Follow-up (separate, in gtm-ai): run `/sync-marketplace zoominfo --force`
+  to regenerate the marketplace listings for the 16 new + 1 updated skill, then PR those.
+- **Notes**: Skills are not registered in any manifest; adding a skill = new `skills/{name}/SKILL.md`.

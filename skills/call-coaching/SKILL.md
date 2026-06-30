@@ -9,7 +9,7 @@ Give a rep specific, actionable feedback on a single call: what worked, what to 
 
 ## Prerequisites
 
-`browse_engagements` (to find the call) requires an active calendar/meeting integration; `conversation_intelligence` (to analyze it) requires at least one connected meeting source and consumes AI credits. If the call has no transcript to analyze, say so rather than coaching from assumption.
+`browse_engagements` (to find the call) is free but requires an active calendar/meeting integration; `conversation_intelligence` (to analyze it) requires at least one connected meeting source and consumes AI credits. If the call has no transcript to analyze, say so rather than coaching from assumption.
 
 ## Input
 
@@ -20,7 +20,7 @@ Provided via `$ARGUMENTS`:
 
 ## Workflow
 
-1. **Identify the call.** If named, find it via `browse_engagements`. If not, call `browse_engagements` (recent meetings), pick the most likely candidate, and confirm it with the user before spending credits. Keep the engagement ID.
+1. **Identify the call.** `browse_engagements` filters by date and by company/contact ID, not by call name, so resolve any named account or contact first via `search_companies` / `search_contacts`, then call `browse_engagements` (`engagementType: MEETINGS`, `sort: -chronological`) scoped to that ID and date window and pick the matching meeting from the results. If nothing was named, call `browse_engagements` for the user's recent meetings, propose the most likely candidate, and confirm it before spending credits. If more than one meeting plausibly matches, ask. Keep the chosen engagement ID.
 2. **Analyze how it went.** Run `conversation_intelligence` scoped to that engagement ID. Ask how the rep handled discovery (did they uncover pain, budget, timeline, decision process), how objections were handled, what the customer's reactions and sentiment were, and where the conversation stalled or advanced. Keep the query scoped to this one call.
 3. **Coach against good practice.** Assess the call against solid discovery and objection-handling fundamentals — open questions over pitching, listening over talking, surfacing next steps, addressing concerns directly. Ground every point in a specific moment from the call; cite what was said. Be candid and useful, not generic. If the transcript is too thin to judge something, say so rather than inventing a critique.
 

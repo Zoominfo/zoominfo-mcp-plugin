@@ -20,7 +20,7 @@ Provided via `$ARGUMENTS`:
 
 ## Workflow
 
-1. **Resolve scope.** Use a ZoomInfo ID directly, or resolve via `search_companies` / `search_contacts`.
+1. **Resolve scope.** If no account or contact was supplied, ask the user which one before proceeding. Use a ZoomInfo ID directly, or resolve a name via `search_companies` / `search_contacts`.
 2. **Extract objections and blockers.** Run `conversation_intelligence` scoped to the account or contact. Ask it to list the objections, concerns, and blockers raised across recent conversations, who raised each, when, and how it was last left. Keep CI scoped to one ID; it sees only the last few engagements and cannot count or topic-search, so present this as recent movement, not a complete tally.
 3. **Track the trajectory.** For each item, classify status: newly raised, addressed/resolved, recurring (keeps coming back), or escalating. Tie each to the source moments. Do not record an objection the conversation does not support, and do not mark something resolved without evidence it was.
 

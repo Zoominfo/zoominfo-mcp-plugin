@@ -3,7 +3,7 @@
   "description": "A suite of GTM skills built on Browse Engagements + Conversation Intelligence (with Account/Contact Research as supporting context).",
   "created": "2026-06-30",
   "total_features": 17,
-  "completed_features": 4,
+  "completed_features": 17,
   "features": [
     {
       "id": 1,
@@ -105,8 +105,8 @@
         "Render where-we-stand recap emphasizing relationship evolution (warming/cooling, new stakeholders, shifts)",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 6,
@@ -125,8 +125,8 @@
         "Render where-we-stand-with-this-person recap emphasizing relationship evolution",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 7,
@@ -143,8 +143,8 @@
         "Draft a concise, warm-but-professional follow-up email; pause to confirm tone/recipient if ambiguous",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 8,
@@ -161,8 +161,8 @@
         "Render a two-column ledger with outstanding items flagged; note CI only sees the last few engagements",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 9,
@@ -180,8 +180,8 @@
         "Recommend 1-3 concrete next actions tied to specific evidence; no generic advice without support",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 10,
@@ -198,8 +198,8 @@
         "Render open objections with status (raised/addressed/recurring); note the last-few-engagements limit",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 11,
@@ -216,8 +216,8 @@
         "Render a decision-process map; mark gaps as 'not stated' rather than inferring",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 12,
@@ -234,8 +234,8 @@
         "Render coaching: what went well, what to improve, focus areas for the next call; cite moments",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 13,
@@ -253,8 +253,8 @@
         "Where evidence is thin, ask the user for input rather than generating generic advice",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 14,
@@ -272,8 +272,8 @@
         "Render pre-renewal context: value delivered, risks, handles; flag unverified assumptions",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 15,
@@ -292,8 +292,8 @@
         "Render a CSM-ready handoff brief",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 16,
@@ -312,8 +312,8 @@
         "Render a one-page exec brief: who/what/why-now, relationship, the ask, landmines",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     },
     {
       "id": 17,
@@ -330,8 +330,8 @@
         "Render summary, current state, and open questions",
         "Prerequisites + fallback"
       ],
-      "passes": false,
-      "completed_at": null
+      "passes": true,
+      "completed_at": "2026-06-30"
     }
   ]
 }

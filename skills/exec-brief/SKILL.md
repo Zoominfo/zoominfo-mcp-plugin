@@ -21,7 +21,7 @@ Provided via `$ARGUMENTS`:
 ## Workflow
 
 1. **Resolve the account** (and key attendees, if named). Use ZoomInfo IDs directly, or resolve via `search_companies` / `search_contacts`.
-2. **Gather, then compress.** Run `account_research` (company + deal context), account-scoped `conversation_intelligence` (recent state, open threads, commitments), and `contact_research` for the attendees, in parallel. Keep CI scoped to the account; it sees only the last few engagements.
+2. **Gather, then compress.** Run `account_research` (company + deal context) and account-scoped `conversation_intelligence` (recent state, open threads, commitments) in parallel. Run `contact_research` only for attendees the user named or that research surfaces as the key deal contacts; if no attendees are known, ask before spending `contact_research` credits rather than researching the whole account. Keep CI scoped to the account; it sees only the last few engagements.
 3. **Write for an exec.** Ruthlessly compress to one page. Lead with why this account matters and why now. Give the exec the single most useful thing to do or say, and the landmines to avoid. Cut firmographic detail that does not change how they show up. Every line earns its place; attribute the relationship claims.
 
 ## Output Format
