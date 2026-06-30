@@ -40,8 +40,7 @@ Parallelize aggressively — once each competitor's company ID is resolved, all 
    - **Resolve company ID** — if the user supplied a ZoomInfo ID, use directly; otherwise `search_companies` (use `companyWebsite` from GTM context's `url` field if present; fall back to `companyName`).
    - **Firmographics** via `enrich_companies` (full field set including `employeeCountByDepartment`, `companyFunding`, `recentFundingDate`, `totalFundingAmount`).
    - **Strategic narrative** via `account_research` — inject the brief purpose, priority angles, and named hypotheses into the query. Ask for go-to-market motion, recent moves, customer wins/losses, leadership changes, direct overlap with your products, and anything that bears on the specific angles named in the context.
-   - **Recent scoops** via `enrich_scoops` (90 days, `pageSize: 15`) — no role filter. Triage in step 7.
-   - **Their intent signals** via `enrich_intent` — call with the `companyId` only. Do **not** pre-filter by topic. The goal is to see what topics this competitor is actually expressing intent on. Filtering happens in step 7. Intent for competitors often returns sparse — note as a confidence indicator if so.
+   - **Recent scoops and intent** via `enrich_company_signals` (`signalTypes: ["SCOOP", "INTENT"]`) — one call returns their recent scoops and intent topics, with no role or topic pre-filtering. Triage in step 7. Intent for competitors often returns sparse — note as a confidence indicator if so.
    - **Their executive team** via `search_contacts` (`managementLevel: "C Level Exec,VP Level Exec"`, sort by `-contactAccuracyScore`, `pageSize: 15`).
    - **Their similar companies** via `find_similar_companies` — apply the cohort-consistency check; if the top peers span inconsistent industries vs the target, flag as directional only.
 
@@ -50,7 +49,7 @@ Parallelize aggressively — once each competitor's company ID is resolved, all 
 6. **Date and currency checks** — if `account_research` surfaces dates in the past (renewal, contract end, exec tenure end, last activity), retain but flag for verification. If a CEO or other top exec named in `account_research` is contradicted by web search, lead with the corrected fact and note the source disagreement.
 
 7. **Synthesize.** Each retrieval is raw context — now decide what makes the brief, framed by the brief purpose and priority angles. Apply these principles:
-   - **Intent triage**: from `enrich_intent`, keep topics that map to the brief purpose, priority angles, or non-obvious competitive signals worth flagging. Drop noise. If nothing meaningful remains, say so explicitly — don't infer roadmap from absence.
+   - **Intent triage**: from the `enrich_company_signals` intent topics, keep those that map to the brief purpose, priority angles, or non-obvious competitive signals worth flagging. Drop noise. If nothing meaningful remains, say so explicitly — don't infer roadmap from absence.
    - **Scoops triage**: keep product launches, exec moves at VP+, partnerships, M&A, hiring patterns relevant to the priority angles. Drop generic press releases.
    - **Verbatim positioning**: pull `reasonsTheyWin`, `reasonsTheyLose`, `customersWeWon` **verbatim** from GTM context. Do not paraphrase or add your own opinions.
    - **Recent moves**: dated, sourced, described without interpretation ("Acquired Pocus on Mar 19" — not "Aggressive M&A signals confidence").
@@ -136,7 +135,7 @@ If anything failed or returned unreliable data during the run, list it here so t
 - Tool errors (parameter type bugs, 400s)
 - Weak `find_similar_companies` cohorts
 - Stale `account_research` records caught by web search
-- Empty `enrich_intent` results
+- Empty `enrich_company_signals` intent results
 
 This section can be omitted if everything ran cleanly.
 
