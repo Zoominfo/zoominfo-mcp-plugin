@@ -22,7 +22,7 @@ Provided via `$ARGUMENTS`:
 
 1. **Anchor on your side.** Call `get_gtm_context` (free) for offerings, ICP, competitors, and priorities. The "why now" only matters relative to what you sell.
 2. **Resolve the company.** Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies`.
-3. **Pull the signals and context.** Run `enrich_company_signals` for the company (all three signal types — intent, news, scoops) and `account_research` for deal/relationship and firmographic context, in parallel.
+3. **Pull the signals and context.** Run `enrich_company_signals` for the company with `signalTypes: ["INTENT", "NEWS", "SCOOP"]` (or omit `signalTypes` entirely, which returns all three) and `account_research` for deal/relationship and firmographic context, in parallel.
 4. **Corroborate and extend with web research.** Use `WebSearch` for recent public developments that ZoomInfo may not carry (announcements, initiatives, leadership statements, funding) and to confirm anything time-sensitive. Capture URLs. Cross-check anything that looks stale.
 5. **Synthesize the case.** Identify the strongest timing reasons — a signal that maps to one of your offerings or to a named risk/initiative. Build the thesis, then derive specific hooks. Ground every hook in a real signal with a date and source. If the signals are thin, say the timing case is weak rather than manufacturing urgency.
 
