@@ -35,8 +35,8 @@ Scores **company-level accounts**, not contacts. Persona-aware ranking is a chai
 | Axis | Question | Source |
 |---|---|---|
 | **Fit** | Does this match our ICP? | `enrich_companies` vs `get_gtm_context.icp` |
-| **Intent** | Are they actively researching the topic? | `enrich_intent` with curated topics |
-| **Trigger** | Fresh event creating a window? | `enrich_news` + `enrich_scoops` (last 90d) |
+| **Intent** | Are they actively researching topics we sell into? | `enrich_company_signals` (intent), matched to GTM priorities |
+| **Trigger** | Fresh event creating a window? | `enrich_company_signals` (news + scoops), last 90d by signal date |
 | **Engagement** | Already interacting with us? | `account_research` narrative for known accounts. If absent, weight redistributed. |
 
 Each axis 0–100 independently. Composite is the weighted sum — never collapsed to an opaque number.
@@ -105,18 +105,16 @@ Tag each resolved account against GTM context. Tag visible on the row before the
 
 In the row label: `⚔️ [Account] (B 62)`. Skill never silently produces "pursue this competitor" rankings.
 
-### 4. Curate intent topics
-From `get_gtm_context.strategicPriorities` (or user-supplied list), derive 5–10 topics. `lookup intent-topics fuzzyMatch=<theme>` — one call per theme (multi-field fuzzyMatch fails silently). If no topics resolve, set intent weight = 0 and redistribute.
+### 4. Define the intent relevance set
+From `get_gtm_context.strategicPriorities`, offerings, and competitor categories (or a user-supplied list), derive 5–10 themes you sell into. `enrich_company_signals` returns each company's active intent topics directly — there is no topic lookup or pre-query step — so these themes are the **match set** used in scoring (step 6): a returned topic counts toward intent only if it maps to one of them. Keep the themes; the matching happens per account during scoring.
 
 ### 5. Fetch data per account (parallel, batched ≤10; chunked for large lists)
 
-For each resolved account, in parallel:
-- `enrich_companies(companyId, fields: industries, employeeCount, revenue, country, metroArea, businessModel, employeeCountByDepartment, foundedYear)`.
-- `enrich_intent(companyId, topics: curated list, signalScoreMin: 60, signalStartDate: 30d ago, pageSize 25)`.
-- `enrich_news(zoominfoCompanyId, last 90d, categories: PERSON,MERGER_OR_ACQUISITION,FUNDING,PRODUCT,FINANCIAL_RESULTS, pageSize 15)`.
-- `enrich_scoops(zoominfoCompanyIds, last 90d, pageSize 10)`.
+Both calls below batch multiple accounts per request, so fetch a chunk of accounts together rather than one-by-one:
+- `enrich_companies(zoominfoCompanyIds: [chunk], fields: industries, employeeCount, revenue, country, metroArea, businessModel, employeeCountByDepartment, foundedYear)` — up to 25 per call.
+- `enrich_company_signals(zoominfoCompanyIds: [chunk], signalTypes: ["INTENT", "NEWS", "SCOOP"])` — up to 10 per call. Returns each account's recent intent topics (each with `signalScore` and `audienceStrength`), news (with `category`), and scoops (with `scoopType`), plus a `date` on every signal. Do **not** pre-filter on score, topic, category, or date — that is applied during scoring (step 6).
 
-**Hard batch limit: ≤10 concurrent per MCP tool type.**
+**Hard batch limit: ≤10 accounts per `enrich_company_signals` call (≤25 per `enrich_companies` call).**
 
 **Batch + context-window discipline.** For lists >25 accounts, process in **chunks of ~25 accounts** end-to-end (resolve → fetch → score → compose row → write chunk → discard raw payloads) before moving to the next chunk. Don't accumulate full raw enrichment payloads for hundreds of accounts in working context — once per-axis scores + the winning trigger event + the winning intent topic are captured per account, drop the rest. For >100-account lists, summarize completed chunks into running totals (tier distribution, top-A list, multi-product anomalies, duplicate-suspected flags, missing-axes counts) and discard the per-account breakdowns from context. Output is built incrementally chunk-by-chunk so a long list doesn't blow context.
 
@@ -137,9 +135,9 @@ Skip `account_research` here; fire selectively in §7.5 for tier-A.
 
 Cache per account; reuse across weight changes.
 
-**Intent (0–100)** — `max(signalScore × audienceStrengthFactor)` from `enrich_intent`. A=1.0 · B=0.85 · C=0.7 · D=0.55 · E=0.4. Cap 100. Record winning topic for "why now." If no data → 0 with "no intent activity in window" flag.
+**Intent (0–100)** — from the `enrich_company_signals` intent topics, keep those that map to the relevance set (step 4) with `signalScore` ≥ 60 in roughly the last 30 days (use each signal's `date`). Score `max(signalScore × audienceStrengthFactor)` over the survivors. A=1.0 · B=0.85 · C=0.7 · D=0.55 · E=0.4 (from `audienceStrength`). Cap 100. Record the winning topic for "why now." If no relevant intent survives → 0 with "no relevant intent activity" flag.
 
-**Trigger (0–100)** — for each event in `enrich_news` + `enrich_scoops` (last 90d):
+**Trigger (0–100)** — from the `enrich_company_signals` news and scoop signals, kept to the last 90 days by each signal's `date` (drop older). Map each signal's news `category` or scoop `scoopType` to the weight below:
 
 ```
 event_score = signal_type_weight × recency_factor
@@ -243,9 +241,8 @@ Terminate when user accepts, saves, or hands off.
 ## Fallback rules
 
 - **`get_gtm_context` empty** → use user-supplied ICP override; surface gap.
-- **Intent topics fail to resolve** → intent weight = 0; redistribute.
-- **`enrich_intent` empty** → score = 0 (real signal, not gap).
-- **`enrich_news` + `enrich_scoops` both empty** → trigger = 0; flag.
+- **No intent returned, or none matching the relevance set** → intent score = 0 (real signal, not a gap).
+- **No news or scoops returned** → trigger = 0; flag.
 - **Engagement unavailable** → weight = 0; redistribute proportionally.
 - **All axes thin** → tier C "monitor only"; honest.
 - **Resolution failure** → list separately; never silently drop.
@@ -316,7 +313,7 @@ engagement: [%]   (redistributed if axis unavailable)
 - **Ambiguous pending** — N accounts not yet scored.
 - **Failed resolutions** — N inputs had no match.
 - **Engagement axis unavailable** — surface per-account (`no CRM signal — consider cross-check`) for each tier-A row.
-- **Intent topic curation per-tenant** — if <50% of curated topics resolve, intent axis is configuration-gap, not signal-absent.
+- **Signal depth** — `enrich_company_signals` returns the most recent signals per type (server-capped), so for very active accounts the intent/trigger axes reflect the most recent window rather than an exhaustive history.
 - **Intent thin** — <3 topics resolved; intent directional.
 - **Stale-signal cliff** — N accounts' best trigger >60d old.
 - **Edge-of-recency** — N trigger events 80–90d.
