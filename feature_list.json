@@ -2,8 +2,8 @@
   "project": "Conversation Intelligence Skills",
   "description": "A suite of GTM skills built on Browse Engagements + Conversation Intelligence (with Account/Contact Research as supporting context).",
   "created": "2026-06-30",
-  "total_features": 19,
-  "completed_features": 19,
+  "total_features": 22,
+  "completed_features": 22,
   "features": [
     {
       "id": 1,
@@ -370,6 +370,66 @@
         "account_research snapshot",
         "browse_engagements + CI per key engagement for value moments/themes/risks/open items",
         "Assemble review-ready pack with suggested QBR focus"
+      ],
+      "passes": true,
+      "completed_at": "2026-06-30"
+    },
+    {
+      "id": 20,
+      "category": "functional",
+      "priority": "p1",
+      "description": "NEW why-now: combine get_gtm_context, enrich_company_signals (all types), account_research, and WebSearch into a why-now timing thesis plus specific hooks tied to real signals and offerings.",
+      "tools": [
+        "get_gtm_context",
+        "enrich_company_signals",
+        "account_research",
+        "search_companies",
+        "WebSearch"
+      ],
+      "steps": [
+        "get_gtm_context",
+        "resolve company",
+        "enrich_company_signals (all) + account_research",
+        "WebSearch to corroborate/extend",
+        "synthesize thesis + 2-4 evidence-tied hooks"
+      ],
+      "passes": true,
+      "completed_at": "2026-06-30"
+    },
+    {
+      "id": 21,
+      "category": "functional",
+      "priority": "p1",
+      "description": "NEW company-intent-monitor: enrich_company_signals scoped to INTENT for one account; return recent topics and analyze alignment vs gtm context.",
+      "tools": [
+        "enrich_company_signals",
+        "get_gtm_context",
+        "search_companies"
+      ],
+      "steps": [
+        "get_gtm_context lens",
+        "resolve company",
+        "enrich_company_signals signalTypes INTENT",
+        "map topics to offerings/ICP; report read"
+      ],
+      "passes": true,
+      "completed_at": "2026-06-30"
+    },
+    {
+      "id": 22,
+      "category": "functional",
+      "priority": "p1",
+      "description": "NEW company-news-monitor: enrich_company_signals scoped to NEWS and SCOOP for one account; grouped recency digest with so-what and items worth acting on.",
+      "tools": [
+        "enrich_company_signals",
+        "get_gtm_context",
+        "search_companies"
+      ],
+      "steps": [
+        "resolve company",
+        "enrich_company_signals signalTypes NEWS+SCOOP",
+        "optional get_gtm_context relevance lens",
+        "grouped digest + worth-acting-on"
       ],
       "passes": true,
       "completed_at": "2026-06-30"
