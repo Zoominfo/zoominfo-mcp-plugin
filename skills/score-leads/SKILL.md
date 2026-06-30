@@ -131,7 +131,7 @@ From `get_gtm_context.strategicPriorities` and offerings, derive 5–10 themes y
 - Signal weights: 95 (M&A, funding, C-suite hire) · 75 (product launch, hiring surge, earnings) · 55 (partnership, new facility) · 45 (pain-point scoop, other PERSON moves) · 25 (generic press).
 - Recency: 0-14d = 1.0 · 14-30d = 0.7 · 30-60d = 0.4 · 60-90d = 0.2 · >90d = 0.
 - **Seat fit:** if event maps to the lead's seat (new CFO → CFO seat; product launch → CRO/CMO seat; hiring surge in dept X → leader of dept X) → 1.0. Otherwise 0.5. Prevents company-level triggers from inflating irrelevant leads.
-- Intent: from the `enrich_company_signals` intent topics that map to the relevance set (step 4) with `signalScore` ≥ 60, `max(signalScore × audienceStrengthFactor)`. A=1.0 · B=0.85 · C=0.7 · D=0.55 · E=0.4 (from `audienceStrength`).
+- Intent: from the `enrich_company_signals` intent topics that map to the relevance set (step 4) with `signalScore` ≥ 60 in roughly the last 30 days (use each signal's `date`) — matching `score-accounts` — `max(signalScore × audienceStrengthFactor)`. A=1.0 · B=0.85 · C=0.7 · D=0.55 · E=0.4 (from `audienceStrength`).
 - Take max(trigger event, intent). Cap 100.
 
 ### 7. Compute composite + assign tier
