@@ -4,7 +4,7 @@
 
 **Started**: 2026-06-30
 **Last session**: 2026-06-30
-**Features completed**: 0 / 17
+**Features completed**: 4 / 17 (P0 complete)
 
 ## Current State
 
@@ -37,7 +37,8 @@
 
 ### Session 1 — 2026-06-30
 
-- **Action**: Harness setup.
-- **Features completed**: None (setup only).
-- **Next up**: Feature #1 — enhance meeting-prep (browse_engagements picker + CI synthesis).
-- **Notes**: Skills are not registered in any manifest; adding a skill = new `skills/{name}/SKILL.md`.
+- **Action**: Harness setup + P0 batch (features 1-4).
+- **Features completed**: 4 / 17 — meeting-prep (enhanced), engagement-timeline, call-recap, daily-brief.
+- **Verification**: skeptical review-only evaluator on the batch. engagement-timeline + call-recap shipped clean; applied fixes to daily-brief (added the CI-limitation guardrail, tightened the credit-confirm threshold) and meeting-prep (made the zoominfoCompanyId vs companyId param handoff explicit, added userIntent to the picker call).
+- **Next up**: Feature #5 — account-relationship-recap (start of P1).
+- **Notes**: Skills are not registered in any manifest; adding a skill = new `skills/{name}/SKILL.md`. Pattern is established; P1-P3 reuse it.
