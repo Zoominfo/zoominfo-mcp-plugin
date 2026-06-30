@@ -2,8 +2,8 @@
   "project": "Conversation Intelligence Skills",
   "description": "A suite of GTM skills built on Browse Engagements + Conversation Intelligence (with Account/Contact Research as supporting context).",
   "created": "2026-06-30",
-  "total_features": 17,
-  "completed_features": 17,
+  "total_features": 19,
+  "completed_features": 19,
   "features": [
     {
       "id": 1,
@@ -329,6 +329,47 @@
         "Run CI with includeContent on the chosen engagement to fetch the email body/thread",
         "Render summary, current state, and open questions",
         "Prerequisites + fallback"
+      ],
+      "passes": true,
+      "completed_at": "2026-06-30"
+    },
+    {
+      "id": 18,
+      "category": "functional",
+      "priority": "p2",
+      "description": "NEW mutual-action-plan: review recent calls, deep CI scoped to single engagements, build a dated two-sided mutual action plan from open items, owners, and timelines discussed. Asks for the target date if not stated.",
+      "tools": [
+        "browse_engagements",
+        "conversation_intelligence",
+        "account_research",
+        "search_companies"
+      ],
+      "steps": [
+        "Resolve account",
+        "browse_engagements to find the few key recent calls",
+        "CI per engagement for open items/next steps/owners/dates",
+        "Confirm goal/target date (ask if not discussed)",
+        "Assemble dated two-sided MAP with gaps flagged"
+      ],
+      "passes": true,
+      "completed_at": "2026-06-30"
+    },
+    {
+      "id": 19,
+      "category": "functional",
+      "priority": "p2",
+      "description": "NEW qbr-prep: QBR prep pack combining account_research snapshot with CI over recent calls for value moments, usage/adoption themes (from conversations, not telemetry), risks, and open items.",
+      "tools": [
+        "account_research",
+        "browse_engagements",
+        "conversation_intelligence",
+        "search_companies"
+      ],
+      "steps": [
+        "Resolve account",
+        "account_research snapshot",
+        "browse_engagements + CI per key engagement for value moments/themes/risks/open items",
+        "Assemble review-ready pack with suggested QBR focus"
       ],
       "passes": true,
       "completed_at": "2026-06-30"
