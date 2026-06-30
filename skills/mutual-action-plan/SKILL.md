@@ -9,7 +9,7 @@ Turn the commitments and timelines from recent calls into a single shared plan: 
 
 ## Prerequisites
 
-`browse_engagements` (to find the calls) is free but requires an active calendar/meeting integration; `conversation_intelligence` (to read them) requires at least one connected meeting or email source and consumes AI credits, and this skill calls it once per key engagement. `account_research` (optional deal context) consumes AI credits. If no conversation data exists, say so rather than inventing a plan.
+`browse_engagements` (to find the calls) is free but requires an active calendar/meeting integration; `conversation_intelligence` (to read them) requires at least one connected meeting or email source and consumes AI credits (minimum ~9 per call), and this skill calls it once per key engagement, so the spend scales with how many calls you deep-read. `account_research` (optional deal context) consumes AI credits. If no conversation data exists, say so rather than inventing a plan.
 
 ## Input
 
@@ -20,7 +20,7 @@ Provided via `$ARGUMENTS`:
 
 ## Workflow
 
-1. **Resolve the account.** Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies` (`browse_engagements` filters by company ID + date, not by name).
+1. **Resolve the account.** If no account was supplied, ask the user which one before proceeding. Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies` (`browse_engagements` filters by company ID + date, not by name).
 2. **Find the recent calls.** Call `browse_engagements` (account-scoped, `engagementType: MEETINGS`, `sort: -chronological`). Pick the few most recent substantive calls that carry plan-relevant content (typically the last 2-4); each gets its own CI call, which costs credits, so do not fan out across the whole history. Keep their engagement IDs.
 3. **Deep-read each call.** Run `conversation_intelligence` scoped to each engagement ID (one CI call per engagement) for open items, agreed next steps, who owns each (us vs them), and any dates, deadlines, or sequencing discussed. Keep each query to its single engagement; CI sees only the last few engagements and cannot topic-search or count.
 4. **Confirm the goal.** If a target close/go-live date or objective was discussed, anchor the plan on it. If the plan needs one and it was never stated, ask the user rather than inventing a date.

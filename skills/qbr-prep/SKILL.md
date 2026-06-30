@@ -9,7 +9,7 @@ Everything to walk into a quarterly business review: what value landed, what the
 
 ## Prerequisites
 
-`account_research` and `conversation_intelligence` consume AI credits, and this skill runs CI once per key engagement, so it can be credit-heavy. `browse_engagements` (to find the calls) is free but requires an active calendar/meeting integration; `conversation_intelligence` requires at least one connected meeting or email source. If no conversation data exists, build the pack from `account_research` and flag that value moments and themes could not be drawn from conversations, pointing the user to their ZoomInfo admin.
+`account_research` and `conversation_intelligence` consume AI credits (CI is a minimum ~9 per call), and this skill runs `account_research` plus CI once per key engagement, so it can be credit-heavy. `browse_engagements` (to find the calls) is free but requires an active calendar/meeting integration; `conversation_intelligence` requires at least one connected meeting or email source. If no conversation data exists, build the pack from `account_research` and flag that value moments and themes could not be drawn from conversations, pointing the user to their ZoomInfo admin.
 
 ## Input
 
@@ -20,9 +20,9 @@ Provided via `$ARGUMENTS`:
 
 ## Workflow
 
-1. **Resolve the account.** Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies`.
+1. **Resolve the account.** If no account was supplied, ask the user which one before proceeding. Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies`.
 2. **Snapshot the account.** Run `account_research` for the deal/relationship picture, stakeholders, and recent firmographic/news context. This frames the review.
-3. **Read recent calls.** Call `browse_engagements` (account-scoped, `sort: -chronological`) and pick the few most relevant recent calls (typically the last 2-4 — each gets its own CI call, which costs credits). Run `conversation_intelligence` scoped to each engagement ID (one call per engagement) for value moments the customer voiced, usage and adoption themes they raised, risks and concerns, and open items. Keep each query to its single engagement; CI sees only the last few engagements and cannot topic-search or count.
+3. **Read recent calls.** Call `browse_engagements` (account-scoped, `engagementType: MEETINGS`, `sort: -chronological`) and pick the few most relevant recent calls (typically the last 2-4 — each gets its own CI call, which costs credits). Run `conversation_intelligence` scoped to each engagement ID (one call per engagement) for value moments the customer voiced, usage and adoption themes they raised, risks and concerns, and open items. Keep each query to its single engagement; CI sees only the last few engagements and cannot topic-search or count.
 4. **Assemble the pack.** Synthesize into a review-ready structure. Ground value moments and risks in specific conversations or CRM context with sources; do not assert outcomes the evidence does not support. Note that usage/adoption themes here come from what was discussed, not from product telemetry (ZoomInfo does not have product-usage data).
 
 ## Output Format
