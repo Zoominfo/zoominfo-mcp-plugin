@@ -1,0 +1,22 @@
+name: Validate skills
+
+# Enforces the SKILL.md frontmatter + length contract on every change to a skill.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "skills/**"
+      - "scripts/validate-skills.mjs"
+      - ".github/workflows/validate-skills.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Validate skills
+        run: node scripts/validate-skills.mjs
