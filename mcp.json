@@ -4,8 +4,9 @@
       "command": "npx",
       "args": [
         "-y",
-        "mcp-remote@0.1.16",
+        "mcp-remote@0.1.38",
         "https://mcp.zoominfo.com/mcp",
+        "46818",
         "--static-oauth-client-metadata",
         "{\"scope\":\"openid profile email offline_access zi_api zi_mcp api:data:mcp\"}"
       ]
