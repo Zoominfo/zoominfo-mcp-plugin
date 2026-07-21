@@ -165,12 +165,12 @@ Tag the resolved company. **Wait for user confirmation when the label is anythin
 Pull only what the use case needs:
 
 - **Always:** `enrich_companies` (companyId, fields: description, industries, employeeCount, revenue, ...).
-- **Cold / re-engagement / chaser:** `enrich_news` (90d, categories: PERSON, MERGER_OR_ACQUISITION, FUNDING, PRODUCT, FINANCIAL_RESULTS, pageSize 20) + `enrich_scoops` (90d, pageSize 15) + curated `enrich_intent` (skip if no topics resolve).
+- **Cold / re-engagement / chaser:** `enrich_company_signals` (`signalTypes: ["NEWS", "SCOOP", "INTENT"]`) — returns recent news, scoops, and intent in one call. Rank and filter in step 5 (the news category, e.g. funding / M&A / product / leadership, is carried on each returned signal).
 - **Discovery follow-up / demo recap / renewal / expansion / objection_handling:** primarily `contact_research` + `account_research` for prior-touchpoint reconstruction; news/scoops only as supporting context.
 
 Always run `contact_research` for the prospect (unless record is stale), with a query tuned to the use case.
 
-`enrich_intent` — only after `lookup` resolves intent topics for GTM themes. Never call with empty topics (returns alphabetically-first 50 = noise).
+`enrich_company_signals` resolves intent topics server-side, so there is no need to pre-resolve topics via `lookup` — request `INTENT` in `signalTypes` and triage the returned topics in step 5.
 
 ### 5. Pick the anchor
 

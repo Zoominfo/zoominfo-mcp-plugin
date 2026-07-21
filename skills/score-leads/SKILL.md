@@ -35,7 +35,7 @@ Scores **individual leads**, not accounts. Use `score-accounts` for company-leve
 | **Person fit** | Is this individual a buyer persona? | `enrich_contacts` | **35%** |
 | **Account fit** | Does their employer match ICP? | `enrich_companies` vs `get_gtm_context.icp` | **25%** |
 | **Source signal** | What action got us this lead? | User-supplied | **25%** |
-| **Trigger / intent** | Fresh event or intent at the employer? | `enrich_news` + `enrich_scoops` + `enrich_intent` | **15%** |
+| **Trigger / intent** | Fresh event or intent at the employer? | `enrich_company_signals` (news + scoops + intent) | **15%** |
 
 Weights overridable. Each axis 0–100; composite is the weighted sum.
 
@@ -89,14 +89,13 @@ The relationship tag appears in the headline before the tier emoji.
 
 For Hot leads at `customer` or `competitor` companies: pause before pushing to cold-outbound AE; surface the routing question first.
 
-### 4. Curate intent topics (only if trigger weight > 0)
-From `get_gtm_context.strategicPriorities`, derive 5–10 topics via `lookup intent-topics fuzzyMatch=<theme>` — one call per theme. If no topics resolve, trigger weight = 0; redistribute.
+### 4. Define the intent relevance set (only if trigger weight > 0)
+From `get_gtm_context.strategicPriorities` and offerings, derive 5–10 themes you sell into. `enrich_company_signals` returns each employer's active intent topics directly — no topic lookup or pre-query — so these themes are the **match set** for the intent portion of the trigger axis in step 6: a returned topic counts only if it maps to one.
 
 ### 5. Fetch data per lead (parallel, batched ≤10; chunked for large lists)
 - `enrich_contacts(personId, fields: jobTitle, managementLevel, department, contactAccuracyScore, hasDirectPhone, hasMobilePhone, hasEmail, directPhone, mobilePhone, email)`.
 - `enrich_companies(zoominfoCompanyId, fit-scoring fields)`.
-- `enrich_news` + `enrich_scoops` for the employer — only if trigger weight > 0.
-- `enrich_intent` with curated topics — only if trigger weight > 0.
+- `enrich_company_signals(zoominfoCompanyIds: [unique employer IDs], signalTypes: ["NEWS", "SCOOP", "INTENT"])` for the employers — only if trigger weight > 0. One batched call (≤10 company IDs) covers news, scoops, and intent; dedupe employers across leads so a shared company is fetched once. No pre-filtering on score, category, topic, or date — applied in step 6.
 
 **Batch + context-window discipline.** Process in **chunks of ~25 leads** end-to-end (resolve → fetch → score → compose row → write chunk → discard raw payloads) before moving to the next chunk. Don't accumulate full raw enrichment payloads for hundreds of leads in working context — once per-axis scores + the winning signal/topic strings are captured per lead, drop the rest. For >50-lead lists, summarize completed chunks into running totals (tier distribution, top-Hot list, missing-axes counts) and discard their per-lead breakdowns from context.
 
@@ -127,12 +126,12 @@ From `get_gtm_context.strategicPriorities`, derive 5–10 topics via `lookup int
 | `newsletter_subscribe` | 25 |
 | `unknown` | 50 (default; flag) |
 
-**Trigger / intent (0–100)** — same logic as `score-accounts`, with **seat-fit modifier**:
-- `event_score = signal_type_weight × recency_factor × seat_fit`.
+**Trigger / intent (0–100)** — same logic as `score-accounts` (news, scoops, and intent come from `enrich_company_signals`, filtered to the last 90 days by each signal's `date`), with **seat-fit modifier**:
+- `event_score = signal_type_weight × recency_factor × seat_fit`, where `signal_type_weight` maps from each signal's news `category` or scoop `scoopType`.
 - Signal weights: 95 (M&A, funding, C-suite hire) · 75 (product launch, hiring surge, earnings) · 55 (partnership, new facility) · 45 (pain-point scoop, other PERSON moves) · 25 (generic press).
 - Recency: 0-14d = 1.0 · 14-30d = 0.7 · 30-60d = 0.4 · 60-90d = 0.2 · >90d = 0.
 - **Seat fit:** if event maps to the lead's seat (new CFO → CFO seat; product launch → CRO/CMO seat; hiring surge in dept X → leader of dept X) → 1.0. Otherwise 0.5. Prevents company-level triggers from inflating irrelevant leads.
-- Intent: `max(signalScore × audienceStrengthFactor)`. A=1.0 · B=0.85 · C=0.7 · D=0.55 · E=0.4.
+- Intent: from the `enrich_company_signals` intent topics that map to the relevance set (step 4) with `signalScore` ≥ 60 in roughly the last 30 days (use each signal's `date`) — matching `score-accounts` — `max(signalScore × audienceStrengthFactor)`. A=1.0 · B=0.85 · C=0.7 · D=0.55 · E=0.4 (from `audienceStrength`).
 - Take max(trigger event, intent). Cap 100.
 
 ### 7. Compute composite + assign tier
@@ -220,8 +219,7 @@ Re-execute step 5 only when lead list changes; otherwise recompute from cached a
 - **Source missing** → ask once; else 50 with flag.
 - **Email no match** → failed; do NOT fall back to name search. If domain edit-distance ≤2 from a known-company domain (from GTM context or batch's resolved set), suggest the closest (e.g., `firstname@compny.com` → "did you mean `firstname@company.com`?").
 - **Name + company multi-match** → verified with note OR ambiguous.
-- **Intent topics unconfigured** → trigger weight = 0; redistribute.
-- **`enrich_news` + `enrich_scoops` empty** → trigger = 0; don't pad.
+- **`enrich_company_signals` returns no relevant intent and no news/scoops for the employer** → trigger = 0; don't pad (absence of trigger is a real score, not a weight-redistribution case).
 - **Contact accuracy <75** → flag on the row; recommend verification before dialing.
 
 Never block tiering on a single missing axis. Never invent contact data or source.
@@ -293,7 +291,7 @@ SLAs adapt to the use case (see Tier + SLA table).
 - **Source missing on N leads** — defaulted to 50; backfill for precision.
 - **Failed resolutions** — N unresolved; review.
 - **Low contact accuracy on Hot leads** — N have acc <85; verify phone before dialing.
-- **Trigger axis configured-low** — per-tenant intent-topic curation needed.
+- **Signal depth** — `enrich_company_signals` returns the most recent signals per type, so the trigger axis reflects the most recent window for very active employers.
 - **GTM-context gap** — personas sparse; person-fit reduced.
 - **Stale records** — N leads' records >12mo old; current title may have changed.
 
