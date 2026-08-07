@@ -1,6 +1,6 @@
 ---
 name: renewal-prep
-description: Prepare for a renewal by assembling pre-renewal context — value delivered and value moments, risk handles, and stakeholder state — from recent conversations and account_research. Identify the account by ZoomInfo company ID (preferred) or name/domain (triggers a lookup). Use when someone asks "prep me for the Acme renewal", "what's our case for renewal", "what are the risks going into this renewal", or wants a renewal brief. Strictly evidence-based: it does not assume the renewal date or terms; if those are not provided, it asks the user before drafting.
+description: 'Prepare for a renewal by assembling pre-renewal context — value delivered and value moments, risk handles, and stakeholder state — from recent conversations and account_research. Identify the account by ZoomInfo company ID (preferred) or name/domain (triggers a lookup). Use when someone asks "prep me for the Acme renewal", "what''s our case for renewal", "what are the risks going into this renewal", or wants a renewal brief. Strictly evidence-based: it does not assume the renewal date or terms; if those are not provided, it asks the user before drafting.'
 ---
 
 # Renewal Prep
