@@ -1,6 +1,6 @@
 ---
 name: mutual-action-plan
-description: Build a mutual action plan (MAP) from what was actually discussed on recent calls — the shared, dated set of steps each side owns to reach the goal. Reviews recent engagements and goes deep with conversation_intelligence scoped to individual calls to pull open items, agreed next steps, owners, and the timelines discussed. Identify the account by ZoomInfo company ID (preferred) or name/domain (triggers a lookup). Use when someone says "build a mutual action plan for Acme", "turn our last calls into a MAP", "what are the next steps and dates on both sides", or needs a close or onboarding plan. Evidence-based: it plans only what was discussed and asks for the target date if one was not stated.
+description: 'Build a mutual action plan (MAP) from what was actually discussed on recent calls — the shared, dated set of steps each side owns to reach the goal. Reviews recent engagements and goes deep with conversation_intelligence scoped to individual calls to pull open items, agreed next steps, owners, and the timelines discussed. Identify the account by ZoomInfo company ID (preferred) or name/domain (triggers a lookup). Use when someone says "build a mutual action plan for Acme", "turn our last calls into a MAP", "what are the next steps and dates on both sides", or needs a close or onboarding plan. Evidence-based: it plans only what was discussed and asks for the target date if one was not stated.'
 ---
 
 # Mutual Action Plan

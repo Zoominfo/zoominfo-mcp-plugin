@@ -1,6 +1,6 @@
 ---
 name: account-health
-description: Assess the health of an account from its recent conversations — sentiment trajectory and risk signals — backed by an engagement timeline and an account_research snapshot. Identify the account by ZoomInfo company ID (preferred) or name/domain (triggers a lookup). Use when someone asks "how healthy is Acme", "are we at risk of churn here", "what's the sentiment trend", or wants a risk read before a QBR or renewal. Strictly evidence-based: it does not invent risk or generic advice, and it asks the user for input where the conversations do not settle the question.
+description: 'Assess the health of an account from its recent conversations — sentiment trajectory and risk signals — backed by an engagement timeline and an account_research snapshot. Identify the account by ZoomInfo company ID (preferred) or name/domain (triggers a lookup). Use when someone asks "how healthy is Acme", "are we at risk of churn here", "what''s the sentiment trend", or wants a risk read before a QBR or renewal. Strictly evidence-based: it does not invent risk or generic advice, and it asks the user for input where the conversations do not settle the question.'
 ---
 
 # Account Health
