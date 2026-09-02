@@ -9,13 +9,6 @@
     "url": "https://github.com/Zoominfo/zoominfo-mcp-plugin",
     "source": "github"
   },
-  "icons": [
-    {
-      "src": "https://res.cloudinary.com/zoominfo-images/image/upload/w_100,h_100,c_fit/zoominfo.com",
-      "mimeType": "image/png",
-      "sizes": ["100x100"]
-    }
-  ],
   "remotes": [
     {
       "type": "streamable-http",
