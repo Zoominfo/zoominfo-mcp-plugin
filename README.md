@@ -27,9 +27,7 @@ This repo packages ZoomInfo's hosted MCP server with client-specific plugin meta
 
 ## MCP Server
 
-The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp`). Authentication is handled through your ZoomInfo account via OAuth — no API keys are stored in this repo. Two registration styles are used depending on the client's MCP implementation:
-
-**Direct HTTP** — for clients whose MCP runtime completes the OAuth handshake natively (Claude, Codex). Defined in `.mcp.json`:
+The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp`). Authentication is handled through your ZoomInfo account via OAuth — no API keys are stored in this repo. Clients connect over HTTP and complete the OAuth flow natively. The same registration is defined in `.mcp.json` (Claude, Codex) and `mcp.json` (Cursor):
 
 ```json
 {
@@ -41,27 +39,6 @@ The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp
   }
 }
 ```
-
-**Local stdio bridge (`mcp-remote`)** — for Cursor, whose native client cannot complete this server's OAuth discovery directly. `mcp-remote` runs the OAuth flow locally (opening a browser on first use, then caching and refreshing tokens) and bridges to the client over stdio. Defined in `mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "zoominfo": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote@0.1.16",
-        "https://mcp.zoominfo.com/mcp",
-        "--static-oauth-client-metadata",
-        "{\"scope\":\"openid profile email offline_access zi_api zi_mcp api:data:mcp\"}"
-      ]
-    }
-  }
-}
-```
-
-> The `mcp-remote` bridge requires Node.js (`npx`) on the local machine. On first connection it opens a browser for ZoomInfo sign-in; subsequent launches reuse cached tokens.
 
 ## Client Support
 
@@ -117,7 +94,7 @@ Skills are task-focused playbooks the agent follows to return structured outputs
   plugin.json
   marketplace.json
 .mcp.json            # direct HTTP registration (Claude / Codex)
-mcp.json             # mcp-remote bridge registration (Cursor)
+mcp.json             # direct HTTP registration (Cursor)
 assets/
   zoominfo-logo.svg
   zoominfo-logo-dark.svg
