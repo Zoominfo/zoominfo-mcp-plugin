@@ -80,5 +80,5 @@
   ],
   "logo": "./assets/zoominfo-logomark-red.svg",
   "skills": "./skills/",
-  "mcpServers": "./mcp.json"
+  "mcpServers": "./.mcp.json"
 }

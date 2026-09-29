@@ -27,7 +27,7 @@ This repo packages ZoomInfo's hosted MCP server with client-specific plugin meta
 
 ## MCP Server
 
-The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp`). Authentication is handled through your ZoomInfo account via OAuth — no API keys are stored in this repo. Clients connect over HTTP and complete the OAuth flow natively. The same registration is defined in `.mcp.json` (Claude, Codex) and `mcp.json` (Cursor):
+The plugin registers ZoomInfo's hosted MCP server (`https://mcp.zoominfo.com/mcp`). Authentication is handled through your ZoomInfo account via OAuth — no API keys are stored in this repo. Clients connect over HTTP and complete the OAuth flow natively. All clients share the registration defined in `.mcp.json`:
 
 ```json
 {
@@ -46,8 +46,7 @@ This repository includes metadata for multiple plugin-capable client environment
 
 | Path | Purpose |
 |---|---|
-| `.mcp.json` | MCP server registration (Claude / Codex) |
-| `mcp.json` | MCP server registration (Cursor) |
+| `.mcp.json` | MCP server registration (all clients) |
 | `.codex-plugin/plugin.json` | Codex/OpenAI plugin metadata |
 | `.claude-plugin/plugin.json` | Claude plugin metadata |
 | `.claude-plugin/marketplace.json` | Claude marketplace metadata |
@@ -93,8 +92,7 @@ Skills are task-focused playbooks the agent follows to return structured outputs
 .cursor-plugin/
   plugin.json
   marketplace.json
-.mcp.json            # direct HTTP registration (Claude / Codex)
-mcp.json             # direct HTTP registration (Cursor)
+.mcp.json            # MCP server registration (all clients)
 assets/
   zoominfo-logo.svg
   zoominfo-logo-dark.svg
