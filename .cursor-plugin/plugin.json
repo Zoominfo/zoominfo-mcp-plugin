@@ -1,7 +1,7 @@
 {
   "name": "zoominfo",
   "displayName": "ZoomInfo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "category": "Productivity",
   "tags": ["sales", "enrichment", "prospecting", "intent", "crm", "automation"],
   "description": "Connect AI agents to ZoomInfo's verified GTM context graph: 100M companies, 300M professional contacts, buyer intent signals, and real-time scoops. Build prospect lists, enrich records, deep research key organizations, find decision-makers, and prioritize accounts by intent. The B2B sales intelligence layer for Cursor and any MCP-compatible agent.",
@@ -80,5 +80,5 @@
   ],
   "logo": "./assets/zoominfo-logomark-red.svg",
   "skills": "./skills/",
-  "mcpServers": "./mcp.json"
+  "mcpServers": "./.mcp.json"
 }
