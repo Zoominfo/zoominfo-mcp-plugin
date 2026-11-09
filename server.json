@@ -3,7 +3,7 @@
   "name": "io.github.Zoominfo/zoominfo-mcp",
   "title": "ZoomInfo",
   "description": "Official ZoomInfo MCP server. Search and enrich companies, contacts, and buyer intent signals.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "websiteUrl": "https://www.zoominfo.com",
   "repository": {
     "url": "https://github.com/Zoominfo/zoominfo-mcp-plugin",

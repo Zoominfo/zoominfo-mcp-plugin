@@ -102,6 +102,7 @@ assets/
   zoominfo-logomark-red.svg
 skills/
   */SKILL.md
+CHANGELOG.md
 LICENSE
 ```
 
