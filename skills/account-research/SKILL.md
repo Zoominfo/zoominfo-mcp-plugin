@@ -1,6 +1,6 @@
 ---
 name: account-research
-description: Produce a full intelligence brief on a target company — firmographics, CRM/account context, intent signals, recent news, scoops, and competitive landscape — framed by your GTM context and led with a TL;DR summary. Identify the account by ZoomInfo account/company ID (preferred) or by company name, domain, or ticker (which triggers a lookup step). Include detailed context on why the brief is being pulled.
+description: Produce a full intelligence brief on a target company — firmographics, CRM/account context, intent signals, recent news, scoops, and competitive landscape — framed by your GTM context and led with a TL;DR summary. Identify the account by ZoomInfo account/company ID (preferred) or by company name, domain, or ticker (which triggers a lookup step). Include detailed context on why the brief is being pulled. Use when someone asks "research Acme", "give me a brief on this account", or "what should I know about Acme before I reach out".
 ---
 
 # Account Research

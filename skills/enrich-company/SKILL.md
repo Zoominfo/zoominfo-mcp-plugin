@@ -1,6 +1,6 @@
 ---
 name: enrich-company
-description: Look up a company's full profile. Provide a company name, domain, ticker symbol, or ZoomInfo company ID. Returns firmographics, financials, corporate structure, growth signals, and contact counts.
+description: Look up a company's full profile. Provide a company name, domain, ticker symbol, or ZoomInfo company ID. Returns firmographics, financials, corporate structure, growth signals, and contact counts. Use when someone asks "tell me about Acme", "enrich this company", or "how big is acme.com".
 ---
 
 # Enrich Company
