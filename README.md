@@ -52,6 +52,7 @@ This repository includes metadata for multiple plugin-capable client environment
 | `.claude-plugin/marketplace.json` | Claude marketplace metadata |
 | `.cursor-plugin/plugin.json` | Cursor plugin metadata |
 | `.cursor-plugin/marketplace.json` | Cursor marketplace metadata |
+| `.gemini-plugin/plugin.json` | Gemini and Gemini Agent plugin metadata |
 | `skills/` | Task-specific workflows usable by clients that support skills |
 
 Install or register the plugin according to your client's plugin or MCP workflow. For local development, clone this repository and point your client at the repo root or relevant manifest path.
@@ -92,6 +93,8 @@ Skills are task-focused playbooks the agent follows to return structured outputs
 .cursor-plugin/
   plugin.json
   marketplace.json
+.gemini-plugin/
+  plugin.json        # manifest only; skills/ and .mcp.json stay at the root
 .mcp.json            # MCP server registration (all clients)
 assets/
   zoominfo-logo.svg
@@ -99,8 +102,11 @@ assets/
   zoominfo-logomark-red.svg
 skills/
   */SKILL.md
+CHANGELOG.md
 LICENSE
 ```
+
+When adding or removing a skill, also update the explicit `skills` list in `.gemini-plugin/plugin.json`. `node scripts/validate-skills.mjs` fails if the two drift apart.
 
 ## License
 

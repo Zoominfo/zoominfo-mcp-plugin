@@ -1,6 +1,6 @@
 ---
 name: enrich-contact
-description: Look up a person's full professional profile. Provide a name and company, email address, phone number, or ZoomInfo person ID. Returns title, department, contact details, accuracy score, and company info.
+description: Look up a person's full professional profile. Provide a name and company, email address, phone number, or ZoomInfo person ID. Returns title, department, contact details, accuracy score, and company info. Use when someone asks "look up Jane Doe at Acme", "enrich this contact", or "what is this person's current title".
 ---
 
 # Enrich Contact

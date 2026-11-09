@@ -1,6 +1,6 @@
 ---
 name: competitor-analysis
-description: Produce a fact-led competitive intel brief on one or more competitors — firmographics, recent strategic moves, product positioning, ICP overlap, and discovery questions. Defaults to your configured competitors from GTM context if none specified. Combines ZoomInfo data (account_research, scoops, intent, exec teams, similar companies) with web search for product/pricing/customer-sentiment intelligence. Identify competitors by ZoomInfo account/company ID (preferred) or name; include rich context on why the brief is being pulled and what decision it supports.
+description: Produce a fact-led competitive intel brief on one or more competitors — firmographics, recent strategic moves, product positioning, ICP overlap, and discovery questions. Defaults to your configured competitors from GTM context if none specified. Combines ZoomInfo data (account_research, scoops, intent, exec teams, similar companies) with web search for product/pricing/customer-sentiment intelligence. Identify competitors by ZoomInfo account/company ID (preferred) or name; include rich context on why the brief is being pulled and what decision it supports. Use when someone asks "how do we stack up against Acme", "build me a battle card", or "what has this competitor been up to".
 ---
 
 # Competitor Analysis

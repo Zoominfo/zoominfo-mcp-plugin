@@ -1,6 +1,6 @@
 ---
 name: find-similar
-description: Find companies or contacts similar to a given reference. Provide a company name/domain or a person's name/email and get a ranked list of lookalikes scored by similarity. Useful for territory expansion, TAM analysis, competitive mapping, expanding buyer networks, and building targeted prospecting lists.
+description: Find companies or contacts similar to a given reference. Provide a company name/domain or a person's name/email and get a ranked list of lookalikes scored by similarity. Useful for territory expansion, TAM analysis, competitive mapping, expanding buyer networks, and building targeted prospecting lists. Use when someone asks "find companies like Acme", "show me lookalikes", or "find people similar to this champion".
 ---
 
 # Find Similar
