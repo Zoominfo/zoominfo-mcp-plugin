@@ -5,11 +5,13 @@ on:
     branches: [main]
     paths:
       - "skills/**"
+      - ".gemini-plugin/**"
       - "scripts/validate-skills.mjs"
       - ".github/workflows/validate-skills.yml"
   pull_request:
     paths:
       - "skills/**"
+      - ".gemini-plugin/**"
       - "scripts/validate-skills.mjs"
       - ".github/workflows/validate-skills.yml"
 

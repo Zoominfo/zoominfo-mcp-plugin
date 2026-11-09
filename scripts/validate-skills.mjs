@@ -157,4 +157,20 @@ for (const dir of dirs) {
 }
 
 console.log(`\n${dirs.length} skills checked, ${failed} failed`);
-process.exit(failed === 0 ? 0 : 1);
+
+// The Gemini manifest lists skills explicitly (no directory discovery), so it
+// must stay in sync with skills/: every skill dir listed, every entry real.
+const GEMINI_MANIFEST = '.gemini-plugin/plugin.json';
+let manifestFailed = false;
+if (existsSync(GEMINI_MANIFEST)) {
+  const listed = JSON.parse(readFileSync(GEMINI_MANIFEST, 'utf8')).skills ?? [];
+  const expected = new Set(dirs.map((d) => `./skills/${d}/SKILL.md`));
+  const missing = [...expected].filter((p) => !listed.includes(p));
+  const stale = listed.filter((p) => !expected.has(p));
+  for (const p of missing) console.error(`FAIL ${GEMINI_MANIFEST}: skills[] is missing ${p}`);
+  for (const p of stale) console.error(`FAIL ${GEMINI_MANIFEST}: skills[] lists ${p}, which has no matching skill directory`);
+  manifestFailed = missing.length > 0 || stale.length > 0;
+  if (!manifestFailed) console.log(`ok   ${GEMINI_MANIFEST} skills[] matches skills/`);
+}
+
+process.exit(failed === 0 && !manifestFailed ? 0 : 1);
