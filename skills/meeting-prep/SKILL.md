@@ -42,7 +42,7 @@ Parallelize aggressively — most calls only need the `companyId` and can fan ou
 
 3. **Resolve the company.**
    - If the user supplied a ZoomInfo account/company ID, use it directly as `companyId` — do not call `search_companies`.
-   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTicker` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
+   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTickerList` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
 
 4. **Fan out company research in parallel (retrieval, not filtering).** Treat each tool call as a context-retrieval step. Pull broadly now; decide what's relevant during synthesis. Steps that only need the `companyId` can run together — `account_research`, `enrich_companies`, and `enrich_company_signals` (intent, news, and scoops in one call).
    - **Tailor the `account_research` query to the meeting purpose.** Don't pass a generic "tell me about this account" string. Inject the full meeting context — purpose, desired outcome, priority topics, named hypotheses, attendees if known — and ask for relationship history, deal context, engagement signals, competitive presence, and anything that would change how you walk into the meeting.

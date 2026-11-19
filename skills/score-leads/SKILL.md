@@ -93,8 +93,8 @@ For Hot leads at `customer` or `competitor` companies: pause before pushing to c
 From `get_gtm_context.strategicPriorities` and offerings, derive 5–10 themes you sell into. `enrich_company_signals` returns each employer's active intent topics directly — no topic lookup or pre-query — so these themes are the **match set** for the intent portion of the trigger axis in step 6: a returned topic counts only if it maps to one.
 
 ### 5. Fetch data per lead (parallel, batched ≤10; chunked for large lists)
-- `enrich_contacts(personId, fields: jobTitle, managementLevel, department, contactAccuracyScore, hasDirectPhone, hasMobilePhone, hasEmail, directPhone, mobilePhone, email)`.
-- `enrich_companies(zoominfoCompanyId, fit-scoring fields)`.
+- `enrich_contacts(contacts: [{"personId": "<id>"}, ...], requiredFields: ["jobTitle", "managementLevel", "jobFunction", "contactAccuracyScore", "email", "phone", "mobilePhone"])` — up to 10 per call. `phone` is the direct dial; a populated `email` / `phone` / `mobilePhone` is what the completeness score counts.
+- `enrich_companies(companies: [{"companyId": "<id>"}, ...], requiredFields: [fit-scoring fields])` — up to 10 per call.
 - `enrich_company_signals(zoominfoCompanyIds: [unique employer IDs], signalTypes: ["NEWS", "SCOOP", "INTENT"])` for the employers — only if trigger weight > 0. One batched call (≤10 company IDs) covers news, scoops, and intent; dedupe employers across leads so a shared company is fetched once. No pre-filtering on score, category, topic, or date — applied in step 6.
 
 **Batch + context-window discipline.** Process in **chunks of ~25 leads** end-to-end (resolve → fetch → score → compose row → write chunk → discard raw payloads) before moving to the next chunk. Don't accumulate full raw enrichment payloads for hundreds of leads in working context — once per-axis scores + the winning signal/topic strings are captured per lead, drop the rest. For >50-lead lists, summarize completed chunks into running totals (tier distribution, top-Hot list, missing-axes counts) and discard their per-lead breakdowns from context.
@@ -106,7 +106,7 @@ From `get_gtm_context.strategicPriorities` and offerings, derive 5–10 themes y
 | Dimension | Max | Banded |
 |---|---|---|
 | Management level | 30 | C = 30 · VP = 25 · Director = 18 · Manager = 10 · Non-Manager = 3 |
-| Department | 25 | Primary persona dept = 25 · adjacent = 15 · unrelated = 0 |
+| Job function | 25 | Primary persona function = 25 · adjacent = 15 · unrelated = 0 |
 | Job-title keyword | 20 | Exact = 20 · partial = 10 · none = 0 |
 | Contact accuracy | 15 | ≥95 = 15 · 85–94 = 10 · 75–84 = 5 · <75 = 0 |
 | Contact data completeness | 10 | email + direct + mobile = 10 · email + one phone = 7 · email only = 4 · none = 0 |

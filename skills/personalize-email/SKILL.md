@@ -164,7 +164,7 @@ Tag the resolved company. **Wait for user confirmation when the label is anythin
 
 Pull only what the use case needs:
 
-- **Always:** `enrich_companies` (companyId, fields: description, industries, employeeCount, revenue, ...).
+- **Always:** `enrich_companies` (`companies: [{"companyId": "<id>"}]`, `requiredFields: ["description", "industries", "employeeCount", "revenue", ...]`).
 - **Cold / re-engagement / chaser:** `enrich_company_signals` (`signalTypes: ["NEWS", "SCOOP", "INTENT"]`) — returns recent news, scoops, and intent in one call. Rank and filter in step 5 (the news category, e.g. funding / M&A / product / leadership, is carried on each returned signal).
 - **Discovery follow-up / demo recap / renewal / expansion / objection_handling:** primarily `contact_research` + `account_research` for prior-touchpoint reconstruction; news/scoops only as supporting context.
 

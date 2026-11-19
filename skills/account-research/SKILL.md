@@ -27,7 +27,7 @@ The user will provide via `$ARGUMENTS` an account identifier (required) plus opt
 
 3. **Resolve the company.**
    - If the user supplied a ZoomInfo account/company ID, use it directly as `companyId` — do not call `search_companies`.
-   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTicker` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
+   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTickerList` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
 
 4. **Fetch in parallel (retrieval, not filtering).** Treat each tool call as a context-retrieval step. Pull broadly now; decide what's relevant during synthesis. Steps that only need the `companyId` can run in parallel — `enrich_companies`, `account_research`, `enrich_company_signals` (intent, news, and scoops in one call — see below), and `find_similar_companies`.
    - **Tailor the `account_research` query to the brief purpose.** Don't pass a generic "tell me about this account" string. Instead, name the purpose and the priority themes — e.g., *"Preparing for a QBR. Surface renewal status, contract dates, recent engagement, open expansion conversations, named champions and detractors, and any signs of competitive evaluation."* The more context the better.

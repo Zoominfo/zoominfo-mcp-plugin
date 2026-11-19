@@ -14,7 +14,7 @@ The user will describe what they want via `$ARGUMENTS`. Examples:
 - "VP of Sales at healthcare companies using Salesforce with 500+ employees"
 - "All SaaS companies in EMEA with $10M-$50M revenue"
 - "Directors of Engineering at companies similar to Datadog"
-- "Marketing leaders at Fortune 500 companies in financial services"
+- "Marketing leaders at financial services companies with 5,000+ employees"
 
 The user may also specify:
 - How many results they want (default: 25)
@@ -28,9 +28,9 @@ The user may also specify:
 2. **Parse criteria** from natural language into structured filters:
    - Job titles, management levels, departments, job functions → contact filters
    - Industry, employee count, revenue, geography, tech stack, company type → company filters
-   - Growth rate, funding, rankings → company filters
+   - Growth rate, funding round → company filters
 
-3. **Resolve all filter values** using `lookup` before searching. This is critical — do NOT guess values. For every filter you plan to use, call `lookup` with the corresponding field name to get the valid values and use the returned `id` values in your search parameters.
+3. **Resolve all filter values** using `lookup` before searching. This is critical — do NOT guess values. For every filter you plan to use, call `lookup` with the corresponding field name to get the valid values. Use the returned `id` for `industryList` and `techAttributeTagIdList`, and the returned `name` for `departmentList` and `jobFunctionList`.
 
 4. **Execute the search**:
    - For **contacts**: Use `search_contacts` with all resolved filters. Sort by `-contactAccuracyScore`. Request up to 100 results.

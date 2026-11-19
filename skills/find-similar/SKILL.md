@@ -24,7 +24,7 @@ Determine whether the user is looking for similar **companies** or **contacts** 
 1. **Lookup metadata first** — before calling any other MCP tool, use `lookup` to load reference data for any fields relevant to the request. Use the returned `id` values (not display names) in all subsequent API calls.
 
 2. **Find similar companies** using `find_similar_companies`. This returns up to 100 results ranked by similarity score.
-   - If you have a ZoomInfo company ID, pass `companyId`.
+   - If you have a ZoomInfo company ID, pass `zoominfoCompanyId`.
    - If you only have a company name, pass `companyName` — the API can resolve it directly.
 
 ### Company Output Format
