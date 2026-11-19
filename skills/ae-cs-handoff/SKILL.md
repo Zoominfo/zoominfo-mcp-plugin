@@ -13,7 +13,7 @@ Capture what was promised, what success looks like, and who the people are — s
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Account** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`.
 - **Context** (optional) — the product sold, deal size, go-live timing, anything the CSM specifically needs.

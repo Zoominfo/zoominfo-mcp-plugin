@@ -13,7 +13,7 @@ Turn the commitments and timelines from recent calls into a single shared plan: 
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Account** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`.
 - **Goal & target date** (ask if it matters and was not given) — the close date, go-live, or objective the plan drives toward. Do not assume it; if the plan needs a date that was never discussed, ask the user.

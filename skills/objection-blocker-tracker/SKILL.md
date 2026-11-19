@@ -13,7 +13,7 @@ Surface the concerns standing between you and the deal, and show whether each is
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Scope** (required) — an account or contact (ZoomInfo ID, or a name to resolve).
 - **Focus** (optional) — e.g. "just pricing", "anything technical", "security and procurement". Narrows the read.

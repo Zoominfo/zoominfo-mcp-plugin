@@ -13,7 +13,7 @@ Build the case and the risk map for a renewal: where value has landed, what coul
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Account** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`.
 - **Renewal details** (ask if not given) — the renewal date, term, and ARR are often not in ZoomInfo data. Do not assume them. If they matter to the brief and were not provided, ask the user before drafting.

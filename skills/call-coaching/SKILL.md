@@ -13,7 +13,7 @@ Give a rep specific, actionable feedback on a single call: what worked, what to 
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Which call** (optional) — an account and/or date. If omitted, the skill identifies the most likely recent call and confirms before analyzing.
 - **Focus** (optional) — e.g. "discovery", "the pricing objection", "did I talk too much". Targets the coaching.

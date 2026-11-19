@@ -13,7 +13,7 @@ Read the current state of the conversation and recommend the one or two moves mo
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Scope** (required) — an account, a contact, or a specific engagement (ID, or a name to resolve).
 - **Goal** (optional) — e.g. "get to a technical eval", "close this quarter", "re-engage a stalled deal". Sharpens the recommendation.

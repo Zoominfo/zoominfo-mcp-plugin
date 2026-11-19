@@ -9,7 +9,7 @@ Look up a single contact's full profile in ZoomInfo.
 
 ## Input
 
-The user will provide via `$ARGUMENTS` one of:
+The user will provide one of:
 - An email address (e.g., `jane@acme.com`)
 - A name and company (e.g., `Jane Smith at Acme Corp`)
 - A phone number

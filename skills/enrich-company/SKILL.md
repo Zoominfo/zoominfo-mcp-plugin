@@ -9,7 +9,7 @@ Look up a single company's full profile in ZoomInfo.
 
 ## Input
 
-The user will provide via `$ARGUMENTS` one of:
+The user will provide one of:
 - A domain or website (e.g., `stripe.com` or `https://stripe.com`)
 - A company name (e.g., `Stripe`)
 - A stock ticker (e.g., `SNOW`)
@@ -60,4 +60,4 @@ The user will provide via `$ARGUMENTS` one of:
 **ZoomInfo Coverage**
 - Contacts in Database: [count]
 
-Include the ZoomInfo Company ID — users will need it for follow-up commands like `/zoominfo:find-buyers` or `/zoominfo:find-similar`.
+Include the ZoomInfo Company ID — users will need it for follow-ups like `buying-committee` or `find-similar`.

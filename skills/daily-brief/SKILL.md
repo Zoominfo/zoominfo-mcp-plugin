@@ -13,7 +13,7 @@ Give the user a fast, per-meeting rundown of their day: where each account stand
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Day** (optional) — defaults to today. "Tomorrow", "Monday", or a date all work.
 - **Filter** (optional) — e.g. "customer meetings only", "just external", a specific account. Defaults to external meetings (ones with non-colleague participants).

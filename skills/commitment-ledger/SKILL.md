@@ -13,7 +13,7 @@ A two-sided accounting of promises across recent conversations: ours, theirs, an
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Scope** (required) — an account (company ID or name/domain), a contact (contact ID or name + company), or specific calls to review.
 - **Emphasis** (optional) — e.g. "just what they owe us", "anything tied to the contract". Shapes the output.

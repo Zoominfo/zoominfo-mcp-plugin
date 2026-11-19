@@ -13,7 +13,7 @@ The calendar-picker and prior-conversation steps read ZoomInfo engagement data, 
 
 ## Input
 
-The user will provide via `$ARGUMENTS` an account identifier (required), attendees (recommended), plus optional context:
+The user will provide an account identifier (required), attendees (recommended), plus optional context:
 
 - **Account identifier (required, unless picking from your calendar)** — one of:
   - **Preferred**: a ZoomInfo account/company ID (numeric). Use directly as `companyId`; skip the search step.
@@ -33,7 +33,7 @@ Parallelize aggressively — most calls only need the `companyId` and can fan ou
 
 0. **Pick the meeting (only if no account was named).** If the user named an account or attendees, skip this step. Otherwise call `browse_engagements` with a forward window (today through ~7-14 days ahead, `engagementType: MEETINGS`, `sort: chronological`, `userIntent` set to the request) and present a short numbered shortlist — time, title, account, attendees — for the user to pick from before spending research or AI credits. From the chosen engagement, carry its ZoomInfo company ID forward as the account: pass it as `zoominfoCompanyId` to `browse_engagements`/`conversation_intelligence` and as `companyId` to the research/enrich tools (same ID, different parameter names per tool). Use its participants as the attendees below, and keep its engagement ID for step 4b. If `browse_engagements` returns nothing, tell the user no upcoming meetings were found and ask them to name an account instead (or check that a calendar integration is connected).
 
-1. **Anchor on purpose.** Read the meeting context from `$ARGUMENTS`.
+1. **Anchor on purpose.** Read the meeting context from the user's request.
    - If supplied, restate it in 1-2 sentences as the *meeting purpose* and keep it as the framing lens for every downstream step.
    - If missing, ask the user once. If they decline or say "just general prep", default to **general meeting prep** and state that assumption at the top of the brief.
    - From the context, derive: a **meeting purpose** (1 line), the **desired outcome** (what walking out successful looks like), **priority topics/themes** (3-5 — e.g., identity sprawl, ETL pain, renewal value), and any **named risks or hypotheses to test** (e.g., "test if they're already late-stage with Acme"). These priorities drive the `account_research` query, attendee framing, talking-point ranking, and the suggested agenda.

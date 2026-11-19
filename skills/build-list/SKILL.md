@@ -9,7 +9,7 @@ Build a targeted list of contacts or companies from ZoomInfo and output as a str
 
 ## Input
 
-The user will describe what they want via `$ARGUMENTS`. Examples:
+The user will describe what they want. Examples:
 - "CTOs at Series B+ startups in SF with 50-200 employees"
 - "VP of Sales at healthcare companies using Salesforce with 500+ employees"
 - "All SaaS companies in EMEA with $10M-$50M revenue"

@@ -9,7 +9,7 @@ Produce a high-signal intelligence brief on a target company. Lead with a synthe
 
 ## Input
 
-The user will provide via `$ARGUMENTS` an account identifier (required) plus optional context:
+The user will provide an account identifier (required) plus optional context:
 
 - **Account identifier (required)** — one of:
   - **Preferred**: a ZoomInfo account/company ID (numeric, e.g. `136118787`). Use directly as `companyId`; skip the search step.
@@ -18,7 +18,7 @@ The user will provide via `$ARGUMENTS` an account identifier (required) plus opt
 
 ## Workflow
 
-1. **Anchor on purpose.** Read the research context from `$ARGUMENTS`.
+1. **Anchor on purpose.** Read the research context from the user's request.
    - If supplied, restate it in one sentence as the *brief purpose* and keep it in mind as the framing lens for every downstream step.
    - If missing, ask the user once for the purpose. If they decline or say "just general intel", default to **general account intelligence** and state that assumption at the top of the brief so the reader knows the framing wasn't tailored.
    - Use the purpose to derive 2-4 *priority GTM themes* (e.g., QBR-renewal-risk → engagement health, exec stability, competing vendors, expansion signals). These themes drive seeding and triage in later steps.

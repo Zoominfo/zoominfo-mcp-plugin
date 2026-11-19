@@ -9,7 +9,7 @@ Find companies or contacts similar to a reference entity using ZoomInfo's ML-pow
 
 ## Input
 
-The user will provide via `$ARGUMENTS`:
+The user will provide:
 - **For companies**: a company name, domain, or ZoomInfo company ID
 - **For contacts**: a person's name and company (e.g., "Jane Smith at Acme Corp"), email address, or ZoomInfo person ID
   - Optionally: a target company to scope results to (e.g., "at Microsoft" or "within Salesforce")
@@ -40,7 +40,7 @@ Show the top 25 by default. If the user asks for more, show up to 100.
 After the table:
 - Note the total number of similar companies returned
 - Call out any patterns (e.g., "heavily weighted toward mid-market SaaS in North America")
-- Suggest next steps: use `/zoominfo:enrich-company` to get full details on any result, or `/zoominfo:find-buyers` to identify contacts at a target
+- Suggest next steps: use `enrich-company` to get full details on any result, or `buying-committee` to identify contacts at a target
 
 ---
 
@@ -86,4 +86,4 @@ For each contact, use the `meta` field from the response to explain WHY they are
 After the table:
 - Note the total number of similar contacts returned
 - Call out any patterns in the results
-- Suggest next steps: use `/zoominfo:enrich-contact` to get full details on any result, or `/zoominfo:find-buyers` to identify other contacts at a specific company from the list
+- Suggest next steps: use `enrich-contact` to get full details on any result, or `build-list` to identify other contacts at a specific company from the list

@@ -13,7 +13,7 @@ A grounded read on where an account's health is heading: the sentiment trend, th
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Account** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`.
 - **Context** (optional but valuable) — anything the user knows that conversations won't show: renewal timing, recent escalations, exec sponsor changes, usage/adoption data. Ask for this if a health call hinges on it.

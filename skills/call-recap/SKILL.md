@@ -13,7 +13,7 @@ Turn a just-finished call into a compact, high-signal recap: what was discussed,
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Which call** (optional) — an account and/or a date ("the Acme call", "yesterday's demo"). If omitted, the skill lists recent calls to pick from.
 - **Emphasis** (optional) — e.g. "just the action items", "what did we decide", "for my manager". Shapes the output.

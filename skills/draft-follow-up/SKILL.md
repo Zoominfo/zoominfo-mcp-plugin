@@ -13,7 +13,7 @@ Turn what was said on a call into a tight follow-up email: thank, recap, and con
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Which call** (optional) — an account and/or date. If omitted, the skill lists recent calls to pick from.
 - **Tone / recipient** (optional) — e.g. "warm", "more formal for the exec", "to the whole room". Defaults to friendly-professional, addressed to the primary external attendee.

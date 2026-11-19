@@ -9,7 +9,7 @@ Map the buying group at a target account — who matters, what role they play, a
 
 ## Input
 
-The user will provide via `$ARGUMENTS` an account identifier (required) plus optional context:
+The user will provide an account identifier (required) plus optional context:
 
 - **Account identifier (required)** — one of:
   - **Preferred**: a ZoomInfo account/company ID (numeric). Use directly as `companyId`; skip the search step.
@@ -25,7 +25,7 @@ If the identifier is ambiguous (e.g., a bare string that could be a name or a ti
 
 Parallelize aggressively — once the company is resolved, account research, enrichment, recommendations, scoops, and supplemental search can all fan out in parallel.
 
-1. **Anchor on purpose.** Read the research context from `$ARGUMENTS`.
+1. **Anchor on purpose.** Read the research context from the user's request.
    - If supplied, restate it in 1-2 sentences as the *map purpose* and keep it as the framing lens for every downstream step.
    - If missing, ask the user once for the context. If they decline or say "just general mapping", default to **general committee mapping for prospecting** and state that assumption at the top of the brief.
    - From the context, derive: a **map purpose** (1 line), **priority personas/functions** (3-6 — e.g., CISO, SecOps Director, Procurement Lead, CFO), a **best-fit use case enum** for `get_recommended_contacts` (`PROSPECTING` / `DEAL_ACCELERATION` / `RENEWAL_AND_GROWTH`), and any **named hypotheses to test** (e.g., "find the actual economic buyer", "identify replacement champion"). These priorities drive the `account_research` query, `search_contacts` filters, scoops triage, and synthesis.

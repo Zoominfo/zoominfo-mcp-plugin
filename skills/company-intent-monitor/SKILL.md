@@ -13,7 +13,7 @@ What is this account actively researching, and does any of it line up with what 
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Company** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`. If none is supplied, ask which company.
 - **Focus** (optional) — topics or themes you care about, to weight the alignment read.

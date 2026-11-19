@@ -9,7 +9,7 @@ Produce a fact-led competitive intel brief. Lead with an executive comparison ac
 
 ## Input
 
-The user will provide via `$ARGUMENTS`:
+The user will provide:
 
 - **Competitor identifiers (optional)** — zero or more of:
   - **Preferred**: ZoomInfo account/company IDs (numeric). Use directly as `companyId`; skip the search step for that competitor.
@@ -27,7 +27,7 @@ This context drives depth allocation (deep vs scan), the `account_research` quer
 
 Parallelize aggressively — once each competitor's company ID is resolved, all per-competitor calls can fan out in parallel. When briefing multiple competitors, run all competitors' fan-outs in the same parallel batch.
 
-1. **Anchor on purpose.** Read the research context from `$ARGUMENTS`.
+1. **Anchor on purpose.** Read the research context from the user's request.
    - If supplied, restate it in 1-2 sentences as the *brief purpose* and keep it as the framing lens for every downstream step.
    - If missing, ask the user once. If they decline or say "just general competitive intel", default to **general competitive scan across configured competitors** and state that assumption at the top.
    - From the context, derive: a **brief purpose** (1 line), **depth allocation** (which competitors get deep treatment vs lighter coverage), **priority angles** (3-5 — e.g., pricing, data orchestration, CISO-level positioning, G2 sentiment), and any **named hypotheses** to test (e.g., "test whether Clay's mid-market push is sustainable"). These drive the `account_research` query, scoops triage, and web-search angles.
@@ -44,7 +44,7 @@ Parallelize aggressively — once each competitor's company ID is resolved, all 
    - **Their executive team** via `search_contacts` (`companyIdList: [<id>]`, `managementLevelList: ["C Level Exec", "VP Level Exec"]`, sort by `-contactAccuracyScore`, `pageSize: 15`).
    - **Their similar companies** via `find_similar_companies` — apply the cohort-consistency check; if the top peers span inconsistent industries vs the target, flag as directional only.
 
-5. **Web search per competitor** — `WebSearch` targeted to the priority angles from step 1. At minimum: G2 reviews / TrustRadius sentiment, head-to-head comparisons (`"[Competitor] vs [Your Org]"`), recent product launches, public earnings/CEO statements (if public). For deep targets, add angle-specific queries (e.g., pricing, specific product lines, customer churn stories). Capture verifiable quotes with URLs. **Cross-check exec data**: if `account_research` named a CEO, verify against web — stale CEO records have been observed.
+5. **Web search per competitor** — ZoomInfo stays the primary source; use web search, if your client has it, to fill the gaps, targeted to the priority angles from step 1. At minimum: G2 reviews / TrustRadius sentiment, head-to-head comparisons (`"[Competitor] vs [Your Org]"`), recent product launches, public earnings/CEO statements (if public). For deep targets, add angle-specific queries (e.g., pricing, specific product lines, customer churn stories). Capture verifiable quotes with URLs. **Cross-check exec data**: if `account_research` named a CEO, verify against web — stale CEO records have been observed. Without web search, skip this step and flag the brief as ZoomInfo-only.
 
 6. **Date and currency checks** — if `account_research` surfaces dates in the past (renewal, contract end, exec tenure end, last activity), retain but flag for verification. If a CEO or other top exec named in `account_research` is contradicted by web search, lead with the corrected fact and note the source disagreement.
 

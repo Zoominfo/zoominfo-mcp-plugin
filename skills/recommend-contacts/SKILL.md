@@ -9,7 +9,7 @@ Get ML-ranked contact recommendations at a target company, personalized to your 
 
 ## Input
 
-The user will provide via `$ARGUMENTS`:
+The user will provide:
 - A company name, domain, or ZoomInfo company ID (required)
 - Optionally: a use case — "prospecting", "deal acceleration", or "renewal" (defaults to PROSPECTING)
 - Optionally: how many results they want (defaults to 25, max 100)
@@ -71,8 +71,8 @@ Rank the top 5 contacts to engage first, with reasoning:
 - Suggested outreach sequence
 
 ### Next Steps
-- Use `/zoominfo:enrich-contact` to deep-dive on any specific person
-- Use `/zoominfo:find-buyers` if you need to filter by specific persona criteria beyond what recommendations provide
+- Use `enrich-contact` to deep-dive on any specific person
+- Use `build-list` if you need to filter by specific persona criteria beyond what recommendations provide
 - If recommendations are sparse, note that PROSPECTING recommendations improve as you use ZoomInfo more (view, copy, export contacts). DEAL_ACCELERATION and RENEWAL_AND_GROWTH require CRM integration.
 
 ### Important Notes on Scores

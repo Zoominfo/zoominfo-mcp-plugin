@@ -13,7 +13,7 @@ Collapse a long email chain into what matters: where it stands, what was decided
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Which thread** (optional) — an account, contact, or subject. If omitted, the skill lists recent email threads to pick from.
 - **Emphasis** (optional) — e.g. "what do they need from me", "just the decisions". Shapes the output.

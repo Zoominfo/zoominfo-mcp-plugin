@@ -13,7 +13,7 @@ Everything to walk into a quarterly business review: what value landed, what the
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Account** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`.
 - **Review scope** (optional) — the period being reviewed and the QBR's goal (renewal runway, expansion, adoption push). Shapes what to foreground; ask if it materially changes the pack and was not provided.

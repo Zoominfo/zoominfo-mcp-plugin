@@ -342,5 +342,4 @@ Never block on a single missing tool (recipient email is the hard gate). Never i
 
 - Hand to a sequencer (e.g., Outreach, Salesloft).
 - Multi-step sequence → run once per step with different signals + use cases.
-- Batch personalization → `personalize-at-scale` (future scope).
 - Different prospect at same company → re-run with new identifier.
