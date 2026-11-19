@@ -111,10 +111,10 @@ From `get_gtm_context.strategicPriorities`, offerings, and competitor categories
 ### 5. Fetch data per account (parallel, batched ≤10; chunked for large lists)
 
 Both calls below batch multiple accounts per request, so fetch a chunk of accounts together rather than one-by-one:
-- `enrich_companies(zoominfoCompanyIds: [chunk], fields: industries, employeeCount, revenue, country, metroArea, businessModel, employeeCountByDepartment, foundedYear)` — up to 25 per call.
+- `enrich_companies(companies: [{"companyId": "<id>"}, ...], requiredFields: ["industries", "employeeCount", "revenue", "country", "metroArea", "businessModel", "employeeCountByDepartment", "foundedYear"])` — up to 10 per call.
 - `enrich_company_signals(zoominfoCompanyIds: [chunk], signalTypes: ["INTENT", "NEWS", "SCOOP"])` — up to 10 per call. Returns each account's recent intent topics (each with `signalScore` and `audienceStrength`), news (with `category`), and scoops (with `scoopType`), plus a `date` on every signal. Do **not** pre-filter on score, topic, category, or date — that is applied during scoring (step 6).
 
-**Hard batch limit: ≤10 accounts per `enrich_company_signals` call (≤25 per `enrich_companies` call).**
+**Hard batch limit: ≤10 accounts per `enrich_companies` and `enrich_company_signals` call.**
 
 **Batch + context-window discipline.** For lists >25 accounts, process in **chunks of ~25 accounts** end-to-end (resolve → fetch → score → compose row → write chunk → discard raw payloads) before moving to the next chunk. Don't accumulate full raw enrichment payloads for hundreds of accounts in working context — once per-axis scores + the winning trigger event + the winning intent topic are captured per account, drop the rest. For >100-account lists, summarize completed chunks into running totals (tier distribution, top-A list, multi-product anomalies, duplicate-suspected flags, missing-axes counts) and discard the per-account breakdowns from context. Output is built incrementally chunk-by-chunk so a long list doesn't blow context.
 
@@ -131,7 +131,7 @@ Skip `account_research` here; fire selectively in §7.5 for tier-A.
 | Revenue band | 20 | Same banding |
 | Geography | 15 | ICP country = 15 · in continent = 8 · outside = 0 |
 | Business model | 10 | B2B/B2C match = 10 · mixed = 5 · mismatch = 0 |
-| Technographic (optional) | 10 | Uses named tech-stack vendor = 10 · else 0. Verify via `search_contacts` + `techAttributeTagList` if needed. |
+| Technographic (optional) | 10 | Uses named tech-stack vendor = 10 · else 0. Verify via `search_companies` with `companyIdList` + `techAttributeTagIdList` if needed. |
 
 Cache per account; reuse across weight changes.
 

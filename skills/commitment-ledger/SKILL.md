@@ -13,14 +13,14 @@ A two-sided accounting of promises across recent conversations: ours, theirs, an
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Scope** (required) — an account (company ID or name/domain), a contact (contact ID or name + company), or specific calls to review.
 - **Emphasis** (optional) — e.g. "just what they owe us", "anything tied to the contract". Shapes the output.
 
 ## Workflow
 
-1. **Resolve scope.** Use a ZoomInfo ID directly, or resolve a name via `search_companies` / `search_contacts`. If the user wants specific calls and none are named, present a `browse_engagements` shortlist to pick from before spending credits.
+1. **Resolve scope.** Use a ZoomInfo ID directly, or resolve a name via `search_companies` / `search_contacts`. If the user wants specific calls and none are named, present a `browse_engagements` shortlist (`engagementDateStart` up to 90 days back — the default window is only the last 7 days) to pick from before spending credits.
 2. **Extract commitments.** Run `conversation_intelligence` scoped to the account, contact, or chosen engagement. Ask it to list commitments by side (what we said we would do; what they said they would do), with status and the source meeting. Keep CI scoped to one ID per call; it sees only the last few engagements and cannot count or topic-search, so frame this as a recent-commitments ledger, not an exhaustive audit.
 3. **Reconcile.** Mark each commitment open, done, or unclear based on later conversations. Flag anything overdue or contradicted. Attribute every line to a source meeting; do not list a commitment the conversation does not support.
 

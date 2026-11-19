@@ -141,8 +141,8 @@ If any fires, regenerate.
 
 ### 3. Resolve the prospect
 - ZI person ID → use directly.
-- Email → `enrich_contacts(email)`.
-- Name + company → `enrich_contacts(firstName/lastName/companyName)`; fall back to `search_contacts`.
+- Email → `search_contacts(emailAddress)` (free) for title, company, and `lastUpdatedDate`.
+- Name + company → `search_contacts(fullName, companyName)` to find the person, then `enrich_contacts` on that person ID (`requiredFields: ["email", "jobTitle", "lastUpdatedDate"]`) for the verified email.
 - Resolve the prospect's company ID.
 - **Recipient email required** — refuse if unresolvable.
 - **Multi-recipient rule** — use only the first; never reference others.
@@ -164,7 +164,7 @@ Tag the resolved company. **Wait for user confirmation when the label is anythin
 
 Pull only what the use case needs:
 
-- **Always:** `enrich_companies` (companyId, fields: description, industries, employeeCount, revenue, ...).
+- **Always:** `enrich_companies` (`companies: [{"companyId": "<id>"}]`, `requiredFields: ["description", "industries", "employeeCount", "revenue", ...]`).
 - **Cold / re-engagement / chaser:** `enrich_company_signals` (`signalTypes: ["NEWS", "SCOOP", "INTENT"]`) — returns recent news, scoops, and intent in one call. Rank and filter in step 5 (the news category, e.g. funding / M&A / product / leadership, is carried on each returned signal).
 - **Discovery follow-up / demo recap / renewal / expansion / objection_handling:** primarily `contact_research` + `account_research` for prior-touchpoint reconstruction; news/scoops only as supporting context.
 
@@ -342,5 +342,4 @@ Never block on a single missing tool (recipient email is the hard gate). Never i
 
 - Hand to a sequencer (e.g., Outreach, Salesloft).
 - Multi-step sequence → run once per step with different signals + use cases.
-- Batch personalization → `personalize-at-scale` (future scope).
 - Different prospect at same company → re-run with new identifier.

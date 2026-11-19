@@ -9,32 +9,30 @@ Get ML-ranked contact recommendations at a target company, personalized to your 
 
 ## Input
 
-The user will provide via `$ARGUMENTS`:
+The user will provide:
 - A company name, domain, or ZoomInfo company ID (required)
 - Optionally: a use case — "prospecting", "deal acceleration", or "renewal" (defaults to PROSPECTING)
 - Optionally: how many results they want (defaults to 25, max 100)
 
 ## Workflow
 
-1. **Lookup metadata first** — before calling any other MCP tool, use `lookup` to load reference data for any fields relevant to the request. Use the returned `id` values (not display names) in all subsequent API calls. This ensures accurate parameter resolution and result interpretation.
-
-2. **Resolve the company** if the user provided a name or domain:
-   - Use `search_companies` with `companyName` or `companyWebsite` to find the company — use lookup `id` values for any filters.
+1. **Resolve the company** if the user provided a name or domain:
+   - Use `search_companies` with `companyName` or `companyWebsite` to find the company.
    - Extract the ZoomInfo company ID from the result.
 
-3. **Enrich the company** using `enrich_companies` with the resolved `companyId` to get firmographic context (industry, size, revenue, business model). This context is used to interpret the recommendations.
+2. **Enrich the company** using `enrich_companies` with the resolved `companyId` and `requiredFields: ["industries", "employeeCount", "revenue", "businessModel"]` to get firmographic context. This context is used to interpret the recommendations.
 
-4. **Map the use case** to the correct enum value:
+3. **Map the use case** to the correct enum value:
    - "prospecting" or default → `PROSPECTING` (based on contacts you've viewed, copied, or exported on the ZoomInfo platform; has cold-start support)
    - "deal acceleration" or "new business" → `DEAL_ACCELERATION` (based on contacts in closed-won CRM opportunities for new business)
    - "renewal", "growth", or "expansion" → `RENEWAL_AND_GROWTH` (based on contacts in closed-won CRM opportunities for renewals)
 
-5. **Get recommendations** using `get_recommended_contacts` with:
+4. **Get recommendations** using `get_recommended_contacts` with:
    - `ziCompanyId`: the resolved ZoomInfo company ID
    - `useCaseType`: the mapped enum value
    - `pageSize`: user-specified count or 25
 
-6. **Enrich the top contacts** using `enrich_contacts` on the top 10 results (batch of 10) to get full contact details including email, direct phone, and accuracy scores.
+5. **Enrich the top contacts** using `enrich_contacts` on the top 10 results (batch of 10) with `requiredFields: ["jobTitle", "managementLevel", "email", "phone", "contactAccuracyScore"]` to get full contact details including email, direct phone, and accuracy scores.
 
 ## Output Format
 
@@ -63,7 +61,7 @@ Group the recommended contacts by pattern:
 - **By Seniority**: What management levels dominate? (e.g., "Heavily weighted toward Director and VP")
 - **By Function**: What job functions appear most? (e.g., "Strong signal toward revenue-facing roles")
 
-Use the resolved lookup values to categorize accurately — do not guess department or management level labels.
+Use the labels returned in the results — do not guess department or management level labels.
 
 ### Engagement Priority
 
@@ -73,8 +71,8 @@ Rank the top 5 contacts to engage first, with reasoning:
 - Suggested outreach sequence
 
 ### Next Steps
-- Use `/zoominfo:enrich-contact` to deep-dive on any specific person
-- Use `/zoominfo:find-buyers` if you need to filter by specific persona criteria beyond what recommendations provide
+- Use `enrich-contact` to deep-dive on any specific person
+- Use `build-list` if you need to filter by specific persona criteria beyond what recommendations provide
 - If recommendations are sparse, note that PROSPECTING recommendations improve as you use ZoomInfo more (view, copy, export contacts). DEAL_ACCELERATION and RENEWAL_AND_GROWTH require CRM integration.
 
 ### Important Notes on Scores

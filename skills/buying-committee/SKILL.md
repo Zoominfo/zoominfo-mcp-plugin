@@ -9,7 +9,7 @@ Map the buying group at a target account — who matters, what role they play, a
 
 ## Input
 
-The user will provide via `$ARGUMENTS` an account identifier (required) plus optional context:
+The user will provide an account identifier (required) plus optional context:
 
 - **Account identifier (required)** — one of:
   - **Preferred**: a ZoomInfo account/company ID (numeric). Use directly as `companyId`; skip the search step.
@@ -25,30 +25,30 @@ If the identifier is ambiguous (e.g., a bare string that could be a name or a ti
 
 Parallelize aggressively — once the company is resolved, account research, enrichment, recommendations, scoops, and supplemental search can all fan out in parallel.
 
-1. **Anchor on purpose.** Read the research context from `$ARGUMENTS`.
+1. **Anchor on purpose.** Read the research context from the user's request.
    - If supplied, restate it in 1-2 sentences as the *map purpose* and keep it as the framing lens for every downstream step.
    - If missing, ask the user once for the context. If they decline or say "just general mapping", default to **general committee mapping for prospecting** and state that assumption at the top of the brief.
    - From the context, derive: a **map purpose** (1 line), **priority personas/functions** (3-6 — e.g., CISO, SecOps Director, Procurement Lead, CFO), a **best-fit use case enum** for `get_recommended_contacts` (`PROSPECTING` / `DEAL_ACCELERATION` / `RENEWAL_AND_GROWTH`), and any **named hypotheses to test** (e.g., "find the actual economic buyer", "identify replacement champion"). These priorities drive the `account_research` query, `search_contacts` filters, scoops triage, and synthesis.
 
-2. **Lookup metadata first** — call `lookup` for any fields relevant to the request (management levels, departments, job functions). Use returned `id` values in subsequent calls.
+2. **Lookup metadata first** — call `lookup` for any departments and job functions relevant to the request. `departmentList` and `jobFunctionList` take the returned `name` (e.g., `"Marketing"`), not the `id`.
 
 3. **Get GTM context** — call `get_gtm_context` with `detailed: true` to retrieve full personas, ICP segments, offerings, and competitors. The detailed mode matters here because committee mapping benefits from full persona definitions. If empty, proceed without and note the gap in the TL;DR.
 
 4. **Resolve the company.**
    - If the user supplied a ZoomInfo account/company ID, use it directly as `companyId` — do not call `search_companies`.
-   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTicker` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
-   - Then `enrich_companies` for firmographics including `employeeCountByDepartment`.
+   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTickerList` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
+   - Then `enrich_companies` with `requiredFields` for the firmographics you need, including `employeeCountByDepartment` (the default response omits headcount).
 
-5. **Fetch in parallel (retrieval, not filtering).** Treat each tool call as a context-retrieval step. Pull broadly now; decide what's relevant during synthesis. Steps that only need the `companyId` (plus inputs from step 1) can run in parallel — `account_research`, `get_recommended_contacts`, `search_contacts`, `enrich_company_signals` (`signalTypes: ["SCOOP"]`) / `search_scoops`.
+5. **Fetch in parallel (retrieval, not filtering).** Treat each tool call as a context-retrieval step. Pull broadly now; decide what's relevant during synthesis. Steps that only need the `companyId` (plus inputs from step 1) can run in parallel — `account_research`, `get_recommended_contacts`, `search_contacts`, `enrich_company_signals` (`signalTypes: ["SCOOP"]`).
    - **Tailor the `account_research` query to the map purpose.** Don't pass a generic "tell me about this account" string. Inject the full research context — name the deal stage, the offering, named hypotheses, persona priorities — and ask for named individuals organized by function, engagement status, deal context (stage, last activity, competition), and any signals about budget owners, blockers, or champions. The more context the better.
      - Normalize engagement to two states: **Engaged** (explicit prior interaction signal) or **New** (everything else, including ambiguous). Default to New when in doubt.
      - If `account_research` surfaces dates in the past (renewal, contract end, last activity), retain them but tag for verification — they may signal active negotiation, broken CRM sync, or a missed milestone.
    - **`get_recommended_contacts`** — pass the use-case enum derived in step 1. Treat as supplemental signal. Empty results are common (cold-start tenants, no CRM data); note as a confidence indicator rather than retrying.
-   - **`search_contacts`** — filter by the priority personas/functions derived in step 1 (resolved against `lookup` IDs from step 2 and GTM personas from step 3). Sort by `-contactAccuracyScore`. Pull broader than you'll keep — filtering happens in step 7.
-   - **`enrich_company_signals` (`signalTypes: ["SCOOP"]`) / `search_scoops`** — no role filter. Retrieval is unconstrained; step 7 will triage for VP+ moves relevant to the priority personas and named hypotheses.
+   - **`search_contacts`** — filter by the priority personas/functions derived in step 1 (resolved against `lookup` names from step 2 and GTM personas from step 3). Sort by `-contactAccuracyScore`. Pull broader than you'll keep — filtering happens in step 7.
+   - **`enrich_company_signals` (`signalTypes: ["SCOOP"]`)** — no role filter. Retrieval is unconstrained; step 7 will triage for VP+ moves relevant to the priority personas and named hypotheses.
 
 6. **Enrich and deep-research** — merge contacts from step 5, dedupe by `personId`:
-   - `enrich_contacts` in batches of 10 on the top 20 merged contacts. `NO_MATCH` failures are normal — note them, don't retry.
+   - `enrich_contacts` in batches of 10 on the top 20 merged contacts, with `requiredFields: ["jobTitle", "managementLevel", "email", "contactAccuracyScore", "positionStartDate"]`. `NO_MATCH` failures are normal — note them, don't retry.
    - `contact_research` in parallel on the top 3-5 (ranked by seniority + engagement + fit to priority personas + relevance to named hypotheses). This is where stale records get caught — if research indicates the person has departed, route them to **Excluded / Needs Verification**, not the main map.
 
 7. **Synthesize.** Each retrieval is raw context — now decide what makes the map, framed by the map purpose, priority personas, and named hypotheses. Apply these principles:

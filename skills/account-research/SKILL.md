@@ -9,7 +9,7 @@ Produce a high-signal intelligence brief on a target company. Lead with a synthe
 
 ## Input
 
-The user will provide via `$ARGUMENTS` an account identifier (required) plus optional context:
+The user will provide an account identifier (required) plus optional context:
 
 - **Account identifier (required)** — one of:
   - **Preferred**: a ZoomInfo account/company ID (numeric, e.g. `136118787`). Use directly as `companyId`; skip the search step.
@@ -18,7 +18,7 @@ The user will provide via `$ARGUMENTS` an account identifier (required) plus opt
 
 ## Workflow
 
-1. **Anchor on purpose.** Read the research context from `$ARGUMENTS`.
+1. **Anchor on purpose.** Read the research context from the user's request.
    - If supplied, restate it in one sentence as the *brief purpose* and keep it in mind as the framing lens for every downstream step.
    - If missing, ask the user once for the purpose. If they decline or say "just general intel", default to **general account intelligence** and state that assumption at the top of the brief so the reader knows the framing wasn't tailored.
    - Use the purpose to derive 2-4 *priority GTM themes* (e.g., QBR-renewal-risk → engagement health, exec stability, competing vendors, expansion signals). These themes drive seeding and triage in later steps.
@@ -27,11 +27,12 @@ The user will provide via `$ARGUMENTS` an account identifier (required) plus opt
 
 3. **Resolve the company.**
    - If the user supplied a ZoomInfo account/company ID, use it directly as `companyId` — do not call `search_companies`.
-   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTicker` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
+   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTickerList` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
 
 4. **Fetch in parallel (retrieval, not filtering).** Treat each tool call as a context-retrieval step. Pull broadly now; decide what's relevant during synthesis. Steps that only need the `companyId` can run in parallel — `enrich_companies`, `account_research`, `enrich_company_signals` (intent, news, and scoops in one call — see below), and `find_similar_companies`.
+   - **`enrich_companies`** — pass `requiredFields: ["website", "employeeCount", "type", "ticker", "foundedYear"]` for the Company Snapshot; the default response covers only name, description, location, revenue and industries.
    - **Tailor the `account_research` query to the brief purpose.** Don't pass a generic "tell me about this account" string. Instead, name the purpose and the priority themes — e.g., *"Preparing for a QBR. Surface renewal status, contract dates, recent engagement, open expansion conversations, named champions and detractors, and any signs of competitive evaluation."* The more context the better.
-   - **Signals retrieval.** Call `enrich_company_signals` with the `companyId` and `signalTypes: ["INTENT", "NEWS", "SCOOP"]` (or omit `signalTypes` to get all three). It returns the company's recent intent topics, news, and scoops in a single call; score thresholds, topic resolution, and recency are handled server-side, so do **not** pre-filter — triage in step 5.
+   - **Signals retrieval.** Call `enrich_company_signals` with `zoominfoCompanyIds: [<id>]` and `signalTypes: ["INTENT", "NEWS", "SCOOP"]` (or omit `signalTypes` to get all three). It returns the company's recent intent topics, news, and scoops in a single call; score thresholds, topic resolution, and recency are handled server-side, so do **not** pre-filter — triage in step 5.
 
 5. **Synthesize.** Each retrieval is raw context — now decide what makes the brief, framed by the user's stated purpose. Apply these principles:
    - **Intent triage**: review every intent topic returned by `enrich_company_signals`. Keep topics that map to the brief purpose, the priority themes, your GTM offerings, or that suggest a non-obvious signal worth flagging (e.g., a competitor's category, an adjacent buying motion). Drop topics that are noise or irrelevant to the purpose. If nothing meaningful remains, replace the table with a one-line note.

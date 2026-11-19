@@ -17,7 +17,7 @@ Iteratively refine a company-level ICP filter set against ZoomInfo's company dat
 
 TAM here = **company count** AND **working filter set**, both first-class outputs.
 
-This skill does NOT size contacts. Buyer-persona criteria ("CTOs", "VP Sales") are recorded but NOT applied to the count — they describe who you sell *into*, not who the account *is*. Persona discovery is `build-list` / `search-contacts` once the filter set is settled.
+This skill does NOT size contacts. Buyer-persona criteria ("CTOs", "VP Sales") are recorded but NOT applied to the count — they describe who you sell *into*, not who the account *is*. Persona discovery is `build-list` once the filter set is settled.
 
 ## Input
 
@@ -44,19 +44,18 @@ Call `lookup` to resolve free text to standardized values. Don't guess.
 
 | Field | `fieldName` | Notes |
 |---|---|---|
-| Industries | `industries` | Passed to `search_companies` by `attributes.name` (e.g., `"Software"`), not `id`. Narrow to sub-industries (`"Customer Relationship Management (CRM) Software"`) over top-level. |
-| Employee bands | `employee-count` | Enum values (`50to99`, etc.) in `employeeCount`. |
-| Revenue bands | `revenue-ranges` | Or `revenueMin`/`revenueMax` (thousands USD). |
+| Industries | `industries` | Pass the returned `id` (e.g., `"software.crm"`) in `industryList`. Narrow to sub-industries (`"software.crm"`) over top-level (`"software"`). |
+| Employee range | — | `employeeRangeMinimum` / `employeeRangeMaximum` (integers). |
+| Revenue range | — | `revenueMin` / `revenueMax` (thousands USD). |
 | Geography | `metro-regions` / `states` / `countries` / `continents` | |
-| Technographics | `tech-vendors` → `tech-products` filtered by `vendor` | |
-| NAICS / SIC | `naics-codes` / `sic-codes` | |
-| Rankings | `company-rankings` | |
+| Technographics | `tech-vendors` → `tech-products` filtered by `vendor` | Pass product `id`s in `techAttributeTagIdList`. |
+| Funding stage | `funding-round-types` | `recentFundingRoundTypes` (latest round) or `allFundingRoundTypes` (any round), not both. |
 
 #### Taxonomy-gap gate (mandatory)
 
 For every industry term (user-supplied or from GTM context), call `lookup industries fuzzyMatch=<term>` first.
 
-- **≥1 match** → use the resolved industry name in `industryCodes`.
+- **≥1 match** → pass the resolved industry `id` in `industryList`.
 - **0 matches** → **do NOT silently fall back to `industryKeywords`.** Surface: *"No matching industry in ZI's taxonomy for `<term>`."* Recommend one of: (a) seed company + `find-similar`, (b) external list import via a company-match service, (c) explicit confirmation to proceed with `industryKeywords` knowing the noise risk. Wait for user confirmation.
 
 Common gaps: climate-tech, sustainability, cleantech, sales-engagement, RevOps, agentic-AI, vector-databases.
@@ -64,11 +63,11 @@ Common gaps: climate-tech, sustainability, cleantech, sales-engagement, RevOps, 
 ### 5. Get the count
 `search_companies` with resolved filters, `pageSize: 1`. Use `meta.totalResults`.
 
-`meta.fieldResolution` does NOT echo continent / revenueMin/Max / fundingAmountMin/Max / employeeRangeMin/Max — always populate "Filters Applied" from input parsing.
+`meta.fieldResolution` does NOT echo continent / revenueMin/Max / funding round types / employeeRangeMinimum/Maximum — always populate "Filters Applied" from input parsing.
 
 #### Data-sparsity probe (mandatory when funding/revenue filters applied)
 
-ZI's coverage of `fundingAmountMin/Max`, `fundingStartDate/EndDate`, `revenueMin/Max` is sparse for many segments. A filter collapsing the count to 0 may be a data gap, not a narrow ICP.
+ZI's coverage of funding rounds and `revenueMin/Max` is sparse for many segments. A filter collapsing the count to 0 may be a data gap, not a narrow ICP.
 
 1. Run count **with** filter (`count_filtered`).
 2. Run count **without** the funding/revenue filter (`count_unfiltered`), other filters intact.
@@ -199,9 +198,9 @@ Or: **finalize and hand off** to `build-list` / `score-accounts` / `find-similar
 ### Caveats (when relevant)
 
 - **Industry-classification looseness** — top-level industries classify conglomerates inside. Narrow to sub-industries for B2B.
-- **Funding approximation** — `fundingAmountMin` captures total raised, not stage.
+- **Funding stage** — `recentFundingRoundTypes` matches only the latest round; use `allFundingRoundTypes` for "ever raised a Series B".
 - **Region scope** — "EU" was resolved as [EU-27 / Europe-continent]. Confirm if mismatch.
-- **Subsidiary records** — `search_companies` returns parent + subsidiary. Consider `subUnitTypes` filter for investor-ready TAM.
+- **Subsidiary records** — `search_companies` returns parent + subsidiary records and can't filter them out. Flag possible double-counting for investor-ready TAM.
 
 ### SAM Hypothesis (only if both inputs supplied)
 
@@ -219,13 +218,14 @@ Or: **finalize and hand off** to `build-list` / `score-accounts` / `find-similar
 
 ```json
 {
-  "industryCodes": "...",
-  "employeeCount": "...",
+  "industryList": ["..."],
+  "employeeRangeMinimum": ...,
+  "employeeRangeMaximum": ...,
   "metroRegion": "...",
   "continent": "...",
   "revenueMin": ...,
-  "fundingAmountMin": ...,
-  "techAttributeTagList": "...",
+  "recentFundingRoundTypes": ["..."],
+  "techAttributeTagIdList": ["..."],
   "_meta": {"tam_count": ..., "band": "...", "pass_count": ..., "use_case": "..."}
 }
 ```
@@ -233,6 +233,6 @@ Or: **finalize and hand off** to `build-list` / `score-accounts` / `find-similar
 ### Chain Targets
 
 - `build-list` → exportable account list.
-- `search-contacts` → buyer-persona discovery at these accounts.
+- `build-list` (contacts) → buyer-persona discovery at these accounts.
 - `score-accounts` → rank by buying signal and ICP fit.
 - `find-similar` → adjacent accounts from a seed.

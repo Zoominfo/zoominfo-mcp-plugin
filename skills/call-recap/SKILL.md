@@ -13,7 +13,7 @@ Turn a just-finished call into a compact, high-signal recap: what was discussed,
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Which call** (optional) — an account and/or a date ("the Acme call", "yesterday's demo"). If omitted, the skill lists recent calls to pick from.
 - **Emphasis** (optional) — e.g. "just the action items", "what did we decide", "for my manager". Shapes the output.
@@ -22,7 +22,7 @@ Provided via `$ARGUMENTS`:
 
 1. **Identify the call.**
    - If the user named an account or date, resolve the account via `search_companies` first if needed (`browse_engagements` filters by company/contact ID and date, not by call name), then call `browse_engagements` (`engagementType: MEETINGS`, `sort: -chronological`) scoped to that ID and date window and confirm the match.
-   - If nothing was named, call `browse_engagements` for the user's recent meetings and present a numbered shortlist (date, title, account, participants). Let the user pick one (or several) before spending AI credits. Keep each chosen engagement's ID.
+   - If nothing was named, call `browse_engagements` for the user's recent meetings (`engagementDateStart` up to 90 days back — the default window is only the last 7 days) and present a numbered shortlist (date, title, account, participants). Let the user pick one (or several) before spending AI credits. Keep each chosen engagement's ID.
 
 2. **Read the call with `conversation_intelligence`.** Scope CI to the chosen engagement ID and ask for a structured read: what was discussed, decisions made, action items with owners and any stated due dates, open questions, and notable customer statements. For multiple selected calls, run one CI call per engagement (do not ask one CI call to span several). Keep the query specific to that engagement; CI cannot search by topic or count mentions.
 

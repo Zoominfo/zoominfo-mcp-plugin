@@ -15,7 +15,7 @@ Build a timeline of meetings and emails with an account or contact, then let the
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Scope** — one of:
   - An **account**: ZoomInfo company ID (preferred), or a company name/domain (resolve via `search_companies`).

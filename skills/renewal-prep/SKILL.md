@@ -13,7 +13,7 @@ Build the case and the risk map for a renewal: where value has landed, what coul
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Account** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`.
 - **Renewal details** (ask if not given) — the renewal date, term, and ARR are often not in ZoomInfo data. Do not assume them. If they matter to the brief and were not provided, ask the user before drafting.
@@ -22,7 +22,7 @@ Provided via `$ARGUMENTS`:
 
 1. **Resolve the account.** Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies`.
 2. **Confirm the renewal basics.** If the renewal date/term/value are not supplied and the brief depends on them, ask the user once. Do not invent a renewal date — an unprompted wrong date is worse than an acknowledged unknown.
-3. **Gather evidence.** Run `conversation_intelligence` scoped to the account for value moments (wins, outcomes, positive signals customers voiced), risks and unresolved concerns, and stakeholder engagement. Pull `account_research` for deal history and relationship context. Optionally use `browse_engagements` for recent cadence. Keep CI scoped to the account; it sees only the last few engagements.
+3. **Gather evidence.** Run `conversation_intelligence` scoped to the account for value moments (wins, outcomes, positive signals customers voiced), risks and unresolved concerns, and stakeholder engagement. Pull `account_research` for deal history and relationship context. Optionally use `browse_engagements` (`engagementDateStart` up to 90 days back — the default window is only the last 7 days) for recent cadence. Keep CI scoped to the account; it sees only the last few engagements.
 4. **Assemble the brief.** Make the renewal case from evidence (specific value the customer acknowledged), map the risks with handles, and flag any assumption you could not verify.
 
 ## Output Format

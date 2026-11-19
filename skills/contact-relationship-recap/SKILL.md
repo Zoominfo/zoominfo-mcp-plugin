@@ -13,7 +13,7 @@ Contact-scoped `conversation_intelligence` requires at least one connected email
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Contact** (required) — ZoomInfo contact ID (preferred), or a name plus company to resolve via `search_contacts`.
 - **Lens** (optional) — e.g. "is the champion still engaged", "did sentiment cool after the demo". Frames the recap.

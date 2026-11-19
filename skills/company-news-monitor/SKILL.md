@@ -13,7 +13,7 @@ A fast read on what has happened at an account lately, and which of it is worth 
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Company** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`. If none is supplied, ask which company.
 - **Lens** (optional) — e.g. "anything about expansion", "leadership changes only". Filters the digest.

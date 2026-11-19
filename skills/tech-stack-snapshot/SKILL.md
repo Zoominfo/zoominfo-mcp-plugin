@@ -5,16 +5,16 @@ description: Produce a technology-stack snapshot for one or more companies — w
 
 # Tech Stack Snapshot
 
-Per-company tech-stack snapshot grouped by category, with displacement angles for competitive tools and integration angles for partner tools — anchored on the user's GTM context. Resolves mixed-identifier inputs, queries `search_companies` with `techAttributeTagList` to check each product in a curated universe, and presents both the detected stack and the gaps honestly.
+Per-company tech-stack snapshot grouped by category, with displacement angles for competitive tools and integration angles for partner tools — anchored on the user's GTM context. Resolves mixed-identifier inputs, queries `search_companies` with `techAttributeTagIdList` to check each product in a curated universe, and presents both the detected stack and the gaps honestly.
 
 ## How it works
 
-`search_companies` accepts `techAttributeTagList` (tech-product IDs) as a filter:
+`search_companies` accepts `techAttributeTagIdList` (tech-product IDs) as a filter:
 
 ```
 search_companies(
-  companyId="<input IDs, comma-separated>",
-  techAttributeTagList=<one product ID>,
+  companyIdList=[<input IDs, up to 50>],
+  techAttributeTagIdList=["<one product ID>"],
   pageSize=<N>
 ) → returns subset of input companies that have that product tagged
 ```
@@ -73,8 +73,8 @@ The orchestrator does NOT need to memorize ZoomInfo's tech taxonomy — every li
 | Goal | `lookup` call | Returns |
 |---|---|---|
 | **All tech categories** | `lookup` with `fields: [{fieldName: "tech-categories"}]` | The full enum of top-level categories (20 categories like Sales, Marketing, IT Infrastructure, DevOps, Security, etc.) with their sub-category trees. Use this to decide which categories are in scope or to extend beyond the default 7. |
-| **Vendors in a category** | `lookup` with `fields: [{fieldName: "tech-vendors"}]` + `category` or `parentCategory` filter (or `fuzzyMatch=<vendor name>` for a single-vendor lookup) | The full enum of vendors. Filter by category to expand the universe systematically (e.g., all CDP vendors); filter by `fuzzyMatch` to resolve a specific vendor name. |
-| **Products for a vendor** | `lookup` with `fields: [{fieldName: "tech-products"}]` + **required** `vendor` (or `category` / `parentCategory`) filter | All products that vendor has tagged. `tech-products` REQUIRES at least one of `vendor`, `category`, or `parentCategory` — calling it without a filter returns 0. Note that single vendors can have many sub-products (e.g., Salesforce has 70+ products tagged). |
+| **Vendors in a category** | `lookup` with `fields: [{fieldName: "tech-vendors"}]` + `parentCategory` or `subCategory` filter (or `fuzzyMatch=<vendor name>` for a single-vendor lookup) | The full enum of vendors. Filter by category to expand the universe systematically (e.g., all CDP vendors); filter by `fuzzyMatch` to resolve a specific vendor name. |
+| **Products for a vendor** | `lookup` with `fields: [{fieldName: "tech-products"}]` + **required** `vendor` (or `parentCategory` / `subCategory`) filter | All products that vendor has tagged. `tech-products` REQUIRES at least one of `vendor`, `parentCategory`, or `subCategory` — calling it without a filter returns 0. Note that single vendors can have many sub-products (e.g., Salesforce has 70+ products tagged). |
 
 Use this path when the user asks "what categories of tech does ZI track?" / "what vendors exist in the [X] category?" / "what are all the products for [vendor]?" — and when extending the universe beyond the default 7 categories without hardcoding new entries.
 
@@ -106,8 +106,8 @@ Probing one record and reporting "no detections" is the failure mode this rule p
 ### 4. Build the product universe
 
 For each category in scope:
-- `lookup tech-vendors fuzzyMatch=<vendor>` — one call per anchor vendor (multi-field fuzzyMatch is unreliable). For category-wide expansion, use `lookup tech-vendors` with a `category` or `parentCategory` filter instead of fuzzyMatch — returns the full vendor list for that category.
-- `lookup tech-products vendor=<resolved-vendor-name>` — returns the vendor's full product catalogue; select anchor products by name match. Requires at least one of `vendor`, `category`, or `parentCategory`.
+- `lookup tech-vendors fuzzyMatch=<vendor>` — one call per anchor vendor (multi-field fuzzyMatch is unreliable). For category-wide expansion, use `lookup tech-vendors` with a `parentCategory` or `subCategory` filter instead of fuzzyMatch — returns the full vendor list for that category.
+- `lookup tech-products vendor=<resolved-vendor-name>` — returns the vendor's full product catalogue; select anchor products by name match. Requires at least one of `vendor`, `parentCategory`, or `subCategory`.
 - Aggregate to `{product_id, product_name, category, vendor}`.
 
 To enumerate the full tech taxonomy (categories → vendors → products) instead of hardcoding, see the table in "Enumerating the full tech taxonomy via `lookup`" above.
@@ -120,8 +120,8 @@ For each product ID, run **one batched call** (not one-per-company):
 
 ```
 search_companies(
-  companyId="<resolved IDs, comma-separated>",
-  techAttributeTagList=<product-id>,
+  companyIdList=[<resolved IDs, up to 50>],
+  techAttributeTagIdList=["<product-id>"],
   pageSize=<N>
 )
 ```
@@ -177,8 +177,7 @@ For each detected tool, apply the GTM-context-anchored angle library:
 4. **Generic displacement angles.** "We're better than Salesforce" is not a play. Every angle anchored on GTM context.
 5. **Flat product list.** Category grouping is mandatory.
 6. **Single-product vendor check.** Salesforce has 70 tagged products — the universe must include each vendor's major sub-products.
-7. **No GTM context** → block the run; skill can't produce plays.
-8. **Silent auto-pick on ambiguous resolution.**
+7. **Silent auto-pick on ambiguous resolution.**
 
 ## Fallback rules
 

@@ -13,7 +13,7 @@ The calendar-picker and prior-conversation steps read ZoomInfo engagement data, 
 
 ## Input
 
-The user will provide via `$ARGUMENTS` an account identifier (required), attendees (recommended), plus optional context:
+The user will provide an account identifier (required), attendees (recommended), plus optional context:
 
 - **Account identifier (required, unless picking from your calendar)** — one of:
   - **Preferred**: a ZoomInfo account/company ID (numeric). Use directly as `companyId`; skip the search step.
@@ -33,7 +33,7 @@ Parallelize aggressively — most calls only need the `companyId` and can fan ou
 
 0. **Pick the meeting (only if no account was named).** If the user named an account or attendees, skip this step. Otherwise call `browse_engagements` with a forward window (today through ~7-14 days ahead, `engagementType: MEETINGS`, `sort: chronological`, `userIntent` set to the request) and present a short numbered shortlist — time, title, account, attendees — for the user to pick from before spending research or AI credits. From the chosen engagement, carry its ZoomInfo company ID forward as the account: pass it as `zoominfoCompanyId` to `browse_engagements`/`conversation_intelligence` and as `companyId` to the research/enrich tools (same ID, different parameter names per tool). Use its participants as the attendees below, and keep its engagement ID for step 4b. If `browse_engagements` returns nothing, tell the user no upcoming meetings were found and ask them to name an account instead (or check that a calendar integration is connected).
 
-1. **Anchor on purpose.** Read the meeting context from `$ARGUMENTS`.
+1. **Anchor on purpose.** Read the meeting context from the user's request.
    - If supplied, restate it in 1-2 sentences as the *meeting purpose* and keep it as the framing lens for every downstream step.
    - If missing, ask the user once. If they decline or say "just general prep", default to **general meeting prep** and state that assumption at the top of the brief.
    - From the context, derive: a **meeting purpose** (1 line), the **desired outcome** (what walking out successful looks like), **priority topics/themes** (3-5 — e.g., identity sprawl, ETL pain, renewal value), and any **named risks or hypotheses to test** (e.g., "test if they're already late-stage with Acme"). These priorities drive the `account_research` query, attendee framing, talking-point ranking, and the suggested agenda.
@@ -42,15 +42,16 @@ Parallelize aggressively — most calls only need the `companyId` and can fan ou
 
 3. **Resolve the company.**
    - If the user supplied a ZoomInfo account/company ID, use it directly as `companyId` — do not call `search_companies`.
-   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTicker` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
+   - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTickerList` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
 
 4. **Fan out company research in parallel (retrieval, not filtering).** Treat each tool call as a context-retrieval step. Pull broadly now; decide what's relevant during synthesis. Steps that only need the `companyId` can run together — `account_research`, `enrich_companies`, and `enrich_company_signals` (intent, news, and scoops in one call).
    - **Tailor the `account_research` query to the meeting purpose.** Don't pass a generic "tell me about this account" string. Inject the full meeting context — purpose, desired outcome, priority topics, named hypotheses, attendees if known — and ask for relationship history, deal context, engagement signals, competitive presence, and anything that would change how you walk into the meeting.
-   - **Signals retrieval**: call `enrich_company_signals` with the `companyId` and `signalTypes: ["INTENT", "NEWS", "SCOOP"]` (or omit `signalTypes` for all three). It returns recent intent, news, and scoops in one call; topic resolution and recency are handled server-side, so do **not** pre-filter. Triage happens in step 6.
+   - **`enrich_companies`** — pass `requiredFields: ["website", "employeeCount", "businessModel"]` for the Company Snapshot; the default response covers only name, description, location, revenue and industries.
+   - **Signals retrieval**: call `enrich_company_signals` with `zoominfoCompanyIds: [<id>]` and `signalTypes: ["INTENT", "NEWS", "SCOOP"]` (or omit `signalTypes` for all three). It returns recent intent, news, and scoops in one call; topic resolution and recency are handled server-side, so do **not** pre-filter. Triage happens in step 6.
 
 4b. **Pull prior-conversation context (runs in parallel with step 4; skip if no engagement data).** Run `conversation_intelligence` scoped to the account (`zoominfoCompanyId`) — or to the specific engagement ID when you picked the meeting in step 0 — asking what was discussed in recent conversations, which threads are still open, which questions went unresolved, and what the customer asked us to follow up on. This is the "what was actually said" layer that research and enrichment miss. Keep the query scoped and specific; do not ask CI to search by topic, filter by call type, or count mentions (it cannot, and only sees the last few engagements). If no conversation data is available, skip this and note it in the brief.
 
-5. **Resolve and research attendees in parallel** — Run `search_contacts` for all attendees in one batch (by email, name + companyId, or title + companyId). Then run `contact_research` and `enrich_contacts` in parallel for the resolved set (batch up to 10 per `enrich_contacts` call). If an attendee can't be resolved, note it — don't fabricate.
+5. **Resolve and research attendees in parallel** — Run `search_contacts` for all attendees in one batch (by email, name + companyId, or title + companyId). Then run `contact_research` and `enrich_contacts` in parallel for the resolved set (batch up to 10 per `enrich_contacts` call, with `requiredFields: ["jobTitle", "jobFunction", "managementLevel", "email", "positionStartDate", "employmentHistory"]`). If an attendee can't be resolved, note it — don't fabricate.
 
 6. **Synthesize the brief.** Each retrieval is raw context — now decide what makes the brief, framed by the meeting purpose and priority topics. Apply these principles:
    - **Intent triage**: review every intent topic returned by `enrich_company_signals`. Keep topics that map to the meeting purpose, priority topics, your GTM offerings, or a non-obvious signal worth flagging (e.g., a competitor's category, an adjacent buying motion). Drop topics that are noise. If nothing meaningful remains, skip the intent section.

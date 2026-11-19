@@ -13,14 +13,14 @@ Read the current state of the conversation and recommend the one or two moves mo
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Scope** (required) — an account, a contact, or a specific engagement (ID, or a name to resolve).
 - **Goal** (optional) — e.g. "get to a technical eval", "close this quarter", "re-engage a stalled deal". Sharpens the recommendation.
 
 ## Workflow
 
-1. **Resolve scope.** Use a ZoomInfo ID directly, or resolve via `search_companies` / `search_contacts` and confirm an ambiguous match before spending credits (`conversation_intelligence` and `account_research` both cost AI credits, so a wrong resolution burns them). For a specific call not named, offer a `browse_engagements` shortlist first.
+1. **Resolve scope.** Use a ZoomInfo ID directly, or resolve via `search_companies` / `search_contacts` and confirm an ambiguous match before spending credits (`conversation_intelligence` and `account_research` both cost AI credits, so a wrong resolution burns them). For a specific call not named, offer a `browse_engagements` shortlist first (`engagementDateStart` up to 90 days back — the default window is only the last 7 days).
 2. **Read the state.** Run `conversation_intelligence` scoped to the account/contact/engagement for where things stand: open threads, stated next steps, blockers, buying signals, and unanswered questions. Pull `account_research` for deal stage and stakeholder context. Keep CI scoped to one ID; it sees only the last few engagements and cannot search by topic or count, so reason from what it returns.
 3. **Recommend.** Propose one to three concrete next actions, ranked, each tied to specific evidence from the conversations and aimed at the stated goal. For each, give the move, why now (the evidence), and the expected effect. Skip generic advice — if the evidence does not support a confident recommendation, say what is missing and what to find out next instead.
 

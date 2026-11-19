@@ -9,11 +9,11 @@ Answer the question a seller actually has before reaching out: why this account,
 
 ## Prerequisites
 
-`enrich_company_signals` charges data credits — each signal returned counts as a record, but companies already under management (enriched within the last 12 months by your organization) are free. `account_research` consumes AI credits. `get_gtm_context` and `WebSearch` are free. Intent, news, and scoop availability depends on your ZoomInfo package; if a signal type is empty, work with what is available rather than treating it as "nothing happening".
+`enrich_company_signals` charges data credits — each signal returned counts as a record, but companies already under management (enriched within the last 12 months by your organization) are free. `account_research` consumes AI credits. `get_gtm_context` and web search are free. Intent, news, and scoop availability depends on your ZoomInfo package; if a signal type is empty, work with what is available rather than treating it as "nothing happening".
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Company** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`. If none is supplied, ask which company.
 - **Your angle** (optional) — what you sell into them, or the play you are running. Sharpens the hooks.
@@ -23,7 +23,7 @@ Provided via `$ARGUMENTS`:
 1. **Anchor on your side.** Call `get_gtm_context` (free) for offerings, ICP, competitors, and priorities. The "why now" only matters relative to what you sell.
 2. **Resolve the company.** Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies`.
 3. **Pull the signals and context.** Run `enrich_company_signals` for the company with `signalTypes: ["INTENT", "NEWS", "SCOOP"]` (or omit `signalTypes` entirely, which returns all three) and `account_research` for deal/relationship and firmographic context, in parallel.
-4. **Corroborate and extend with web research.** Use `WebSearch` for recent public developments that ZoomInfo may not carry (announcements, initiatives, leadership statements, funding) and to confirm anything time-sensitive. Capture URLs. Cross-check anything that looks stale.
+4. **Corroborate and extend with web research.** ZoomInfo stays the primary source; use web search, if your client has it, only for recent public developments that ZoomInfo may not carry (announcements, initiatives, leadership statements, funding) and to confirm anything time-sensitive. Capture URLs. Cross-check anything that looks stale. Without web search, note that the hooks rest on ZoomInfo data alone.
 5. **Synthesize the case.** Identify the strongest timing reasons — a signal that maps to one of your offerings or to a named risk/initiative. Build the thesis, then derive specific hooks. Ground every hook in a real signal with a date and source. If the signals are thin, say the timing case is weak rather than manufacturing urgency.
 
 ## Output Format

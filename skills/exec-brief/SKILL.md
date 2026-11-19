@@ -13,7 +13,7 @@ One page an executive can absorb in the elevator: who, why now, where we stand, 
 
 ## Input
 
-Provided via `$ARGUMENTS`:
+From the user's request:
 
 - **Account** (required) — ZoomInfo company ID (preferred), or a name/domain to resolve via `search_companies`.
 - **The exec and the meeting** (recommended) — who is being briefed, the meeting's purpose, and the attendees, so the one-pager is framed for their role.
