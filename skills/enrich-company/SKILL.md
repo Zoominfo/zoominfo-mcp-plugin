@@ -25,7 +25,7 @@ The user will provide via `$ARGUMENTS` one of:
    - Ticker → use `companyTicker`
    - Company ID → use `companyId`
 
-3. **Enrich the company** using `enrich_companies` with the identified parameters.
+3. **Enrich the company** using `enrich_companies` with the identified parameters and `requiredFields` for the profile below: `website`, `industries`, `employeeCount`, `revenue`, `foundedYear`, `city`, `state`, `country`, `type`, `ticker`, `businessModel`, `phone`, `ultimateParentName`, `parentName`, `locationCount`, `totalFundingAmount`, `recentFundingDate`, `numberOfContactsInZoomInfo`. Without them the response holds only name, description, location, revenue and industries.
 
 4. **If no match**, try a fallback:
    - Use `search_companies` with `companyName` for fuzzy matching — use lookup `id` values for any filters
@@ -48,19 +48,16 @@ The user will provide via `$ARGUMENTS` one of:
 | Ticker | |
 | Business Model | (B2B/B2C/B2G) |
 | Phone | |
-| SIC Codes | |
-| NAICS Codes | |
 | ZoomInfo Company ID | |
 
 **Corporate Structure**
 - Ultimate Parent: [if applicable]
 - Parent: [if applicable]
-- Subsidiaries: [count if available]
+- Locations: [count if available]
 
-**Growth Signals**
-- 1-Year Employee Growth: X%
-- 2-Year Employee Growth: X%
-- Recent Funding: [if available]
+**Funding**
+- Total Raised: [if available]
+- Most Recent Round: [date, if available]
 
 **ZoomInfo Coverage**
 - Contacts in Database: [count]

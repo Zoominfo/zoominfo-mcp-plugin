@@ -28,7 +28,7 @@ The user will provide via `$ARGUMENTS` one of:
    - LinkedIn URL → use `externalURL`
    - Person ID → use `personId`
 
-3. **Enrich the contact** using `enrich_contacts` with the identified parameters.
+3. **Enrich the contact** using `enrich_contacts` with the identified parameters and `requiredFields` for the profile below: `jobTitle`, `jobFunction`, `managementLevel`, `email`, `phone`, `mobilePhone`, `contactAccuracyScore`, `companyName`, `externalUrls`, `lastUpdatedDate`. Without them the response holds only name, email and company.
 
 4. **If no match**, try a fallback:
    - If name + company failed, try `search_contacts` with `jobTitle` or `companyName` variations — use lookup `id` values for any filters
@@ -40,16 +40,13 @@ The user will provide via `$ARGUMENTS` one of:
 
 | Field | Value |
 |-------|-------|
-| Department | |
+| Job Function | |
 | Management Level | |
 | Email | |
 | Direct Phone | |
 | Mobile Phone | |
 | Accuracy Score | |
-| Location | |
 | Company | |
-| Company Industry | |
-| Company Size | |
 | LinkedIn | |
 | Last Updated | |
 | ZoomInfo Person ID | |

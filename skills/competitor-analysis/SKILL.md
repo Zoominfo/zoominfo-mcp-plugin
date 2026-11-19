@@ -38,7 +38,7 @@ Parallelize aggressively — once each competitor's company ID is resolved, all 
 
 4. **For each competitor, fan out in parallel (retrieval, not filtering).** Treat each tool call as a context-retrieval step. Pull broadly now; decide what's relevant during synthesis.
    - **Resolve company ID** — if the user supplied a ZoomInfo ID, use directly; otherwise `search_companies` (use `companyWebsite` from GTM context's `url` field if present; fall back to `companyName`).
-   - **Firmographics** via `enrich_companies` (full field set including `employeeCountByDepartment`, `companyFunding`, `recentFundingDate`, `totalFundingAmount`).
+   - **Firmographics** via `enrich_companies`, passing `requiredFields` for the full field set (including `employeeCount`, `employeeCountByDepartment`, `companyFunding`, `recentFundingDate`, `totalFundingAmount`).
    - **Strategic narrative** via `account_research` — inject the brief purpose, priority angles, and named hypotheses into the query. Ask for go-to-market motion, recent moves, customer wins/losses, leadership changes, direct overlap with your products, and anything that bears on the specific angles named in the context.
    - **Recent scoops and intent** via `enrich_company_signals` (`signalTypes: ["SCOOP", "INTENT"]`) — one call returns their recent scoops and intent topics, with no role or topic pre-filtering. Triage in step 7. Intent for competitors often returns sparse — note as a confidence indicator if so.
    - **Their executive team** via `search_contacts` (`companyIdList: [<id>]`, `managementLevelList: ["C Level Exec", "VP Level Exec"]`, sort by `-contactAccuracyScore`, `pageSize: 15`).

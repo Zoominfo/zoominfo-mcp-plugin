@@ -22,7 +22,7 @@ The user will provide via `$ARGUMENTS`:
    - Use `search_companies` with `companyName` or `companyWebsite` to find the company — use lookup `id` values for any filters.
    - Extract the ZoomInfo company ID from the result.
 
-3. **Enrich the company** using `enrich_companies` with the resolved `companyId` to get firmographic context (industry, size, revenue, business model). This context is used to interpret the recommendations.
+3. **Enrich the company** using `enrich_companies` with the resolved `companyId` and `requiredFields: ["industries", "employeeCount", "revenue", "businessModel"]` to get firmographic context. This context is used to interpret the recommendations.
 
 4. **Map the use case** to the correct enum value:
    - "prospecting" or default → `PROSPECTING` (based on contacts you've viewed, copied, or exported on the ZoomInfo platform; has cold-start support)
@@ -34,7 +34,7 @@ The user will provide via `$ARGUMENTS`:
    - `useCaseType`: the mapped enum value
    - `pageSize`: user-specified count or 25
 
-6. **Enrich the top contacts** using `enrich_contacts` on the top 10 results (batch of 10) to get full contact details including email, direct phone, and accuracy scores.
+6. **Enrich the top contacts** using `enrich_contacts` on the top 10 results (batch of 10) with `requiredFields: ["jobTitle", "managementLevel", "email", "phone", "contactAccuracyScore"]` to get full contact details including email, direct phone, and accuracy scores.
 
 ## Output Format
 

@@ -37,7 +37,7 @@ Parallelize aggressively — once the company is resolved, account research, enr
 4. **Resolve the company.**
    - If the user supplied a ZoomInfo account/company ID, use it directly as `companyId` — do not call `search_companies`.
    - Otherwise, call `search_companies` with the appropriate field (`companyWebsite` for a domain, `companyTickerList` for a ticker, `companyName` for a name) and extract `companyId` from the top match. If no confident match, surface the ambiguity to the user before continuing rather than guessing.
-   - Then `enrich_companies` for firmographics including `employeeCountByDepartment`.
+   - Then `enrich_companies` with `requiredFields` for the firmographics you need, including `employeeCountByDepartment` (the default response omits headcount).
 
 5. **Fetch in parallel (retrieval, not filtering).** Treat each tool call as a context-retrieval step. Pull broadly now; decide what's relevant during synthesis. Steps that only need the `companyId` (plus inputs from step 1) can run in parallel — `account_research`, `get_recommended_contacts`, `search_contacts`, `enrich_company_signals` (`signalTypes: ["SCOOP"]`).
    - **Tailor the `account_research` query to the map purpose.** Don't pass a generic "tell me about this account" string. Inject the full research context — name the deal stage, the offering, named hypotheses, persona priorities — and ask for named individuals organized by function, engagement status, deal context (stage, last activity, competition), and any signals about budget owners, blockers, or champions. The more context the better.
@@ -48,7 +48,7 @@ Parallelize aggressively — once the company is resolved, account research, enr
    - **`enrich_company_signals` (`signalTypes: ["SCOOP"]`)** — no role filter. Retrieval is unconstrained; step 7 will triage for VP+ moves relevant to the priority personas and named hypotheses.
 
 6. **Enrich and deep-research** — merge contacts from step 5, dedupe by `personId`:
-   - `enrich_contacts` in batches of 10 on the top 20 merged contacts. `NO_MATCH` failures are normal — note them, don't retry.
+   - `enrich_contacts` in batches of 10 on the top 20 merged contacts, with `requiredFields: ["jobTitle", "managementLevel", "email", "contactAccuracyScore", "positionStartDate"]`. `NO_MATCH` failures are normal — note them, don't retry.
    - `contact_research` in parallel on the top 3-5 (ranked by seniority + engagement + fit to priority personas + relevance to named hypotheses). This is where stale records get caught — if research indicates the person has departed, route them to **Excluded / Needs Verification**, not the main map.
 
 7. **Synthesize.** Each retrieval is raw context — now decide what makes the map, framed by the map purpose, priority personas, and named hypotheses. Apply these principles:

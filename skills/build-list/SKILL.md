@@ -38,7 +38,7 @@ The user may also specify:
    - For **both**: Search companies first, then search contacts at the top results.
 
 5. **Enrich top results** if the search returns limited detail:
-   - Use `enrich_contacts` (batch of 10) or `enrich_companies` (batch of 10) on the top results to fill in emails, phones, and other details.
+   - Use `enrich_contacts` (batch of 10) or `enrich_companies` (batch of 10) on the top results to fill in emails, phones, and other details. Pass `requiredFields` for the columns you need (e.g., `email`, `phone`, `contactAccuracyScore`, or `employeeCount`, `website`); the defaults return only a few fields.
 
 6. **Output as a clean table artifact.** Create a markdown or CSV artifact the user can copy or export.
 
