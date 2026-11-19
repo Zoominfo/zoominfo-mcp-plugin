@@ -20,7 +20,7 @@ Provided via `$ARGUMENTS`:
 
 ## Workflow
 
-1. **Find the thread.** Call `browse_engagements` with `engagementType: EMAILS` (scoped to the account/contact if known, `sort: -chronological`). If the target is ambiguous, present a short numbered shortlist (subject, participants, date) and let the user pick before spending credits. Keep the chosen engagement ID.
+1. **Find the thread.** Call `browse_engagements` with `engagementType: EMAILS` (scoped to the account/contact if known, `sort: -chronological`, `engagementDateStart` up to 90 days back — the default window is only the last 7 days). If the target is ambiguous, present a short numbered shortlist (subject, participants, date) and let the user pick before spending credits. Keep the chosen engagement ID.
 2. **Read the body.** Run `conversation_intelligence` scoped to that engagement ID with `includeContent: true` so it returns the actual email body/thread alongside its answer. Ask for the thread's current state, the decisions and commitments, and the open questions. Keep it to the one thread; CI cannot search across threads by topic.
 3. **Summarize.** Distill the chain in reading order of importance, not message order. Attribute key points to who said them. Surface what needs a reply or a decision. Do not invent positions no one stated.
 

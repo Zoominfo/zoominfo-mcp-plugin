@@ -177,8 +177,7 @@ For each detected tool, apply the GTM-context-anchored angle library:
 4. **Generic displacement angles.** "We're better than Salesforce" is not a play. Every angle anchored on GTM context.
 5. **Flat product list.** Category grouping is mandatory.
 6. **Single-product vendor check.** Salesforce has 70 tagged products — the universe must include each vendor's major sub-products.
-7. **No GTM context** → block the run; skill can't produce plays.
-8. **Silent auto-pick on ambiguous resolution.**
+7. **Silent auto-pick on ambiguous resolution.**
 
 ## Fallback rules
 

@@ -21,7 +21,7 @@ Provided via `$ARGUMENTS`:
 ## Workflow
 
 1. **Resolve the account.** Use the ZoomInfo ID directly, or resolve a name/domain via `search_companies`.
-2. **Gather evidence.** Build a recent timeline with `browse_engagements` (cadence and any drop-off in contact), run `conversation_intelligence` for sentiment trajectory and risk signals across recent conversations, and pull an `account_research` snapshot for deal/relationship context. Keep CI scoped to the account; it sees only the last few engagements and cannot count or topic-search, so treat its read as recent signal, not a full trend line.
+2. **Gather evidence.** Build a recent timeline with `browse_engagements` (`engagementDateStart` up to 90 days back — the default window is only the last 7 days) for cadence and any drop-off in contact, run `conversation_intelligence` for sentiment trajectory and risk signals across recent conversations, and pull an `account_research` snapshot for deal/relationship context. Keep CI scoped to the account; it sees only the last few engagements and cannot count or topic-search, so treat its read as recent signal, not a full trend line.
 3. **Check before concluding.** If the evidence is thin or mixed, or a verdict depends on something the data does not show (renewal date, usage, an off-platform escalation), ask the user for that input before writing the assessment. Do not fill gaps with generic churn-risk boilerplate.
 4. **Assess.** Give a health read with a clear direction and a confidence level, every claim tied to specific evidence. Separate what the data shows from what is inferred or assumed.
 

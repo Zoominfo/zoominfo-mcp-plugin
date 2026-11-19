@@ -22,7 +22,7 @@ Provided via `$ARGUMENTS`:
 
 1. **Resolve the company.** Use the ZoomInfo ID directly; otherwise resolve a name/domain via `search_companies` and confirm an ambiguous match before spending credits.
 2. **Read the relationship.** Run `account_research` (deal status, history, stakeholders) and company-scoped `conversation_intelligence` in parallel. Ask CI what has been discussed recently, how sentiment and engagement have shifted, which threads are open, and whether new people have entered the conversation. Keep CI scoped to this one account; it cannot search by topic or count mentions, and sees only the last few engagements.
-3. **Anchor cadence (optional).** If useful, call `browse_engagements` (company-scoped, `-chronological`) for the recent engagement cadence and the gap since last contact.
+3. **Anchor cadence (optional).** If useful, call `browse_engagements` (company-scoped, `-chronological`, `engagementDateStart` up to 90 days back — the default window is only the last 7 days) for the recent engagement cadence and the gap since last contact.
 4. **Synthesize the trajectory.** Decide whether the relationship is warming, steady, or cooling, and say why with evidence. Tie every claim to a source (CI, account_research, CRM). Do not assert momentum or risk the data does not support.
 
 ## Output Format

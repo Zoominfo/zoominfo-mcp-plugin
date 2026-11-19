@@ -141,8 +141,8 @@ If any fires, regenerate.
 
 ### 3. Resolve the prospect
 - ZI person ID → use directly.
-- Email → `enrich_contacts(email)`.
-- Name + company → `enrich_contacts(firstName/lastName/companyName)`; fall back to `search_contacts`.
+- Email → `search_contacts(emailAddress)` (free) for title, company, and `lastUpdatedDate`.
+- Name + company → `search_contacts(fullName, companyName)` to find the person, then `enrich_contacts` on that person ID (`requiredFields: ["email", "jobTitle", "lastUpdatedDate"]`) for the verified email.
 - Resolve the prospect's company ID.
 - **Recipient email required** — refuse if unresolvable.
 - **Multi-recipient rule** — use only the first; never reference others.

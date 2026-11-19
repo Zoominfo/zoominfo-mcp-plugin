@@ -18,9 +18,7 @@ The user will provide via `$ARGUMENTS` one of:
 
 ## Workflow
 
-1. **Lookup metadata first** — before calling any other MCP tool, use `lookup` to load reference data for any fields relevant to the request. Use the returned `id` values (not display names) in all subsequent API calls. This ensures accurate parameter resolution, especially if a fallback search is needed.
-
-2. **Identify the best match key** from the user's input:
+1. **Identify the best match key** from the user's input:
    - Email → use `email` parameter
    - Name + company → use `firstName`, `lastName`, `companyName`
    - Full name + company → use `fullName`, `companyName`
@@ -28,10 +26,10 @@ The user will provide via `$ARGUMENTS` one of:
    - LinkedIn URL → use `externalURL`
    - Person ID → use `personId`
 
-3. **Enrich the contact** using `enrich_contacts` with the identified parameters and `requiredFields` for the profile below: `jobTitle`, `jobFunction`, `managementLevel`, `email`, `phone`, `mobilePhone`, `contactAccuracyScore`, `companyName`, `externalUrls`, `lastUpdatedDate`. Without them the response holds only name, email and company.
+2. **Enrich the contact** using `enrich_contacts` with the identified parameters and `requiredFields` for the profile below: `jobTitle`, `jobFunction`, `managementLevel`, `email`, `phone`, `mobilePhone`, `contactAccuracyScore`, `companyName`, `externalUrls`, `lastUpdatedDate`. Without them the response holds only name, email and company.
 
-4. **If no match**, try a fallback:
-   - If name + company failed, try `search_contacts` with `jobTitle` or `companyName` variations — use lookup `id` values for any filters
+3. **If no match**, try a fallback:
+   - If name + company failed, try `search_contacts` with `jobTitleList` or `companyName` variations
    - Suggest alternative spellings or company names
 
 ## Output Format

@@ -17,18 +17,16 @@ The user will provide via `$ARGUMENTS` one of:
 
 ## Workflow
 
-1. **Lookup metadata first** — before calling any other MCP tool, use `lookup` to load reference data for any fields relevant to the request. Use the returned `id` values (not display names) in all subsequent API calls. This ensures accurate parameter resolution, especially if a fallback search is needed.
-
-2. **Identify the best match key** from the user's input:
+1. **Identify the best match key** from the user's input:
    - URL or domain → use `domain` or `companyWebsite` parameter
    - Company name → use `companyName`
    - Ticker → use `companyTicker`
    - Company ID → use `companyId`
 
-3. **Enrich the company** using `enrich_companies` with the identified parameters and `requiredFields` for the profile below: `website`, `industries`, `employeeCount`, `revenue`, `foundedYear`, `city`, `state`, `country`, `type`, `ticker`, `businessModel`, `phone`, `ultimateParentName`, `parentName`, `locationCount`, `totalFundingAmount`, `recentFundingDate`, `numberOfContactsInZoomInfo`. Without them the response holds only name, description, location, revenue and industries.
+2. **Enrich the company** using `enrich_companies` with the identified parameters and `requiredFields` for the profile below: `website`, `industries`, `employeeCount`, `revenue`, `foundedYear`, `city`, `state`, `country`, `type`, `ticker`, `businessModel`, `phone`, `ultimateParentName`, `parentName`, `locationCount`, `totalFundingAmount`, `recentFundingDate`, `numberOfContactsInZoomInfo`. Without them the response holds only name, description, location, revenue and industries.
 
-4. **If no match**, try a fallback:
-   - Use `search_companies` with `companyName` for fuzzy matching — use lookup `id` values for any filters
+3. **If no match**, try a fallback:
+   - Use `search_companies` with `companyName` for fuzzy matching
    - Suggest alternatives from the search results
 
 ## Output Format
